@@ -1,0 +1,6 @@
+{
+  "name": "GrowFolio",
+  "description": "A premium gamified investing education and stock market simulator featuring the interactive GrowTree, rank progression, structured lessons, and real-time interactive trading with AI guidance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
