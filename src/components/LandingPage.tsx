@@ -207,8 +207,11 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/5 py-4">
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="w-8 h-8 bg-green-500 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.4)]">
-              <TrendingUp className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 bg-green-500/10 border border-green-500/20 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.15)] text-green-400">
+              <svg viewBox="0 0 100 100" className="w-5 h-5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 75 Q40 70 50 50 T80 25" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                <path d="M50 50 Q60 30 75 35 Q60 48 50 50" fill="currentColor" />
+              </svg>
             </div>
             <span className="text-sm font-black tracking-widest text-white uppercase font-mono">
               GROW<span className="text-green-400">FOLIO</span>
@@ -1161,8 +1164,11 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
       <footer className="border-t border-white/5 bg-neutral-950 py-12 text-center text-white/40 text-[11px] font-mono relative z-20">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-green-500 rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-3.5 h-3.5 text-white" />
+            <div className="w-6 h-6 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center justify-center text-green-400">
+              <svg viewBox="0 0 100 100" className="w-3.5 h-3.5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 75 Q40 70 50 50 T80 25" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                <path d="M50 50 Q60 30 75 35 Q60 48 50 50" fill="currentColor" />
+              </svg>
             </div>
             <span className="font-bold text-white">GROWFOLIO © {new Date().getFullYear()}</span>
           </div>
@@ -1174,7 +1180,21 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
             <button onClick={() => setShowContactModal(true)} className="hover:text-green-400 cursor-pointer transition-colors bg-transparent border-none font-mono">Contact Us</button>
           </div>
 
-          <span className="text-white/60">Created by <strong className="text-green-400 font-extrabold font-sans">Gurjash</strong></span>
+          <div className="flex items-center gap-1.5 text-white/60">
+            <span>Created by</span>
+            <a 
+              href="https://singhgurjash733.github.io/GrowFolio" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="flex items-center gap-1 text-green-400 hover:text-green-300 transition-colors font-extrabold font-sans"
+            >
+              <svg viewBox="0 0 100 100" className="w-3 h-3 text-green-400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 75 Q40 70 50 50 T80 25" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                <path d="M50 50 Q60 30 75 35 Q60 48 50 50" fill="currentColor" />
+              </svg>
+              <span>Gurjash</span>
+            </a>
+          </div>
         </div>
       </footer>
 
