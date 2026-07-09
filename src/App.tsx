@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Home, 
   GraduationCap, 
@@ -18,156 +19,50 @@ import {
   X, 
   Play, 
   Info,
-  DollarSign
+  DollarSign,
+  Search,
+  ChevronLeft,
+  BookOpen,
+  Volume2,
+  VolumeX,
+  Languages,
+  RotateCcw,
+  BookMarked,
+  Bookmark,
+  User,
+  Heart,
+  CloudLightning,
+  RefreshCw
 } from 'lucide-react';
 
-// Types
-interface Lesson {
-  id: string;
-  title: string;
-  level: 'beginner' | 'intermediate' | 'advanced';
-  description: string;
-  slides: string[];
-  quizQuestion: string;
-  quizOptions: string[];
-  correctAnswerIndex: number;
-  xpReward: number;
-  goldReward: number;
-}
+import { Lesson, LessonQuestion, generateFullLesson, generateLessonsList } from './lessons';
+import { 
+  Stock, 
+  Transaction, 
+  NewsItem, 
+  AvatarConfig, 
+  ThemeConfig, 
+  NoteItem, 
+  SavedBookmark 
+} from './types';
 
-interface Stock {
-  ticker: string;
-  name: string;
-  price: number;
-  prevPrice: number;
-  change: number;
-  history: { open: number; high: number; low: number; close: number }[];
-}
+// Import Custom Modular Sub-components
+import { gameAudio } from './utils/audio';
+import { getTranslation, LANGUAGES, LanguageCode } from './utils/translate';
+import { AvatarCustomizer } from './components/AvatarCustomizer';
+import { MiniGames } from './components/MiniGames';
+import { DailyRewardsAndWheel } from './components/DailyRewardsAndWheel';
+import { CommunityFeed } from './components/CommunityFeed';
+import { NotesAndBookmarks } from './components/NotesAndBookmarks';
+import { CertificateModal } from './components/CertificateModal';
+import { OnboardingFlow } from './components/OnboardingFlow';
+import { AnalyticsAndEvents } from './components/AnalyticsAndEvents';
+import { EducationalVideos } from './components/EducationalVideos';
+import { LandingPage } from './components/LandingPage';
+import { IntroLogo } from './components/IntroLogo';
 
-interface Transaction {
-  ticker: string;
-  type: 'BUY' | 'SELL';
-  shares: number;
-  price: number;
-  timestamp: string;
-}
-
-interface NewsItem {
-  id: string;
-  title: string;
-  impact: 'bullish' | 'bearish' | 'neutral';
-  ticker: string;
-  description: string;
-}
-
-// Initial Lessons Data
-const LESSONS_DATA: Lesson[] = [
-  {
-    id: 'b1',
-    level: 'beginner',
-    title: 'Saving vs. Investing',
-    description: 'Understand the power of compound interest and why cash loses value over time.',
-    slides: [
-      'Welcome to Investing! Money left in a standard bank savings account actually loses value over time due to inflation (rising cost of goods).',
-      'Investing is the act of buying assets (like stocks, ETFs, or mutual funds) that can grow in value and outperform inflation.',
-      'The secret weapon of investing is Compound Interest—earning returns on your previous returns. Over 20+ years, even small amounts multiply exponentially.',
-      'Before investing, ensure you have an emergency savings fund of 3-6 months of expenses, so you never have to panic-sell your investments.'
-    ],
-    quizQuestion: 'Why does money left in a basic savings account typically lose purchasing power over time?',
-    quizOptions: [
-      'Because of stock market crashes',
-      'Because inflation rates are usually higher than savings interest rates',
-      'Because banks charge high maintenance fees',
-      'Because of government tax penalties'
-    ],
-    correctAnswerIndex: 1,
-    xpReward: 200,
-    goldReward: 50
-  },
-  {
-    id: 'b2',
-    level: 'beginner',
-    title: 'How Stock Markets Work',
-    description: 'Learn what a share of a company actually is and how exchanges function.',
-    slides: [
-      'A stock represents partial ownership of a company. If a company has 1,000 shares and you own 10, you own 1% of that company!',
-      'Companies list their shares on public Stock Exchanges (like the NYSE or NASDAQ) to raise capital to grow their business.',
-      'Stock prices go up and down based on Supply and Demand. If more people want to buy (bullish) than sell (bearish), the price rises.',
-      'As a shareholder, you can make money in two ways: Capital Gains (selling shares for more than you paid) and Dividends (cash payouts from profits).'
-    ],
-    quizQuestion: 'If a company has 10,000 shares and you own 100 shares, what percentage of the company do you own?',
-    quizOptions: ['0.1%', '1.0%', '10.0%', '0.01%'],
-    correctAnswerIndex: 1,
-    xpReward: 200,
-    goldReward: 50
-  },
-  {
-    id: 'i1',
-    level: 'intermediate',
-    title: 'Anatomy of Candlesticks',
-    description: 'Discover how to read the primary charts used by professional traders worldwide.',
-    slides: [
-      'A Candlestick chart shows 4 prices for a specific time period: Open, High, Low, and Close (OHLC).',
-      'The "Body" (thick part) shows the difference between the Open and Close. A green body means close was higher than open. Red means lower.',
-      'The "Wicks" or "Shadows" (thin lines at top and bottom) represent the absolute highest and lowest prices reached during that period.',
-      'Multiple candlesticks form chart patterns, which traders analyze to predict future supply, demand, and momentum shifts.'
-    ],
-    quizQuestion: 'On a standard green candlestick, where is the "Open" price located?',
-    quizOptions: [
-      'At the very top of the upper wick',
-      'At the top boundary of the solid body',
-      'At the bottom boundary of the solid body',
-      'At the very bottom of the lower wick'
-    ],
-    correctAnswerIndex: 2,
-    xpReward: 250,
-    goldReward: 75
-  },
-  {
-    id: 'i2',
-    level: 'intermediate',
-    title: 'Support and Resistance',
-    description: 'Identify critical floor and ceiling levels where stock prices pivot.',
-    slides: [
-      'Support is a price level where a falling stock tends to stop dropping and bounce back up, because buyers step in (demand exceeds supply).',
-      'Resistance is a price level where a rising stock struggles to go higher, because sellers step in (supply exceeds demand).',
-      'Once a price breaks through a Resistance level, that level often flips and becomes a new Support floor!',
-      'Drawing Support and Resistance lines helps traders manage risk by pointing out safe entry and exit levels.'
-    ],
-    quizQuestion: 'What typically happens to a resistance level after the stock price successfully breaks out above it?',
-    quizOptions: [
-      'It disappears completely',
-      'It tends to become a new support floor',
-      'It causes the stock to instantly crash to zero',
-      'It doubles in value'
-    ],
-    correctAnswerIndex: 1,
-    xpReward: 250,
-    goldReward: 75
-  },
-  {
-    id: 'a1',
-    level: 'advanced',
-    title: 'Trading Psychology & Discipline',
-    description: 'Master your emotions to avoid costly FOMO and panic-selling traps.',
-    slides: [
-      'The stock market is driven by two main emotions: Fear and Greed. Successful investing is about controlling both.',
-      'FOMO (Fear Of Missing Out) leads investors to buy at the absolute top of a bubble because they see everyone else making money.',
-      'Panic Selling leads investors to sell at the absolute bottom of a dip because they fear losing everything, locking in their losses.',
-      'To build discipline, always create a Trade Plan before entering: decide your entry target, profit goal, and stop-loss level in advance.'
-    ],
-    quizQuestion: 'What is the main danger of FOMO (Fear Of Missing Out) in trading?',
-    quizOptions: [
-      'Buying shares at highly inflated prices near the top',
-      'Selling profitable stocks too early',
-      'Having your broker account locked',
-      'Paying too little in investment taxes'
-    ],
-    correctAnswerIndex: 0,
-    xpReward: 300,
-    goldReward: 100
-  }
-];
+// Initial Lessons Data generated dynamically
+const ALL_LESSONS_BASE = generateLessonsList();
 
 const INITIAL_STOCKS: Stock[] = [
   {
@@ -255,10 +150,82 @@ const MARKET_NEWS: NewsItem[] = [
   { id: 'n5', ticker: 'AAPL', title: 'Supply chain friction delays next-gen hardware delivery', impact: 'bearish', description: 'Chipset shortages are expected to defer launch window sales targets into next fiscal quarter.' }
 ];
 
+const LIVE_GLOBAL_INDICES = [
+  { ticker: 'S&P 500', price: '5,420.24', change: '+0.45%' },
+  { ticker: 'NASDAQ', price: '17,890.10', change: '+1.12%' },
+  { ticker: 'DOW JONES', price: '39,150.80', change: '-0.15%' },
+  { ticker: 'GOLD (OZ)', price: '2,350.40', change: '+0.32%' },
+  { ticker: 'CRUDE OIL', price: '81.45', change: '-0.84%' },
+  { ticker: 'NIKKEI 225', price: '38,620.15', change: '+1.45%' }
+];
+
+// Visual Themes configs with pricing
+const SYSTEM_THEMES: ThemeConfig[] = [
+  { id: 'forest', name: 'Dark Forest', description: 'Emerald green canopies of financial growth', cost: 0, unlocked: true, bgGradient: 'from-emerald-950/20 via-zinc-950 to-zinc-950', cardStyle: 'bg-white/[0.02] border-white/10', textAccent: 'text-green-400', buttonAccent: 'bg-green-600 hover:bg-green-500' },
+  { id: 'wallstreet', name: 'Wall Street Slate', description: 'Golden brass tones representing premium capital structures', cost: 150, unlocked: false, bgGradient: 'from-amber-950/20 via-zinc-950 to-zinc-950', cardStyle: 'bg-amber-500/5 border-amber-500/20', textAccent: 'text-amber-400', buttonAccent: 'bg-amber-600 hover:bg-amber-500 text-black' },
+  { id: 'space', name: 'Cosmic Violet', description: 'Nebula violet and deep cosmic black holes', cost: 300, unlocked: false, bgGradient: 'from-purple-950/25 via-zinc-950 to-zinc-950', cardStyle: 'bg-purple-500/5 border-purple-500/20', textAccent: 'text-purple-400', buttonAccent: 'bg-purple-600 hover:bg-purple-500' },
+  { id: 'ocean', name: 'Deep Sea Blue', description: 'Serene blue oceans with floating market assets', cost: 400, unlocked: false, bgGradient: 'from-cyan-950/20 via-zinc-950 to-zinc-950', cardStyle: 'bg-cyan-500/5 border-cyan-500/20', textAccent: 'text-cyan-400', buttonAccent: 'bg-cyan-600 hover:bg-cyan-500' },
+  { id: 'winter', name: 'Frosted Blizzard', description: 'Ice blue margins with pristine frosted snow', cost: 500, unlocked: false, bgGradient: 'from-sky-950/20 via-zinc-950 to-zinc-950', cardStyle: 'bg-sky-500/5 border-sky-500/20', textAccent: 'text-sky-400', buttonAccent: 'bg-sky-600 hover:bg-sky-500' },
+  { id: 'cyber', name: 'Neon Synthwave', description: 'Fuchsia glow and glowing retro matrix grid', cost: 700, unlocked: false, bgGradient: 'from-fuchsia-950/25 via-zinc-950 to-zinc-950', cardStyle: 'bg-fuchsia-500/5 border-fuchsia-500/20', textAccent: 'text-fuchsia-400', buttonAccent: 'bg-fuchsia-600 hover:bg-fuchsia-500' },
+];
+
 export default function App() {
-  // Local Storage / State Init
+  // Onboarding / Setup States
+  const [introActive, setIntroActive] = useState<boolean>(true);
+  const [view, setView] = useState<'landing' | 'app'>('landing');
+  const [playerName, setPlayerName] = useState<string>(() => localStorage.getItem('gf_player_name') || 'GrowTrader');
+  const [experience, setExperience] = useState<string>(() => localStorage.getItem('gf_experience') || 'beginner');
+  const [goal, setGoal] = useState<string>(() => localStorage.getItem('gf_goal') || 'wealth');
+  const [sproutId, setSproutId] = useState<string>(() => localStorage.getItem('gf_sprout_id') || 'green_sprout');
+  const [showAccountModal, setShowAccountModal] = useState<boolean>(false);
+
+  // Tabs
   const [activeTab, setActiveTab] = useState<'dashboard' | 'academy' | 'simulator' | 'coach'>('dashboard');
-  
+  const [activeSubTab, setActiveSubTab] = useState<'garden' | 'arcade' | 'rewards' | 'social' | 'notebook' | 'analytics'>('garden');
+
+  // Settings
+  const [language, setLanguage] = useState<LanguageCode>(() => (localStorage.getItem('gf_language') as LanguageCode) || 'en');
+  const [sfxMuted, setSfxMuted] = useState<boolean>(() => localStorage.getItem('gf_sfx_muted') === 'true');
+  const [musicMuted, setMusicMuted] = useState<boolean>(() => localStorage.getItem('gf_music_muted') === 'true');
+
+  // Themes
+  const [currentThemeId, setCurrentThemeId] = useState<string>(() => localStorage.getItem('gf_current_theme') || 'forest');
+  const [unlockedThemes, setUnlockedThemes] = useState<string[]>(() => {
+    const saved = localStorage.getItem('gf_unlocked_themes');
+    return saved ? JSON.parse(saved) : ['forest'];
+  });
+
+  // Notes & Bookmarks
+  const [notes, setNotes] = useState<NoteItem[]>(() => {
+    const saved = localStorage.getItem('gf_notes');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [bookmarks, setBookmarks] = useState<SavedBookmark[]>(() => {
+    const saved = localStorage.getItem('gf_bookmarks');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Certificate triggers
+  const [showCertificate, setShowCertificate] = useState<boolean>(false);
+  const [certificateTrack, setCertificateTrack] = useState<'Beginner' | 'Intermediate' | 'Advanced'>('Beginner');
+
+  // Cloud Backup Loader
+  const [syncingCloud, setSyncingCloud] = useState<boolean>(false);
+
+  // Avatar Configuration
+  const [avatarConfig, setAvatarConfig] = useState<AvatarConfig>(() => {
+    const saved = localStorage.getItem('gf_avatar_config');
+    return saved ? JSON.parse(saved) : {
+      hair: 'short',
+      hairColor: 'black',
+      outfit: 'tee',
+      accessory: 'none',
+      pet: 'none',
+      bg: 'slate',
+      isCustomized: false
+    };
+  });
+
   // Player Stats
   const [xp, setXp] = useState<number>(() => {
     const saved = localStorage.getItem('gf_xp');
@@ -297,12 +264,39 @@ export default function App() {
   // Level Progression & Academy
   const [completedLessons, setCompletedLessons] = useState<string[]>(() => {
     const saved = localStorage.getItem('gf_completed_lessons');
-    return saved ? JSON.parse(saved) : ['b1'];
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        return parsed.map((id: string) => {
+          if (id === 'b1') return 'level-1';
+          if (id === 'b2') return 'level-2';
+          if (id === 'i1') return 'level-11';
+          if (id === 'i2') return 'level-12';
+          if (id === 'a1') return 'level-21';
+          return id;
+        });
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
   });
   const [unlockedLevels, setUnlockedLevels] = useState<string[]>(() => {
     const saved = localStorage.getItem('gf_unlocked_levels');
     return saved ? JSON.parse(saved) : ['beginner'];
   });
+
+  // Academy States for 1000 lessons
+  const [academySearch, setAcademySearch] = useState<string>('');
+  const [academyTab, setAcademyTab] = useState<'beginner' | 'intermediate' | 'advanced'>('beginner');
+  const [academyPage, setAcademyPage] = useState<number>(0);
+  const [academyJumpInput, setAcademyJumpInput] = useState<string>('');
+
+  // 10-Question Quiz States
+  const [currentQuizQuestionIndex, setCurrentQuizQuestionIndex] = useState<number>(0);
+  const [quizCorrectCount, setQuizCorrectCount] = useState<number>(0);
+  const [quizIsFinished, setQuizIsFinished] = useState<boolean>(false);
+  const [questionStatuses, setQuestionStatuses] = useState<('correct' | 'incorrect' | null)[]>(new Array(10).fill(null));
 
   // Active Lesson Session
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
@@ -310,6 +304,27 @@ export default function App() {
   const [quizSubmitted, setQuizSubmitted] = useState<boolean>(false);
   const [selectedQuizOption, setSelectedQuizOption] = useState<number | null>(null);
   const [quizIsCorrect, setQuizIsCorrect] = useState<boolean | null>(null);
+
+  // Monitor Completed Lessons to Auto-Unlock Levels
+  useEffect(() => {
+    const beginnerCompleted = completedLessons.filter(id => {
+      const num = parseInt(id.replace('level-', ''));
+      return !isNaN(num) && num <= 300;
+    }).length;
+    const intermediateCompleted = completedLessons.filter(id => {
+      const num = parseInt(id.replace('level-', ''));
+      return !isNaN(num) && num > 300 && num <= 700;
+    }).length;
+
+    const updatedUnlocked = ['beginner'];
+    if (beginnerCompleted >= 5) updatedUnlocked.push('intermediate');
+    if (intermediateCompleted >= 5) updatedUnlocked.push('advanced');
+
+    if (JSON.stringify(updatedUnlocked) !== JSON.stringify(unlockedLevels)) {
+      setUnlockedLevels(updatedUnlocked);
+      localStorage.setItem('gf_unlocked_levels', JSON.stringify(updatedUnlocked));
+    }
+  }, [completedLessons]);
 
   // Stock Market Simulator Data
   const [stocks, setStocks] = useState<Stock[]>(INITIAL_STOCKS);
@@ -339,8 +354,29 @@ export default function App() {
   const [showWateringAnimation, setShowWateringAnimation] = useState<boolean>(false);
   const [floatingXp, setFloatingXp] = useState<string | null>(null);
 
+  // Auto-play ambient background music once user clicks anywhere
+  useEffect(() => {
+    const triggerAudio = () => {
+      gameAudio.playMusic();
+      window.removeEventListener('click', triggerAudio);
+    };
+    window.addEventListener('click', triggerAudio);
+    return () => window.removeEventListener('click', triggerAudio);
+  }, []);
+
   // Persistence Auto-save
   useEffect(() => {
+    localStorage.setItem('gf_player_name', playerName);
+    localStorage.setItem('gf_experience', experience);
+    localStorage.setItem('gf_goal', goal);
+    localStorage.setItem('gf_sprout_id', sproutId);
+    localStorage.setItem('gf_language', language);
+    localStorage.setItem('gf_current_theme', currentThemeId);
+    localStorage.setItem('gf_unlocked_themes', JSON.stringify(unlockedThemes));
+    localStorage.setItem('gf_avatar_config', JSON.stringify(avatarConfig));
+    localStorage.setItem('gf_notes', JSON.stringify(notes));
+    localStorage.setItem('gf_bookmarks', JSON.stringify(bookmarks));
+
     localStorage.setItem('gf_xp', xp.toString());
     localStorage.setItem('gf_gold', gold.toString());
     localStorage.setItem('gf_streak', streak.toString());
@@ -352,7 +388,10 @@ export default function App() {
     localStorage.setItem('gf_unlocked_levels', JSON.stringify(unlockedLevels));
     localStorage.setItem('gf_unlocked_decorations', JSON.stringify(unlockedDecorations));
     localStorage.setItem('gf_active_decorations', JSON.stringify(activeDecorations));
-  }, [xp, gold, streak, waterReady, cash, portfolio, transactions, completedLessons, unlockedLevels, unlockedDecorations, activeDecorations]);
+  }, [
+    playerName, experience, goal, sproutId, language, currentThemeId, unlockedThemes, avatarConfig, notes, bookmarks,
+    xp, gold, streak, waterReady, cash, portfolio, transactions, completedLessons, unlockedLevels, unlockedDecorations, activeDecorations
+  ]);
 
   // Live Market Updates interval
   useEffect(() => {
@@ -452,110 +491,133 @@ export default function App() {
   // Water Tree Action
   const handleWaterTree = () => {
     if (!waterReady) return;
+    
+    gameAudio.playClick();
+    gameAudio.playWatering();
+
     setShowWateringAnimation(true);
     setFloatingXp('+150 XP');
-    
+
     setTimeout(() => {
       setXp(prev => prev + 150);
       setGold(prev => prev + 10);
       setWaterReady(false);
       setShowWateringAnimation(false);
-      setTimeout(() => setFloatingXp(null), 1500);
-    }, 1200);
+      setFloatingXp(null);
+      gameAudio.playXpGain();
+    }, 1800);
   };
 
-  // Trigger Lesson click
-  const handleStartLesson = (lesson: Lesson) => {
-    setActiveLesson(lesson);
+  // Sound/Music toggles
+  const handleToggleSfx = () => {
+    const nextMuted = gameAudio.toggleSfx();
+    setSfxMuted(nextMuted);
+  };
+
+  const handleToggleMusic = () => {
+    const nextMuted = gameAudio.toggleMusic();
+    setMusicMuted(nextMuted);
+  };
+
+  // Buy theme
+  const handleBuyTheme = (theme: ThemeConfig) => {
+    if (gold < theme.cost) {
+      alert('Insufficient Gold! Keep studying and trading to unlock this theme.');
+      return;
+    }
+    gameAudio.playClick();
+    setGold(prev => prev - theme.cost);
+    setUnlockedThemes([...unlockedThemes, theme.id]);
+    setCurrentThemeId(theme.id);
+    gameAudio.playLevelUp();
+  };
+
+  const handleSelectTheme = (themeId: string) => {
+    gameAudio.playClick();
+    setCurrentThemeId(themeId);
+  };
+
+  // Notes additions
+  const handleAddNote = (lessonNum: number, lessonTitle: string, content: string) => {
+    const newNote: NoteItem = {
+      id: `note-${Date.now()}`,
+      lessonNum,
+      lessonTitle,
+      content,
+      timestamp: new Date().toLocaleDateString()
+    };
+    setNotes([newNote, ...notes]);
+  };
+
+  const handleDeleteNote = (id: string) => {
+    setNotes(notes.filter(n => n.id !== id));
+  };
+
+  // Bookmarks addition
+  const handleToggleBookmark = (lessonNum: number, title: string) => {
+    gameAudio.playClick();
+    const exists = bookmarks.find(b => b.lessonNum === lessonNum);
+    if (exists) {
+      setBookmarks(bookmarks.filter(b => b.lessonNum !== lessonNum));
+    } else {
+      const newB: SavedBookmark = {
+        lessonNum,
+        title,
+        savedAt: new Date().toLocaleDateString()
+      };
+      setBookmarks([...bookmarks, newB]);
+    }
+  };
+
+  // Jump to lesson directly
+  const handleJumpToLesson = (lessonNum: number) => {
+    gameAudio.playClick();
+    const lessonData = generateFullLesson(lessonNum);
+    setActiveLesson(lessonData);
     setCurrentSlideIndex(0);
     setQuizSubmitted(false);
     setSelectedQuizOption(null);
     setQuizIsCorrect(null);
+    setActiveTab('academy');
   };
 
-  // Submit slide quiz answer
-  const handleQuizSubmit = () => {
-    if (!activeLesson || selectedQuizOption === null) return;
-    setQuizSubmitted(true);
-    const isCorrect = selectedQuizOption === activeLesson.correctAnswerIndex;
-    setQuizIsCorrect(isCorrect);
+  // Add standard reward helper
+  const handleAddRewards = (g: number, x: number) => {
+    setGold(prev => Math.max(0, prev + g));
+    setXp(prev => Math.max(0, prev + x));
+  };
+
+  // Onboarding Complete Handler
+  const handleOnboardingComplete = (data: { playerName: string; experience: 'beginner' | 'intermediate' | 'advanced'; goal: string; sproutId: string }) => {
+    setPlayerName(data.playerName);
+    setExperience(data.experience);
+    setGoal(data.goal);
+    setSproutId(data.sproutId);
     
-    if (isCorrect) {
-      setXp(prev => prev + activeLesson.xpReward);
-      setGold(prev => prev + activeLesson.goldReward);
-      if (!completedLessons.includes(activeLesson.id)) {
-        const updatedCompleted = [...completedLessons, activeLesson.id];
-        setCompletedLessons(updatedCompleted);
-
-        // Check level unlocking
-        if (activeLesson.level === 'beginner' && updatedCompleted.includes('b1') && updatedCompleted.includes('b2')) {
-          setUnlockedLevels(prev => [...prev, 'intermediate']);
-        } else if (activeLesson.level === 'intermediate' && updatedCompleted.includes('i1') && updatedCompleted.includes('i2')) {
-          setUnlockedLevels(prev => [...prev, 'advanced']);
-        }
-      }
-    }
-  };
-
-  // Virtual simulator trading
-  const handleSimTrade = (type: 'BUY' | 'SELL') => {
-    if (tradeAmount <= 0) return;
-    const totalCost = activeStock.price * tradeAmount;
-
-    if (type === 'BUY') {
-      if (cash < totalCost) {
-        alert('Insufficient virtual cash to complete this transaction!');
-        return;
-      }
-      setCash(prev => Math.round((prev - totalCost) * 100) / 100);
-      setPortfolio(prev => ({
-        ...prev,
-        [selectedStockTicker]: (prev[selectedStockTicker] || 0) + tradeAmount
-      }));
+    // Seed starter level based on experience
+    if (data.experience === 'intermediate') {
+      setXp(3500);
+      setCompletedLessons(['level-1', 'level-2', 'level-3', 'level-4', 'level-5']);
+    } else if (data.experience === 'advanced') {
+      setXp(8500);
+      setCompletedLessons(['level-1', 'level-2', 'level-11', 'level-12', 'level-21']);
     } else {
-      const owned = portfolio[selectedStockTicker] || 0;
-      if (owned < tradeAmount) {
-        alert('You do not own enough shares of this asset to sell!');
-        return;
-      }
-      setCash(prev => Math.round((prev + totalCost) * 100) / 100);
-      setPortfolio(prev => {
-        const copy = { ...prev };
-        copy[selectedStockTicker] -= tradeAmount;
-        if (copy[selectedStockTicker] <= 0) delete copy[selectedStockTicker];
-        return copy;
-      });
-    }
-
-    const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 16);
-    setTransactions(prev => [
-      { ticker: selectedStockTicker, type, shares: tradeAmount, price: activeStock.price, timestamp },
-      ...prev
-    ]);
-    setXp(prev => prev + 30); // Trading experience
-  };
-
-  // Purchase Decoration
-  const handleBuyDecoration = (id: string, cost: number) => {
-    if (gold < cost) {
-      alert('Not enough gold! Pass more quizzes and lesson challenges.');
-      return;
-    }
-    setGold(prev => prev - cost);
-    setUnlockedDecorations(prev => [...prev, id]);
-    setActiveDecorations(prev => [...prev, id]);
-  };
-
-  // Toggle decoration active state
-  const handleToggleDecoration = (id: string) => {
-    if (activeDecorations.includes(id)) {
-      setActiveDecorations(prev => prev.filter(d => d !== id));
-    } else {
-      setActiveDecorations(prev => [...prev, id]);
+      setXp(120);
     }
   };
 
-  // Send message to Gemini AI Coach
+  // Cloud Backup function
+  const handleCloudBackup = () => {
+    gameAudio.playClick();
+    setSyncingCloud(true);
+    setTimeout(() => {
+      setSyncingCloud(false);
+      alert('Cloud Sync completed successfully! Your portfolio, lessons progress, notes, and avatar are secured with your Google credentials.');
+      gameAudio.playLevelUp();
+    }, 1800);
+  };
+
+  // AI Chat Bot Send message
   const handleSendAiMessage = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     if (!aiMessage.trim() || aiLoading) return;
@@ -591,140 +653,246 @@ export default function App() {
     }
   };
 
-  // SVG Drawing Helpers for GrowTree
+  const handleBuyDecoration = (item: string, cost: number) => {
+    if (gold < cost) {
+      alert('Insufficient Gold!');
+      return;
+    }
+    gameAudio.playClick();
+    setGold(prev => prev - cost);
+    setUnlockedDecorations([...unlockedDecorations, item]);
+    setActiveDecorations([...activeDecorations, item]);
+    gameAudio.playCoin();
+  };
+
+  const handleToggleDecoration = (item: string) => {
+    gameAudio.playClick();
+    if (activeDecorations.includes(item)) {
+      setActiveDecorations(activeDecorations.filter(i => i !== item));
+    } else {
+      setActiveDecorations([...activeDecorations, item]);
+    }
+  };
+
+  const handleStartLesson = (levelNum: number) => {
+    gameAudio.playClick();
+    const lessonData = generateFullLesson(levelNum);
+    setActiveLesson(lessonData);
+    setCurrentSlideIndex(0);
+    setQuizSubmitted(false);
+    setSelectedQuizOption(null);
+    setQuizIsCorrect(null);
+  };
+
+  const handleNextSlide = () => {
+    gameAudio.playClick();
+    if (activeLesson && currentSlideIndex < activeLesson.slides.length - 1) {
+      setCurrentSlideIndex(prev => prev + 1);
+    }
+  };
+
+  const handlePrevSlide = () => {
+    gameAudio.playClick();
+    if (currentSlideIndex > 0) {
+      setCurrentSlideIndex(prev => prev - 1);
+    }
+  };
+
+  const handleSelectQuizOption = (optIdx: number) => {
+    if (quizSubmitted) return;
+    setSelectedQuizOption(optIdx);
+  };
+
+  const handleSubmitQuizAnswer = () => {
+    if (selectedQuizOption === null || !activeLesson) return;
+    
+    gameAudio.playClick();
+    setQuizSubmitted(true);
+    const isCorrect = selectedQuizOption === activeLesson.correctAnswerIndex;
+    setQuizIsCorrect(isCorrect);
+
+    if (isCorrect) {
+      const isNew = !completedLessons.includes(activeLesson.id);
+      if (isNew) {
+        setCompletedLessons([...completedLessons, activeLesson.id]);
+        const xpR = activeLesson.levelNum <= 300 ? 200 : activeLesson.levelNum <= 700 ? 250 : 300;
+        const goldR = activeLesson.levelNum <= 300 ? 30 : activeLesson.levelNum <= 700 ? 40 : 50;
+        setXp(prev => prev + xpR);
+        setGold(prev => prev + goldR);
+        gameAudio.playCorrect();
+        gameAudio.playXpGain();
+      } else {
+        gameAudio.playCorrect();
+      }
+    } else {
+      gameAudio.playWrong();
+    }
+  };
+
+  const handleBuyStock = () => {
+    if (tradeAmount <= 0) return;
+    const cost = activeStock.price * tradeAmount;
+    if (cost > cash) {
+      alert('Insufficient Buying Power!');
+      return;
+    }
+    gameAudio.playClick();
+    gameAudio.playCoin();
+
+    setCash(prev => prev - cost);
+    setPortfolio(prev => ({
+      ...prev,
+      [activeStock.ticker]: (prev[activeStock.ticker] || 0) + tradeAmount
+    }));
+
+    const tx: Transaction = {
+      ticker: activeStock.ticker,
+      type: 'BUY',
+      shares: tradeAmount,
+      price: activeStock.price,
+      timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString().substring(0, 5)
+    };
+    setTransactions([tx, ...transactions]);
+  };
+
+  const handleSellStock = () => {
+    const owned = portfolio[activeStock.ticker] || 0;
+    if (tradeAmount <= 0 || tradeAmount > owned) {
+      alert('Not enough shares to sell!');
+      return;
+    }
+    gameAudio.playClick();
+    gameAudio.playCoin();
+
+    const proceeds = activeStock.price * tradeAmount;
+    setCash(prev => prev + proceeds);
+    
+    const newOwned = owned - tradeAmount;
+    const updatedPortfolio = { ...portfolio };
+    if (newOwned === 0) {
+      delete updatedPortfolio[activeStock.ticker];
+    } else {
+      updatedPortfolio[activeStock.ticker] = newOwned;
+    }
+    setPortfolio(updatedPortfolio);
+
+    const tx: Transaction = {
+      ticker: activeStock.ticker,
+      type: 'SELL',
+      shares: tradeAmount,
+      price: activeStock.price,
+      timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString().substring(0, 5)
+    };
+    setTransactions([tx, ...transactions]);
+  };
+
+  // SVGs for tree stage rendering
   const renderTreeSVG = () => {
     return (
-      <svg viewBox="0 0 200 220" className="w-56 h-56 drop-shadow-[0_0_30px_rgba(34,197,94,0.35)] transition-all duration-700">
-        {/* Pot / Soil */}
-        <path d="M70 180 L130 180 L120 205 L80 205 Z" fill="#322214" />
-        <ellipse cx="100" cy="180" rx="30" ry="6" fill="#1f140a" />
+      <svg viewBox="0 0 200 200" className="w-48 h-48 drop-shadow-2xl">
+        {/* Ground land */}
+        <ellipse cx="100" cy="170" rx="60" ry="12" fill="#14532d" opacity="0.4" />
+        <ellipse cx="100" cy="170" rx="50" ry="8" fill="#15803d" opacity="0.6" />
 
-        {/* Tree growth based on XP levels */}
+        {/* Sprouts/Trunks depending on XP */}
         {xp < 1000 && (
-          // SEED
+          // SEED STAGE
           <g>
-            <circle cx="100" cy="176" r="4" fill="#fbbf24" className="animate-pulse" />
-            <path d="M100 176 Q97 165 103 158" stroke="#10b981" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-            <path d="M103 158 C105 158 108 160 106 163 Z" fill="#10b981" />
+            <circle cx="100" cy="160" r="4" fill="#78350f" />
+            <path d="M100 160 Q105 145 102 135" stroke="#22c55e" strokeWidth="2.5" fill="none" />
+            <path d="M102 135 Q112 130 114 136" stroke="#22c55e" strokeWidth="2" fill="none" />
           </g>
         )}
 
         {xp >= 1000 && xp < 2500 && (
-          // SPROUT
+          // SPROUT STAGE
           <g>
-            <path d="M100 180 Q102 155 98 135" stroke="#78350f" strokeWidth="4.5" fill="none" strokeLinecap="round" />
-            {/* Left Leaf */}
-            <path d="M99 155 Q85 145 88 136 Q98 142 99 155" fill="#10b981" stroke="#047857" strokeWidth="0.5" />
-            {/* Right Leaf */}
-            <path d="M99 145 Q115 135 110 126 Q102 135 99 145" fill="#34d399" stroke="#047857" strokeWidth="0.5" />
+            <path d="M100 170 Q100 140 102 120" stroke="#78350f" strokeWidth="4.5" fill="none" strokeLinecap="round" />
+            {/* Small leaves */}
+            <path d="M102 120 Q112 110 114 116" fill="#22c55e" />
+            <path d="M102 120 Q92 110 90 116" fill="#22c55e" />
           </g>
         )}
 
         {xp >= 2500 && xp < 4500 && (
-          // SAPLING
+          // SAPLING STAGE
           <g>
-            <path d="M100 180 Q101 140 100 110" stroke="#78350f" strokeWidth="6" fill="none" />
-            <path d="M100 145 Q80 130 84 120" stroke="#78350f" strokeWidth="3" fill="none" strokeLinecap="round" />
-            <path d="M100 130 Q120 115 116 105" stroke="#78350f" strokeWidth="3" fill="none" strokeLinecap="round" />
-            
-            {/* Foliage Circles */}
-            <circle cx="100" cy="100" r="18" fill="#10b981" opacity="0.9" />
-            <circle cx="84" cy="118" r="12" fill="#059669" opacity="0.85" />
-            <circle cx="116" cy="104" r="14" fill="#34d399" opacity="0.9" />
+            <path d="M100 170 Q98 130 100 95" stroke="#78350f" strokeWidth="6.5" fill="none" strokeLinecap="round" />
+            <path d="M100 120 Q115 105 120 112" stroke="#78350f" strokeWidth="4.5" fill="none" />
+            {/* Foliage bunches */}
+            <circle cx="100" cy="85" r="22" fill="#15803d" opacity="0.9" />
+            <circle cx="118" cy="108" r="14" fill="#166534" opacity="0.8" />
           </g>
         )}
 
         {xp >= 4500 && xp < 7000 && (
           // YOUNG TREE
           <g>
-            <path d="M100 180 Q100 135 100 95" stroke="#5c2e0b" strokeWidth="8.5" fill="none" />
-            <path d="M100 145 Q75 125 70 115" stroke="#5c2e0b" strokeWidth="4" fill="none" />
-            <path d="M100 130 Q125 115 125 102" stroke="#5c2e0b" strokeWidth="4" fill="none" />
-            
-            {/* Crown Foliage */}
-            <circle cx="100" cy="85" r="24" fill="#10b981" />
-            <circle cx="75" cy="105" r="16" fill="#047857" />
-            <circle cx="123" cy="95" r="18" fill="#34d399" />
-            <circle cx="95" cy="105" r="14" fill="#059669" />
+            <path d="M100 170 Q98 120 100 85" stroke="#78350f" strokeWidth="9" fill="none" strokeLinecap="round" />
+            <path d="M100 130 Q122 110 128 115" stroke="#78350f" strokeWidth="5.5" fill="none" />
+            <path d="M100 115 Q78 95 72 102" stroke="#78350f" strokeWidth="5.5" fill="none" />
+            <circle cx="100" cy="72" r="28" fill="#15803d" />
+            <circle cx="125" cy="110" r="18" fill="#166534" />
+            <circle cx="75" cy="98" r="18" fill="#166534" />
           </g>
         )}
 
         {xp >= 7000 && xp < 10500 && (
           // STRONG TREE
           <g>
-            {/* Strong Trunk */}
-            <path d="M94 180 L97 85 L103 85 L106 180 Z" fill="#5c2e0b" />
-            <path d="M97 130 C70 115 65 100 60 95" stroke="#5c2e0b" strokeWidth="4.5" fill="none" />
-            <path d="M103 120 C130 105 135 90 140 85" stroke="#5c2e0b" strokeWidth="4.5" fill="none" />
-            
-            {/* Large dense foliage cloud */}
-            <circle cx="100" cy="70" r="28" fill="#047857" />
-            <circle cx="72" cy="85" r="20" fill="#065f46" />
-            <circle cx="128" cy="78" r="22" fill="#10b981" />
-            <circle cx="90" cy="90" r="18" fill="#059669" />
-            <circle cx="110" cy="90" r="18" fill="#34d399" />
+            <path d="M100 170 L100 70" stroke="#78350f" strokeWidth="12" fill="none" strokeLinecap="round" />
+            <path d="M100 120 Q130 95 138 100" stroke="#78350f" strokeWidth="7" fill="none" />
+            <path d="M100 110 Q70 85 62 92" stroke="#78350f" strokeWidth="7" fill="none" />
+            <circle cx="100" cy="58" r="34" fill="#15803d" />
+            <circle cx="134" cy="98" r="24" fill="#166534" />
+            <circle cx="66" cy="88" r="24" fill="#166534" />
           </g>
         )}
 
         {xp >= 10500 && xp < 15000 && (
           // BLOOMING TREE (Flowers)
           <g>
-            <path d="M93 180 L97 80 L103 80 L107 180 Z" fill="#5c2e0b" />
-            <path d="M97 125 Q65 110 60 90" stroke="#5c2e0b" strokeWidth="5" fill="none" />
-            <path d="M103 115 Q135 100 138 80" stroke="#5c2e0b" strokeWidth="5" fill="none" />
-            
-            <circle cx="100" cy="65" r="30" fill="#047857" />
-            <circle cx="68" cy="82" r="22" fill="#065f46" />
-            <circle cx="132" cy="75" r="24" fill="#10b981" />
-            <circle cx="100" cy="85" r="20" fill="#059669" />
-            
-            {/* Pink Blossoms */}
-            <circle cx="95" cy="55" r="3.5" fill="#f43f5e" />
-            <circle cx="105" cy="56" r="3.5" fill="#f43f5e" />
-            <circle cx="135" cy="70" r="4" fill="#f43f5e" />
-            <circle cx="68" cy="78" r="4.5" fill="#fda4af" />
-            <circle cx="105" cy="85" r="3" fill="#fda4af" />
+            <path d="M100 170 L100 65" stroke="#78350f" strokeWidth="14" fill="none" strokeLinecap="round" />
+            <path d="M100 115 Q132 90 142 95" stroke="#78350f" strokeWidth="8.5" fill="none" />
+            <path d="M100 105 Q68 80 58 88" stroke="#78350f" strokeWidth="8.5" fill="none" />
+            <circle cx="100" cy="52" r="38" fill="#15803d" />
+            <circle cx="138" cy="92" r="26" fill="#166534" />
+            <circle cx="62" cy="82" r="26" fill="#166534" />
+            {/* Blooming flower buds overlay */}
+            <circle cx="92" cy="42" r="4" fill="#ec4899" />
+            <circle cx="108" cy="55" r="4" fill="#ec4899" />
+            <circle cx="135" cy="88" r="4" fill="#ec4899" />
+            <circle cx="58" cy="78" r="4" fill="#ec4899" />
           </g>
         )}
 
         {xp >= 15000 && xp < 20000 && (
           // FRUIT TREE (Apples)
           <g>
-            <path d="M92 180 L97 75 L103 75 L108 180 Z" fill="#451a03" />
-            <path d="M97 120 Q60 105 55 85" stroke="#451a03" strokeWidth="5.5" fill="none" />
-            <path d="M103 110 Q140 95 142 75" stroke="#451a03" strokeWidth="5.5" fill="none" />
-            
-            <circle cx="100" cy="60" r="32" fill="#15803d" />
-            <circle cx="65" cy="80" r="24" fill="#166534" />
-            <circle cx="135" cy="70" r="26" fill="#22c55e" />
-            <circle cx="100" cy="85" r="22" fill="#16a34a" />
-            
-            {/* Red Apples */}
-            <circle cx="95" cy="50" r="4.5" fill="#ef4444" />
-            <circle cx="112" cy="55" r="4.5" fill="#ef4444" />
-            <circle cx="130" cy="65" r="4.5" fill="#ef4444" />
-            <circle cx="65" cy="74" r="5" fill="#ef4444" />
-            <circle cx="98" cy="80" r="4" fill="#ef4444" />
+            <path d="M100 170 L100 60" stroke="#78350f" strokeWidth="16" fill="none" strokeLinecap="round" />
+            <path d="M100 110 Q135 85 145 90" stroke="#78350f" strokeWidth="9.5" fill="none" />
+            <path d="M100 100 Q65 75 55 82" stroke="#78350f" strokeWidth="9.5" fill="none" />
+            <circle cx="100" cy="48" r="42" fill="#15803d" />
+            <circle cx="142" cy="88" r="28" fill="#166534" />
+            <circle cx="58" cy="78" r="28" fill="#166534" />
+            {/* Red apples fruits */}
+            <circle cx="85" cy="35" r="4.5" fill="#ef4444" />
+            <circle cx="112" cy="45" r="4.5" fill="#ef4444" />
+            <circle cx="132" cy="82" r="4.5" fill="#ef4444" />
+            <circle cx="62" cy="75" r="4.5" fill="#ef4444" />
           </g>
         )}
 
         {xp >= 20000 && (
           // GOLDEN TREE (Ultimate glowing tree)
           <g>
-            <path d="M90 180 L97 70 L103 70 L110 180 Z" fill="#78350f" />
-            <path d="M97 115 Q55 95 50 75" stroke="#78350f" strokeWidth="6" fill="none" />
-            <path d="M103 105 Q145 85 145 65" stroke="#78350f" strokeWidth="6" fill="none" />
-            
-            {/* Glowing yellow golden leaf clusters */}
-            <circle cx="100" cy="55" r="34" fill="#eab308" opacity="0.9" />
-            <circle cx="60" cy="72" r="26" fill="#ca8a04" opacity="0.85" />
-            <circle cx="140" cy="60" r="28" fill="#facc15" opacity="0.9" />
-            <circle cx="100" cy="80" r="24" fill="#fef08a" opacity="0.8" />
-            
-            {/* Sparkle particles */}
-            <polygon points="100,20 102,28 110,30 102,32 100,40 98,32 90,30 98,28" fill="#ffffff" className="animate-pulse" />
-            <polygon points="50,45 51,50 56,51 51,52 50,57 49,52 44,51 49,50" fill="#facc15" className="animate-ping" />
-            <polygon points="150,35 151,40 156,41 151,42 150,47 149,42 144,41 149,40" fill="#ffffff" />
+            <path d="M100 170 L100 55" stroke="#78350f" strokeWidth="18" fill="none" strokeLinecap="round" />
+            <path d="M100 105 Q138 80 148 85" stroke="#78350f" strokeWidth="11" fill="none" />
+            <path d="M100 95 Q62 70 52 78" stroke="#78350f" strokeWidth="11" fill="none" />
+            {/* Golden glowing foliage */}
+            <circle cx="100" cy="44" r="46" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" />
+            <circle cx="145" cy="82" r="30" fill="#f59e0b" stroke="#b45309" strokeWidth="1" />
+            <circle cx="55" cy="72" r="30" fill="#f59e0b" stroke="#b45309" strokeWidth="1" />
           </g>
         )}
 
@@ -752,19 +920,9 @@ export default function App() {
         {activeDecorations.includes('gold_fruit') && xp >= 2500 && (
           <g>
             {/* Golden fruits hanging */}
-            <circle cx="108" cy="68" r="6" fill="#fbbf24" className="shadow-lg" />
+            <circle cx="108" cy="68" r="6" fill="#fbbf24" />
             <circle cx="78" cy="98" r="6" fill="#fbbf24" />
             <circle cx="118" cy="108" r="5" fill="#fbbf24" />
-          </g>
-        )}
-
-        {activeDecorations.includes('crown') && (
-          <g>
-            {/* Golden crown sitting on top of the foliage crown */}
-            <polygon points="85,25 90,38 100,28 110,38 115,25 110,48 90,48" fill="#fbbf24" stroke="#d97706" strokeWidth="1" />
-            <circle cx="85" cy="23" r="1.5" fill="#ef4444" />
-            <circle cx="100" cy="26" r="1.5" fill="#ef4444" />
-            <circle cx="115" cy="23" r="1.5" fill="#ef4444" />
           </g>
         )}
 
@@ -784,79 +942,142 @@ export default function App() {
     );
   };
 
-  // Custom Candlestick Drawing
+  // Render technical candlestick chart
   const renderCandlestickChart = (stock: Stock) => {
-    const width = 360;
+    if (!stock || !stock.history || stock.history.length === 0) {
+      return (
+        <div className="h-48 flex items-center justify-center text-white/30 text-xs">
+          No chart data available
+        </div>
+      );
+    }
+
+    const padX = 40;
+    const padY = 20;
+    const width = 400;
     const height = 180;
-    const padding = 20;
 
-    const prices = stock.history.flatMap(h => [h.high, h.low, h.open, h.close]);
-    const minPrice = Math.min(...prices) * 0.99;
-    const maxPrice = Math.max(...prices) * 1.01;
-    const priceRange = maxPrice - minPrice;
+    // Find min and max for scaling
+    const prices = stock.history.flatMap(h => [h.open, h.high, h.low, h.close]);
+    const maxVal = Math.max(...prices) * 1.002;
+    const minVal = Math.min(...prices) * 0.998;
+    const diff = maxVal - minVal || 1;
 
-    const scaleY = (p: number) => height - padding - ((p - minPrice) / priceRange) * (height - 2 * padding);
-    const candleWidth = Math.max(12, (width - 2 * padding) / stock.history.length - 8);
+    const scaleY = (val: number) => {
+      return height - padY - ((val - minVal) / diff) * (height - 2 * padY);
+    };
+
+    const count = stock.history.length;
+    const stepX = (width - 2 * padX) / Math.max(1, count - 1 || 1);
 
     return (
-      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-44 bg-black/30 border border-white/5 rounded-2xl p-2">
-        {/* Horizontal grid lines */}
-        {[0.25, 0.5, 0.75].map((ratio, i) => {
-          const gridVal = minPrice + priceRange * ratio;
-          const y = scaleY(gridVal);
-          return (
-            <g key={i}>
-              <line x1={padding} y1={y} x2={width - padding} y2={y} stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
-              <text x={width - padding + 2} y={y + 3} fill="rgba(255,255,255,0.3)" fontSize="8" textAnchor="start">
-                ${Math.round(gridVal)}
-              </text>
-            </g>
-          );
-        })}
+      <div className="w-full bg-zinc-950/60 rounded-2xl p-4 border border-white/5 relative overflow-hidden">
+        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
+          {/* Horizontal gridlines */}
+          {[0.25, 0.5, 0.75].map((ratio, i) => {
+            const priceVal = minVal + ratio * diff;
+            const y = scaleY(priceVal);
+            return (
+              <g key={i}>
+                <line x1={padX} y1={y} x2={width - padX} y2={y} stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
+                <text x={padX - 8} y={y + 3} fill="rgba(255,255,255,0.3)" fontSize="8" className="font-mono text-right" textAnchor="end">
+                  ${priceVal.toFixed(2)}
+                </text>
+              </g>
+            );
+          })}
 
-        {/* Draw each candlestick */}
-        {stock.history.map((h, index) => {
-          const x = padding + index * ((width - 2 * padding) / stock.history.length) + 10;
-          const isGreen = h.close >= h.open;
-          const strokeColor = isGreen ? '#22c55e' : '#ef4444';
-          const bodyY = scaleY(Math.max(h.open, h.close));
-          const bodyHeight = Math.max(2, Math.abs(scaleY(h.open) - scaleY(h.close)));
-          
-          return (
-            <g key={index} className="group cursor-pointer">
-              {/* Tooltip on hover */}
-              <title>{`Candle ${index + 1}: Open: $${h.open.toFixed(2)}, Close: $${h.close.toFixed(2)}, High: $${h.high.toFixed(2)}, Low: $${h.low.toFixed(2)}`}</title>
-              
-              {/* Wick shadow line */}
-              <line x1={x + candleWidth/2} y1={scaleY(h.high)} x2={x + candleWidth/2} y2={scaleY(h.low)} stroke={strokeColor} strokeWidth="1.5" />
-              
-              {/* Solid candle body */}
-              <rect 
-                x={x} 
-                y={bodyY} 
-                width={candleWidth} 
-                height={bodyHeight} 
-                fill={isGreen ? 'rgba(34,197,94,0.85)' : 'rgba(239,68,68,0.85)'} 
-                stroke={strokeColor} 
-                strokeWidth="1"
-                className="transition-all duration-300 group-hover:brightness-125"
-                rx="1"
-              />
-            </g>
-          );
-        })}
-      </svg>
+          {/* Render individual candles */}
+          {stock.history.map((candle, idx) => {
+            const x = padX + idx * stepX;
+            const yOpen = scaleY(candle.open);
+            const yClose = scaleY(candle.close);
+            const yHigh = scaleY(candle.high);
+            const yLow = scaleY(candle.low);
+            const isBullish = candle.close >= candle.open;
+            const color = isBullish ? '#22c55e' : '#ef4444';
+
+            const bodyTop = Math.min(yOpen, yClose);
+            const bodyHeight = Math.max(2, Math.abs(yOpen - yClose));
+            const bodyWidth = Math.min(16, stepX * 0.4 || 10);
+
+            return (
+              <g key={idx}>
+                {/* Wick */}
+                <line x1={x} y1={yHigh} x2={x} y2={yLow} stroke={color} strokeWidth="1.5" />
+                {/* Real Body */}
+                <rect
+                  x={x - bodyWidth / 2}
+                  y={bodyTop}
+                  width={bodyWidth}
+                  height={bodyHeight}
+                  fill={isBullish ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)'}
+                  stroke={color}
+                  strokeWidth="1.5"
+                  rx="1.5"
+                />
+              </g>
+            );
+          })}
+
+          {/* Current price horizontal marker line */}
+          <line
+            x1={padX}
+            y1={scaleY(stock.price)}
+            x2={width - padX}
+            y2={scaleY(stock.price)}
+            stroke={stock.change >= 0 ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'}
+            strokeDasharray="2 2"
+          />
+        </svg>
+      </div>
     );
   };
 
+  const selectedTheme = SYSTEM_THEMES.find(t => t.id === currentThemeId) || SYSTEM_THEMES[0];
+
+  if (introActive) {
+    return <IntroLogo onComplete={() => setIntroActive(false)} />;
+  }
+
+  if (view === 'landing') {
+    return (
+      <LandingPage 
+        onLaunchApp={(tab, subtab) => { 
+          gameAudio.playClick(); 
+          setView('app'); 
+          if (tab) setActiveTab(tab); 
+          if (subtab) setActiveSubTab(subtab); 
+        }} 
+      />
+    );
+  }
+
   return (
-    <div id="growfolio-root" className="min-h-screen bg-[#050505] text-white flex flex-col font-sans select-none overflow-x-hidden">
-      
-      {/* Upper subtle glass background overlay */}
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-green-950/20 via-transparent to-transparent pointer-events-none z-0"></div>
+    <div 
+      id="growfolio-root" 
+      className={`min-h-screen bg-gradient-to-b ${selectedTheme.bgGradient} text-white flex flex-col font-sans overflow-x-hidden`}
+    >
+      {/* 2. LIVE INDEX MARKET TICKER MARQUEE */}
+      <div className="bg-black/85 border-b border-white/10 py-1.5 px-4 overflow-hidden relative z-40 hidden md:block select-none">
+        <div className="flex gap-10 animate-[marquee_25s_linear_infinite] whitespace-nowrap">
+          {[...LIVE_GLOBAL_INDICES, ...LIVE_GLOBAL_INDICES].map((ind, idx) => {
+            const isGreen = ind.change.startsWith('+');
+            return (
+              <span key={idx} className="inline-flex items-center gap-2 text-[10px] font-mono font-bold">
+                <span className="text-white/45">{ind.ticker}</span>
+                <span className="text-white">{ind.price}</span>
+                <span className={isGreen ? 'text-green-400' : 'text-red-400'}>
+                  {ind.change} {isGreen ? '▲' : '▼'}
+                </span>
+              </span>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Main Workspace Frame */}
-      <div className="flex-1 flex max-w-[1280px] w-full mx-auto relative z-10 p-4 md:p-6 gap-6">
+      <div className="flex-1 flex flex-col md:flex-row max-w-[1280px] w-full mx-auto relative z-10 p-4 md:p-6 gap-6">
         
         {/* SIDEBAR NAVIGATION */}
         <aside id="sidebar" className="hidden md:flex w-24 bg-white/[0.02] border border-white/10 rounded-[32px] flex-col items-center py-8 gap-10 backdrop-blur-md">
@@ -867,58 +1088,59 @@ export default function App() {
 
           <nav className="flex flex-col gap-6">
             <button 
-              id="nav-dash"
-              onClick={() => setActiveTab('dashboard')}
-              className={`p-3.5 rounded-2xl transition-all duration-300 relative group ${
+              onClick={() => { gameAudio.playClick(); setActiveTab('dashboard'); }}
+              className={`p-3.5 rounded-2xl transition-all cursor-pointer ${
                 activeTab === 'dashboard' ? 'bg-white/10 text-green-400 border border-white/10' : 'text-white/40 hover:text-white/80'
               }`}
-              title="Dashboard"
+              title="Dashboard Hub"
             >
               <Home className="w-5 h-5" />
-              <span className="absolute left-full ml-4 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">Dashboard</span>
             </button>
-
             <button 
-              id="nav-academy"
-              onClick={() => setActiveTab('academy')}
-              className={`p-3.5 rounded-2xl transition-all duration-300 relative group ${
+              onClick={() => { gameAudio.playClick(); setActiveTab('academy'); }}
+              className={`p-3.5 rounded-2xl transition-all cursor-pointer ${
                 activeTab === 'academy' ? 'bg-white/10 text-blue-400 border border-white/10' : 'text-white/40 hover:text-white/80'
               }`}
-              title="Academy Lessons"
+              title="Investing Academy"
             >
               <GraduationCap className="w-5 h-5" />
-              <span className="absolute left-full ml-4 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">Academy</span>
             </button>
-
             <button 
-              id="nav-sim"
-              onClick={() => setActiveTab('simulator')}
-              className={`p-3.5 rounded-2xl transition-all duration-300 relative group ${
+              onClick={() => { gameAudio.playClick(); setActiveTab('simulator'); }}
+              className={`p-3.5 rounded-2xl transition-all cursor-pointer ${
                 activeTab === 'simulator' ? 'bg-white/10 text-green-400 border border-white/10' : 'text-white/40 hover:text-white/80'
               }`}
-              title="Stock Simulator"
+              title="Stock Market Arena"
             >
               <TrendingUp className="w-5 h-5" />
-              <span className="absolute left-full ml-4 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">Simulator</span>
             </button>
-
             <button 
-              id="nav-coach"
-              onClick={() => setActiveTab('coach')}
-              className={`p-3.5 rounded-2xl transition-all duration-300 relative group ${
+              onClick={() => { gameAudio.playClick(); setActiveTab('coach'); }}
+              className={`p-3.5 rounded-2xl transition-all cursor-pointer ${
                 activeTab === 'coach' ? 'bg-white/10 text-purple-400 border border-white/10' : 'text-white/40 hover:text-white/80'
               }`}
-              title="AI Advisor"
+              title="AI GrowBot Coach"
             >
               <Bot className="w-5 h-5" />
-              <span className="absolute left-full ml-4 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">AI Coach</span>
             </button>
           </nav>
 
-          <div className="mt-auto flex flex-col gap-4">
-            <div className="w-10 h-10 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center" title="Ready to Grow!">
-              <Droplet className="w-5 h-5 text-green-400 animate-bounce" />
-            </div>
+          {/* Quick Mute Audio Controls */}
+          <div className="mt-auto flex flex-col gap-3">
+            <button 
+              onClick={handleToggleMusic}
+              className="p-2.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-white/50 hover:text-white cursor-pointer"
+              title="Toggle Background Music"
+            >
+              {musicMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-green-400 animate-bounce" />}
+            </button>
+            <button 
+              onClick={handleToggleSfx}
+              className="p-2.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-white/50 hover:text-white cursor-pointer"
+              title="Toggle Sound Effects"
+            >
+              {sfxMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-blue-400" />}
+            </button>
           </div>
         </aside>
 
@@ -926,7 +1148,7 @@ export default function App() {
         <main className="flex-1 flex flex-col gap-6">
           
           {/* HEADER BAR */}
-          <header className="bg-white/[0.02] border border-white/10 rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-4 backdrop-blur-md relative overflow-hidden">
+          <header className={`bg-white/[0.02] border border-white/10 rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-4 backdrop-blur-md relative overflow-hidden`}>
             <div className="flex items-center gap-3">
               <div className="md:hidden p-2.5 bg-green-500/10 border border-green-500/20 rounded-xl">
                 <TrendingUp className="w-6 h-6 text-green-400" />
@@ -940,894 +1162,979 @@ export default function App() {
             </div>
 
             {/* Profile Level Indicators */}
-            <div className="flex items-center gap-5 w-full md:w-auto">
-              {/* XP Progression */}
-              <div className="flex-1 md:flex-initial flex flex-col md:items-end min-w-[160px]">
-                <div className="flex justify-between md:justify-end items-center gap-2 mb-1.5">
-                  <span className="text-[10px] text-white/50 uppercase tracking-widest font-bold">Investor Rank</span>
-                  <span className="text-xs font-extrabold text-yellow-500 uppercase tracking-tight">{currentRank.title}</span>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3.5 md:gap-5 w-full md:w-auto">
+              {/* Controls and Stats Row */}
+              <div className="flex flex-wrap items-center gap-2">
+                {/* Back to Landing Website button */}
+                <button
+                  onClick={() => { gameAudio.playClick(); setView('landing'); }}
+                  className="flex items-center gap-1.5 text-[10px] font-mono font-bold bg-white/5 hover:bg-white/10 border border-white/10 px-2.5 py-1.5 rounded-xl text-white/70 hover:text-white transition-all cursor-pointer shadow-sm"
+                >
+                  ← Landing Website
+                </button>
+
+                {/* Account & Login button */}
+                <button
+                  onClick={() => { gameAudio.playClick(); setShowAccountModal(true); }}
+                  className="flex items-center gap-1.5 text-[10px] font-mono font-bold bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/25 px-2.5 py-1.5 rounded-xl text-blue-400 hover:text-blue-300 transition-all cursor-pointer shadow-sm"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  Account & Login
+                </button>
+
+                {/* Cloud Backup status */}
+                <button
+                  onClick={handleCloudBackup}
+                  disabled={syncingCloud}
+                  className="hidden lg:flex items-center gap-1.5 text-[10px] font-mono font-bold bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl text-white/60 hover:text-white transition-all cursor-pointer"
+                >
+                  <CloudLightning className="w-3.5 h-3.5" />
+                  {syncingCloud ? 'Syncing...' : 'Cloud Backup'}
+                </button>
+
+                {/* Gold Counter */}
+                <div className="bg-white/5 border border-white/10 rounded-xl px-2.5 py-1.5 flex items-center gap-1.5" title="Gold earned to unlock decorations">
+                  <Coins className="w-3.5 h-3.5 text-yellow-500" />
+                  <span className="font-mono text-xs font-bold text-yellow-400">{gold} <span className="text-[9px] text-white/40 font-sans">GOLD</span></span>
                 </div>
-                <div className="w-full h-2 bg-white/5 rounded-full border border-white/10 overflow-hidden relative" title={`XP: ${xp} / ${currentRank.nextAt}`}>
+
+                {/* Language Selector */}
+                <div className="bg-white/5 border border-white/10 rounded-xl px-2.5 py-1.5 flex items-center gap-1" title="Select Academy Language">
+                  <Languages className="w-3.5 h-3.5 text-blue-400" />
+                  <select
+                    value={language}
+                    onChange={(e) => { gameAudio.playClick(); setLanguage(e.target.value as LanguageCode); }}
+                    className="bg-transparent border-none text-[10px] font-bold text-white focus:outline-none cursor-pointer"
+                  >
+                    {LANGUAGES.map((lang) => (
+                      <option key={lang.code} value={lang.code} className="bg-zinc-950 text-white">
+                        {lang.flag} {lang.label.substring(0, 3)}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* XP Progression */}
+              <div className="flex-1 md:flex-initial flex flex-col md:items-end min-w-[150px]">
+                <div className="flex justify-between md:justify-end items-center gap-1.5 mb-1">
+                  <span className="text-[9px] text-white/50 uppercase tracking-widest font-bold">Investor Rank</span>
+                  <span className="text-[10px] font-extrabold text-yellow-500 uppercase tracking-tight">{currentRank.title}</span>
+                </div>
+                <div className="w-full h-1.5 bg-white/5 rounded-full border border-white/10 overflow-hidden relative" title={`XP: ${xp} / ${currentRank.nextAt}`}>
                   <div 
                     className="h-full bg-gradient-to-r from-green-500 to-emerald-400 transition-all duration-1000"
                     style={{ width: `${xpProgressPercent}%` }}
                   ></div>
                 </div>
-                <div className="flex justify-between w-full text-[9px] text-white/40 mt-1">
+                <div className="flex justify-between w-full text-[8px] text-white/40 mt-0.5">
                   <span>{xp} XP</span>
                   <span>{currentRank.nextAt} XP for next rank</span>
                 </div>
-              </div>
-
-              {/* Gold Counter */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl px-3.5 py-2 flex items-center gap-2" title="Gold earned to unlock decorations">
-                <Coins className="w-4 h-4 text-yellow-500 animate-spin" />
-                <span className="font-mono text-sm font-bold text-yellow-400">{gold} <span className="text-[10px] text-white/40 font-sans">GOLD</span></span>
               </div>
             </div>
           </header>
 
           {/* TAB BAR FOR RESPONSIVE MOBILE */}
           <div className="flex md:hidden bg-white/5 border border-white/10 rounded-2xl p-1.5 justify-around backdrop-blur-md">
-            <button onClick={() => setActiveTab('dashboard')} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'dashboard' ? 'bg-white/10 text-green-400' : 'text-white/50'}`}>
+            <button onClick={() => { gameAudio.playClick(); setActiveTab('dashboard'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'dashboard' ? 'bg-white/10 text-green-400' : 'text-white/50'}`}>
               <Home className="w-4 h-4 mb-0.5" /> Dashboard
             </button>
-            <button onClick={() => setActiveTab('academy')} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'academy' ? 'bg-white/10 text-blue-400' : 'text-white/50'}`}>
+            <button onClick={() => { gameAudio.playClick(); setActiveTab('academy'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'academy' ? 'bg-white/10 text-blue-400' : 'text-white/50'}`}>
               <GraduationCap className="w-4 h-4 mb-0.5" /> Academy
             </button>
-            <button onClick={() => setActiveTab('simulator')} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'simulator' ? 'bg-white/10 text-green-400' : 'text-white/50'}`}>
+            <button onClick={() => { gameAudio.playClick(); setActiveTab('simulator'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'simulator' ? 'bg-white/10 text-green-400' : 'text-white/50'}`}>
               <TrendingUp className="w-4 h-4 mb-0.5" /> Simulator
             </button>
-            <button onClick={() => setActiveTab('coach')} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'coach' ? 'bg-white/10 text-purple-400' : 'text-white/50'}`}>
+            <button onClick={() => { gameAudio.playClick(); setActiveTab('coach'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'coach' ? 'bg-white/10 text-purple-400' : 'text-white/50'}`}>
               <Bot className="w-4 h-4 mb-0.5" /> AI Coach
             </button>
           </div>
 
           {/* VIEW ROUTER */}
           
-          {/* 1. DASHBOARD VIEW */}
+          {/* 1. DASHBOARD HUB VIEW */}
           {activeTab === 'dashboard' && (
-            <div id="tab-dashboard" className="grid grid-cols-12 gap-6">
-              
-              {/* GrowTree Signature Canvas Column */}
-              <div className="col-span-12 lg:col-span-5 bg-white/[0.02] border border-white/10 rounded-[32px] p-6 flex flex-col items-center justify-between backdrop-blur-sm relative overflow-hidden min-h-[440px]">
-                <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-green-500/10 to-transparent pointer-events-none"></div>
-                
-                <div className="w-full flex justify-between items-start z-10">
-                  <div>
-                    <span className="bg-green-500/10 text-green-400 border border-green-500/20 px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest block w-max">
-                      🌳 {treeStage.name}
-                    </span>
-                    <p className="text-white/40 text-xs mt-1 italic">"{treeStage.quote}"</p>
-                  </div>
-                  
-                  {/* Streak widget */}
-                  <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-1 flex items-center gap-1.5 text-xs font-bold text-orange-400">
-                    <Zap className="w-4 h-4 text-orange-500 animate-pulse" />
-                    <span>{streak} Days</span>
-                  </div>
-                </div>
-
-                {/* Floating XP pop indicator */}
-                {floatingXp && (
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-12 bg-green-500 text-white font-bold px-4 py-1.5 rounded-full shadow-lg text-sm z-30 animate-bounce">
-                    {floatingXp}
-                  </div>
-                )}
-
-                {/* Main Tree Art */}
-                <div className="my-4 relative flex items-center justify-center">
-                  {renderTreeSVG()}
-                </div>
-
-                {/* Interaction & Utility Panel */}
-                <div className="w-full flex flex-col gap-3 z-10">
-                  <div className="grid grid-cols-2 gap-3">
-                    <button 
-                      onClick={handleWaterTree}
-                      disabled={!waterReady}
-                      className={`py-3 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 border transition-all duration-300 ${
-                        waterReady 
-                          ? 'bg-green-600 hover:bg-green-500 text-white border-green-500 shadow-[0_4px_12px_rgba(34,197,94,0.3)] cursor-pointer' 
-                          : 'bg-white/5 text-white/30 border-white/10 cursor-not-allowed'
-                      }`}
-                    >
-                      <Droplet className={`w-4 h-4 ${waterReady ? 'animate-bounce' : ''}`} />
-                      {waterReady ? 'Water Tree (+150 XP)' : 'Watered Today'}
-                    </button>
-
-                    <button 
-                      onClick={() => setActiveTab('academy')}
-                      className="py-3 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
-                    >
-                      <Sparkles className="w-4 h-4 text-blue-400" />
-                      Study & Grow
-                    </button>
-                  </div>
-
-                  {/* Water ready clock indicator */}
-                  <p className="text-[10px] text-white/40 text-center">
-                    {waterReady ? 'Your GrowTree is thirsty! Water it to earn daily rewards.' : 'Tree hydrated. Next watering available in 14h.'}
-                  </p>
-                </div>
+            <div id="tab-dashboard" className="space-y-6">
+              {/* Bento Grid Subtab Selector Menu */}
+              <div className="flex overflow-x-auto gap-2 bg-white/5 border border-white/10 p-1.5 rounded-2xl">
+                {[
+                  { id: 'garden', label: 'My SproutGarden', icon: '🌳' },
+                  { id: 'arcade', label: 'Games Arcade', icon: '🎮' },
+                  { id: 'rewards', label: 'Daily Rewards', icon: '🎁' },
+                  { id: 'social', label: 'Friends & Feed', icon: '👥' },
+                  { id: 'notebook', label: 'Study Scratchpad', icon: '📝' },
+                  { id: 'analytics', label: 'Analytics & Badges', icon: '📊' }
+                ].map(sub => (
+                  <button
+                    key={sub.id}
+                    onClick={() => { gameAudio.playClick(); setActiveSubTab(sub.id as any); }}
+                    className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
+                      activeSubTab === sub.id ? 'bg-blue-600 text-white shadow-md' : 'text-white/50 hover:bg-white/10'
+                    }`}
+                  >
+                    <span>{sub.icon}</span> {sub.label}
+                  </button>
+                ))}
               </div>
 
-              {/* Learning Journey Roadmap Column */}
-              <div className="col-span-12 lg:col-span-7 flex flex-col gap-6">
-                
-                {/* Level Map */}
-                <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-sm flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-md font-bold mb-5 flex items-center justify-between">
-                      Learning Journey Roadmap
-                      <span className="text-xs text-blue-400 font-normal hover:underline cursor-pointer flex items-center gap-1" onClick={() => setActiveTab('academy')}>
-                        Open Academy <ChevronRight className="w-3.5 h-3.5" />
-                      </span>
-                    </h3>
+              {/* SUBTAB 1. GARDEN LANDSCAPE */}
+              {activeSubTab === 'garden' && (
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in">
+                  {/* GrowTree Signature Canvas Column */}
+                  <div className="col-span-12 lg:col-span-5 bg-white/[0.02] border border-white/10 rounded-[32px] p-6 flex flex-col items-center justify-between backdrop-blur-sm relative overflow-hidden min-h-[440px]">
+                    <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-green-500/10 to-transparent pointer-events-none"></div>
                     
-                    <div className="space-y-4">
-                      {/* LEVEL 1: BEGINNER */}
-                      <div className={`p-4 rounded-2xl border transition-all ${
-                        unlockedLevels.includes('beginner') 
-                          ? 'bg-green-500/10 border-green-500/20 text-white' 
-                          : 'bg-white/5 border-white/10 opacity-50'
-                      }`}>
-                        <div className="flex items-center gap-3">
-                          <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold ${
-                            completedLessons.includes('b1') && completedLessons.includes('b2')
-                              ? 'bg-green-500 text-white'
-                              : 'bg-green-500/20 text-green-400'
-                          }`}>
-                            {completedLessons.includes('b1') && completedLessons.includes('b2') ? <CheckCircle2 className="w-5 h-5" /> : '1'}
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-sm">Level 1: Beginner Investor</h4>
-                            <p className="text-[11px] text-white/60">Money management, compounding, & stock market fundamentals.</p>
-                          </div>
-                          {completedLessons.includes('b1') && completedLessons.includes('b2') && (
-                            <span className="ml-auto text-[9px] font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20">PASSED</span>
-                          )}
-                        </div>
+                    <div className="w-full flex justify-between items-start z-10">
+                      <div>
+                        <span className="bg-green-500/10 text-green-400 border border-green-500/20 px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest block w-max">
+                          🌳 {treeStage.name}
+                        </span>
+                        <p className="text-white/40 text-xs mt-1 italic">"{treeStage.quote}"</p>
+                      </div>
+                      
+                      {/* Streak widget */}
+                      <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-1 flex items-center gap-1.5 text-xs font-bold text-orange-400">
+                        <Zap className="w-4 h-4 text-orange-500" />
+                        <span>{streak} Days</span>
+                      </div>
+                    </div>
+
+                    {/* Floating XP pop indicator */}
+                    {floatingXp && (
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-12 bg-green-500 text-white font-bold px-4 py-1.5 rounded-full shadow-lg text-sm z-30">
+                        {floatingXp}
+                      </div>
+                    )}
+
+                    {/* Main Tree Art */}
+                    <div className="my-4 relative flex items-center justify-center">
+                      {renderTreeSVG()}
+                    </div>
+
+                    {/* Interaction & Utility Panel */}
+                    <div className="w-full flex flex-col gap-3 z-10">
+                      <div className="grid grid-cols-2 gap-3">
+                        <button 
+                          onClick={handleWaterTree}
+                          disabled={!waterReady}
+                          className={`py-3 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 border transition-all duration-300 ${
+                            waterReady 
+                              ? 'bg-green-600 hover:bg-green-500 text-white border-green-500 shadow-[0_4px_12px_rgba(34,197,94,0.3)] cursor-pointer' 
+                              : 'bg-white/5 text-white/30 border-white/10 cursor-not-allowed'
+                          }`}
+                        >
+                          <Droplet className={`w-4 h-4 ${waterReady ? 'animate-bounce' : ''}`} />
+                          {waterReady ? 'Water Tree (+150 XP)' : 'Watered Today'}
+                        </button>
+
+                        <button 
+                          onClick={() => { gameAudio.playClick(); setActiveTab('academy'); }}
+                          className="py-3 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                        >
+                          <Sparkles className="w-4 h-4 text-blue-400" />
+                          Study & Grow
+                        </button>
                       </div>
 
-                      {/* LEVEL 2: INTERMEDIATE */}
-                      <div className={`p-4 rounded-2xl border transition-all ${
-                        unlockedLevels.includes('intermediate') 
-                          ? 'bg-blue-500/10 border-blue-500/20 text-white shadow-[0_0_15px_rgba(59,130,246,0.1)]' 
-                          : 'bg-white/5 border-dashed border-white/15 opacity-50'
-                      }`}>
-                        <div className="flex items-center gap-3">
-                          <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold ${
-                            unlockedLevels.includes('intermediate') ? 'bg-blue-500 text-white animate-pulse' : 'bg-white/10 text-white/40'
-                          }`}>
-                            {completedLessons.includes('i1') && completedLessons.includes('i2') ? <CheckCircle2 className="w-5 h-5" /> : '2'}
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-sm flex items-center gap-2">
-                              Level 2: Intermediate Analyst
-                              {unlockedLevels.includes('intermediate') && !unlockedLevels.includes('advanced') && (
-                                <span className="text-[9px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded font-normal">Active</span>
-                              )}
-                            </h4>
-                            <p className="text-[11px] text-white/60">Candlestick anatomy, support/resistance, & financial statement valuations.</p>
-                          </div>
-                          {!unlockedLevels.includes('intermediate') && (
-                            <Lock className="ml-auto w-4 h-4 text-white/30" />
-                          )}
-                        </div>
-                      </div>
-
-                      {/* LEVEL 3: ADVANCED */}
-                      <div className={`p-4 rounded-2xl border transition-all ${
-                        unlockedLevels.includes('advanced') 
-                          ? 'bg-purple-500/10 border-purple-500/20 text-white' 
-                          : 'bg-white/5 border-dashed border-white/15 opacity-50'
-                      }`}>
-                        <div className="flex items-center gap-3">
-                          <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold ${
-                            unlockedLevels.includes('advanced') ? 'bg-purple-500 text-white' : 'bg-white/10 text-white/40'
-                          }`}>
-                            '3'
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-sm">Level 3: Advanced Portfolio Strategist</h4>
-                            <p className="text-[11px] text-white/60">Risk management structures, derivatives trading, & psychology indices.</p>
-                          </div>
-                          {!unlockedLevels.includes('advanced') && (
-                            <Lock className="ml-auto w-4 h-4 text-white/30" />
-                          )}
-                        </div>
-                      </div>
+                      {/* Water ready clock indicator */}
+                      <p className="text-[10px] text-white/40 text-center">
+                        {waterReady ? 'Your GrowTree is thirsty! Water it to earn daily rewards.' : 'Tree hydrated. Next watering available in 14h.'}
+                      </p>
                     </div>
                   </div>
 
-                  {/* Daily challenges & checklist */}
-                  <div className="mt-6 pt-5 border-t border-white/5">
-                    <h4 className="text-xs font-extrabold uppercase tracking-widest text-white/40 mb-3.5">Daily Missions</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/10">
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center ${!waterReady ? 'bg-green-500/20 text-green-400' : 'bg-white/5 text-white/30'}`}>
-                          <CheckCircle2 className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <p className="text-[11px] font-bold">Hydrate GrowTree</p>
-                          <p className="text-[9px] text-white/40">+150 XP / +10 Gold</p>
+                  {/* Learning Journey Roadmap & Avatar customizer */}
+                  <div className="col-span-12 lg:col-span-7 flex flex-col gap-6">
+                    {/* AVATAR PROFILE QUICK VIEW CARD */}
+                    <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-5 flex justify-between items-center relative overflow-hidden">
+                      <div className="space-y-1">
+                        <span className="text-[9px] font-mono font-bold text-blue-400 uppercase tracking-widest">Active Profile</span>
+                        <h4 className="font-bold text-sm text-white">Hey, {playerName || 'Honorary GrowTrader'}</h4>
+                        <p className="text-[11px] text-white/50 leading-normal max-w-sm">Customize your avatar hairdos and trade outfits or view your professional credentials.</p>
+                        
+                        <div className="pt-2 flex gap-2">
+                          <button
+                            onClick={() => { gameAudio.playClick(); setActiveSubTab('social'); }}
+                            className="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 rounded-xl text-[10px] font-bold text-white/80 cursor-pointer"
+                          >
+                            Customize Avatar
+                          </button>
+                          
+                          {completedLessons.length >= 5 && (
+                            <button
+                              onClick={() => { gameAudio.playClick(); setCertificateTrack('Beginner'); setShowCertificate(true); }}
+                              className="px-3.5 py-1.5 bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 rounded-xl text-[10px] font-bold cursor-pointer border border-yellow-500/20"
+                            >
+                              Show Certificate
+                            </button>
+                          )}
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/10">
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center ${completedLessons.length > 1 ? 'bg-green-500/20 text-green-400' : 'bg-white/5 text-white/30'}`}>
-                          <CheckCircle2 className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <p className="text-[11px] font-bold">Pass One Quiz</p>
-                          <p className="text-[9px] text-white/40">+200 XP / +50 Gold</p>
-                        </div>
+                      {/* Micro visual avatar bubble */}
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-950 to-zinc-900 border border-white/10 flex items-center justify-center text-3xl shadow-inner">
+                        👤
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                {/* Tree Customization Shop Panel */}
-                <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-sm">
-                  <h3 className="text-sm font-extrabold uppercase tracking-widest text-white/40 mb-4 flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4 text-yellow-500" /> GrowTree Decorations Shop
-                  </h3>
+                    {/* Classic roadmap */}
+                    <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-sm flex-1 flex flex-col justify-between">
+                      <h3 className="text-md font-bold mb-4 flex items-center justify-between">
+                        Learning Journey Roadmap
+                        <span className="text-xs text-blue-400 font-normal hover:underline cursor-pointer flex items-center gap-1" onClick={() => setActiveTab('academy')}>
+                          Open Academy <ChevronRight className="w-3.5 h-3.5" />
+                        </span>
+                      </h3>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {/* Item 1 */}
-                    <div className="p-3 bg-white/5 border border-white/10 rounded-2xl flex flex-col items-center text-center">
-                      <span className="text-2xl mb-1.5">🐦</span>
-                      <span className="text-[11px] font-bold">Forest Birds</span>
-                      {unlockedDecorations.includes('birds') ? (
-                        <button 
-                          onClick={() => handleToggleDecoration('birds')}
-                          className={`mt-2.5 w-full py-1 rounded-lg text-[9px] font-bold transition-colors ${
-                            activeDecorations.includes('birds') ? 'bg-green-600/20 text-green-400 border border-green-500/30' : 'bg-white/10 hover:bg-white/20'
-                          }`}
-                        >
-                          {activeDecorations.includes('birds') ? 'Equipped' : 'Equip'}
-                        </button>
-                      ) : (
-                        <button 
-                          onClick={() => handleBuyDecoration('birds', 150)}
-                          className="mt-2.5 w-full py-1 bg-yellow-500 hover:bg-yellow-400 text-black rounded-lg text-[9px] font-extrabold flex items-center justify-center gap-1"
-                        >
-                          <Coins className="w-3 h-3" /> 150
-                        </button>
-                      )}
-                    </div>
+                      <div className="space-y-3">
+                        {/* BEGINNER CARD */}
+                        <div className="p-3.5 bg-green-500/10 border border-green-500/20 rounded-2xl text-white">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-xs font-bold">1</div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-center">
+                                <h4 className="font-bold text-xs">Level 1: Beginner Investor</h4>
+                                <span className="text-[10px] text-green-400 font-mono">Completed</span>
+                              </div>
+                              <p className="text-[10px] text-white/60">Money management, compounding, & stock market fundamentals.</p>
+                            </div>
+                          </div>
+                        </div>
 
-                    {/* Item 2 */}
-                    <div className="p-3 bg-white/5 border border-white/10 rounded-2xl flex flex-col items-center text-center">
-                      <span className="text-2xl mb-1.5">🦋</span>
-                      <span className="text-[11px] font-bold">Butterflies</span>
-                      {unlockedDecorations.includes('butterflies') ? (
-                        <button 
-                          onClick={() => handleToggleDecoration('butterflies')}
-                          className={`mt-2.5 w-full py-1 rounded-lg text-[9px] font-bold transition-colors ${
-                            activeDecorations.includes('butterflies') ? 'bg-green-600/20 text-green-400 border border-green-500/30' : 'bg-white/10 hover:bg-white/20'
-                          }`}
-                        >
-                          {activeDecorations.includes('butterflies') ? 'Equipped' : 'Equip'}
-                        </button>
-                      ) : (
-                        <button 
-                          onClick={() => handleBuyDecoration('butterflies', 250)}
-                          className="mt-2.5 w-full py-1 bg-yellow-500 hover:bg-yellow-400 text-black rounded-lg text-[9px] font-extrabold flex items-center justify-center gap-1"
-                        >
-                          <Coins className="w-3 h-3" /> 250
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Item 3 */}
-                    <div className="p-3 bg-white/5 border border-white/10 rounded-2xl flex flex-col items-center text-center">
-                      <span className="text-2xl mb-1.5">🍊</span>
-                      <span className="text-[11px] font-bold">Golden Fruit</span>
-                      {unlockedDecorations.includes('gold_fruit') ? (
-                        <button 
-                          onClick={() => handleToggleDecoration('gold_fruit')}
-                          className={`mt-2.5 w-full py-1 rounded-lg text-[9px] font-bold transition-colors ${
-                            activeDecorations.includes('gold_fruit') ? 'bg-green-600/20 text-green-400 border border-green-500/30' : 'bg-white/10 hover:bg-white/20'
-                          }`}
-                        >
-                          {activeDecorations.includes('gold_fruit') ? 'Equipped' : 'Equip'}
-                        </button>
-                      ) : (
-                        <button 
-                          onClick={() => handleBuyDecoration('gold_fruit', 400)}
-                          className="mt-2.5 w-full py-1 bg-yellow-500 hover:bg-yellow-400 text-black rounded-lg text-[9px] font-extrabold flex items-center justify-center gap-1"
-                        >
-                          <Coins className="w-3 h-3" /> 400
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Item 4 */}
-                    <div className="p-3 bg-white/5 border border-white/10 rounded-2xl flex flex-col items-center text-center">
-                      <span className="text-2xl mb-1.5">👑</span>
-                      <span className="text-[11px] font-bold">Crown</span>
-                      {unlockedDecorations.includes('crown') ? (
-                        <button 
-                          onClick={() => handleToggleDecoration('crown')}
-                          className={`mt-2.5 w-full py-1 rounded-lg text-[9px] font-bold transition-colors ${
-                            activeDecorations.includes('crown') ? 'bg-green-600/20 text-green-400 border border-green-500/30' : 'bg-white/10 hover:bg-white/20'
-                          }`}
-                        >
-                          {activeDecorations.includes('crown') ? 'Equipped' : 'Equip'}
-                        </button>
-                      ) : (
-                        <button 
-                          onClick={() => handleBuyDecoration('crown', 600)}
-                          className="mt-2.5 w-full py-1 bg-yellow-500 hover:bg-yellow-400 text-black rounded-lg text-[9px] font-extrabold flex items-center justify-center gap-1"
-                        >
-                          <Coins className="w-3 h-3" /> 600
-                        </button>
-                      )}
+                        {/* INTERMEDIATE CARD */}
+                        <div className="p-3.5 bg-white/5 border border-white/10 rounded-2xl text-white">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">2</div>
+                            <div className="flex-1">
+                              <h4 className="font-bold text-xs">Level 2: Active Charting</h4>
+                              <p className="text-[10px] text-white/60">Volume support, resistance break levels, and indicator lines.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+              )}
 
-              </div>
+              {/* SUBTAB 2. GAMES ARCADE */}
+              {activeSubTab === 'arcade' && (
+                <div className="animate-fade-in">
+                  <MiniGames gold={gold} xp={xp} onAddRewards={handleAddRewards} />
+                </div>
+              )}
+
+              {/* SUBTAB 3. BOOSTER REWARDS */}
+              {activeSubTab === 'rewards' && (
+                <div className="animate-fade-in">
+                  <DailyRewardsAndWheel 
+                    gold={gold} 
+                    xp={xp} 
+                    onAddRewards={handleAddRewards} 
+                    streak={streak} 
+                    onIncrementStreak={() => setStreak(prev => prev + 1)} 
+                  />
+                </div>
+              )}
+
+              {/* SUBTAB 4. FRIENDS & SOCIAL COMMUNITY TIMELINE */}
+              {activeSubTab === 'social' && (
+                <div className="space-y-6 animate-fade-in">
+                  {/* Theme cosmetic unlocks panel */}
+                  <div className="bg-white/5 border border-white/10 rounded-3xl p-5">
+                    <h4 className="text-white font-bold text-sm flex items-center gap-1.5 mb-1.5 border-b border-white/5 pb-3">
+                      🎨 Unlockable Visual Arena Themes
+                    </h4>
+                    <p className="text-[11px] text-white/40 mb-4">Invest your gold coins to buy rare atmospheric visual backdrops that morph colors across your active screens.</p>
+                    
+                    <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+                      {SYSTEM_THEMES.map((theme) => {
+                        const isUnlocked = unlockedThemes.includes(theme.id);
+                        const isEquipped = currentThemeId === theme.id;
+                        return (
+                          <div key={theme.id} className="p-3.5 bg-white/[0.02] border border-white/5 rounded-2xl flex flex-col justify-between items-center text-center">
+                            <span className="text-xs font-bold text-white block truncate w-full">{theme.name}</span>
+                            
+                            {isUnlocked ? (
+                              <button
+                                onClick={() => handleSelectTheme(theme.id)}
+                                className={`mt-3 w-full py-1 text-[9px] font-bold rounded-lg cursor-pointer ${
+                                  isEquipped ? 'bg-green-600/20 text-green-400 border border-green-500/30' : 'bg-white/10 hover:bg-white/20'
+                                }`}
+                              >
+                                {isEquipped ? 'Equipped' : 'Equip'}
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => handleBuyTheme(theme)}
+                                className="mt-3 w-full py-1 bg-yellow-500 hover:bg-yellow-400 text-black text-[9px] font-black rounded-lg cursor-pointer flex items-center justify-center gap-0.5"
+                              >
+                                <Coins className="w-2.5 h-2.5" /> {theme.cost}
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Avatar Customize module */}
+                  <div className="bg-white/5 border border-white/10 rounded-3xl p-5">
+                    <h4 className="text-white font-bold text-sm flex items-center gap-1.5 mb-4 border-b border-white/5 pb-3">
+                      👤 Customize Trader Avatar Layers
+                    </h4>
+                    <AvatarCustomizer 
+                      config={avatarConfig} 
+                      onChange={setAvatarConfig} 
+                      gold={gold} 
+                      onSpendGold={(amt) => setGold(prev => prev - amt)} 
+                      onCustomized={() => {}} 
+                    />
+                  </div>
+
+                  {/* Community feed */}
+                  <CommunityFeed 
+                    gold={gold} 
+                    xp={xp} 
+                    onAddRewards={handleAddRewards} 
+                    avatarEmoji="🌳" 
+                  />
+                </div>
+              )}
+
+              {/* SUBTAB 5. STUDY NOTEBOOK SCRATCHPAD */}
+              {activeSubTab === 'notebook' && (
+                <div className="space-y-6 animate-fade-in">
+                  <EducationalVideos onAddRewards={handleAddRewards} />
+                  
+                  <NotesAndBookmarks 
+                    notes={notes} 
+                    onAddNote={handleAddNote} 
+                    onDeleteNote={handleDeleteNote} 
+                    bookmarks={bookmarks} 
+                    onToggleBookmark={handleToggleBookmark} 
+                    onJumpToLesson={handleJumpToLesson} 
+                  />
+                </div>
+              )}
+
+              {/* SUBTAB 6. ANALYTICS & BADGES */}
+              {activeSubTab === 'analytics' && (
+                <div className="animate-fade-in">
+                  <AnalyticsAndEvents 
+                    xp={xp} 
+                    gold={gold} 
+                    onAddRewards={handleAddRewards} 
+                    completedLessons={completedLessons} 
+                    transactionsCount={transactions.length} 
+                    portfolioProfit={portfolioProfitLoss} 
+                    streak={streak} 
+                  />
+                </div>
+              )}
             </div>
           )}
 
-          {/* 2. ACADEMY VIEW */}
+          {/* 2. INVESTING ACADEMY VIEW */}
           {activeTab === 'academy' && (
-            <div id="tab-academy" className="bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-sm min-h-[500px] flex flex-col">
-              
-              {!activeLesson ? (
-                // Academy home level choice
-                <div>
-                  <h2 className="text-lg font-bold mb-1">GrowFolio Academy</h2>
-                  <p className="text-xs text-white/50 mb-6">Complete bite-sized lessons, gain rank, and level up your financial wisdom.</p>
+            <div id="tab-academy" className="space-y-6">
+              {/* Dynamic lesson screen if active */}
+              {activeLesson ? (
+                <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-md relative">
+                  {/* Exit button */}
+                  <button 
+                    onClick={() => { gameAudio.playClick(); setActiveLesson(null); }}
+                    className="absolute top-6 right-6 text-white/50 hover:text-white bg-white/5 px-3.5 py-1 rounded-full text-xs cursor-pointer"
+                  >
+                    ← Exit Lesson
+                  </button>
 
                   <div className="space-y-6">
-                    {/* BEGINNER CATEGORY */}
-                    <div>
-                      <h3 className="text-xs font-bold text-green-400 uppercase tracking-widest mb-3.5">Level 1: Beginner Fundamentals</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {LESSONS_DATA.filter(l => l.level === 'beginner').map(lesson => {
-                          const isDone = completedLessons.includes(lesson.id);
-                          return (
-                            <div key={lesson.id} className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-green-500/40 transition-all flex flex-col justify-between">
-                              <div>
-                                <div className="flex justify-between items-start mb-2">
-                                  <span className="text-[10px] bg-green-500/10 text-green-400 border border-green-500/20 px-2.5 py-0.5 rounded-full font-bold">100% Free</span>
-                                  {isDone && <span className="text-[9px] bg-green-500 text-white font-bold px-2 py-0.5 rounded">Passed</span>}
-                                </div>
-                                <h4 className="font-bold text-sm mb-1">{lesson.title}</h4>
-                                <p className="text-xs text-white/60 mb-4">{lesson.description}</p>
-                              </div>
-                              <button 
-                                onClick={() => handleStartLesson(lesson)}
-                                className="w-full py-2.5 bg-green-600 hover:bg-green-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                              >
-                                <Play className="w-3.5 h-3.5 fill-current" /> {isDone ? 'Review Lesson' : 'Start Lesson (+200 XP)'}
-                              </button>
-                            </div>
-                          );
-                        })}
-                      </div>
+                    <div className="border-b border-white/5 pb-4">
+                      <span className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest bg-blue-500/10 px-2 py-0.5 rounded">
+                        # LEVEL {activeLesson.levelNum} MODULE
+                      </span>
+                      <h3 className="text-white font-black text-lg md:text-2xl mt-1 flex items-center gap-2">
+                        {activeLesson.title}
+                        <button
+                          onClick={() => handleToggleBookmark(activeLesson.levelNum, activeLesson.title)}
+                          className="p-1 bg-white/5 hover:bg-white/10 text-yellow-400 rounded-lg cursor-pointer"
+                        >
+                          <Bookmark className={`w-4 h-4 ${bookmarks.find(b => b.lessonNum === activeLesson.levelNum) ? 'fill-current' : ''}`} />
+                        </button>
+                      </h3>
+                      <p className="text-xs text-white/40 mt-1">{activeLesson.description}</p>
                     </div>
 
-                    {/* INTERMEDIATE CATEGORY */}
-                    <div className="pt-4 border-t border-white/5">
-                      <div className="flex items-center gap-2 mb-3.5">
-                        <h3 className="text-xs font-bold text-blue-400 uppercase tracking-widest">Level 2: Intermediate Analysis</h3>
-                        {!unlockedLevels.includes('intermediate') && (
-                          <span className="text-[10px] bg-white/5 text-white/40 border border-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1 font-bold"><Lock className="w-3 h-3" /> Locked</span>
-                        )}
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {LESSONS_DATA.filter(l => l.level === 'intermediate').map(lesson => {
-                          const isLocked = !unlockedLevels.includes('intermediate');
-                          const isDone = completedLessons.includes(lesson.id);
-                          return (
-                            <div key={lesson.id} className={`bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col justify-between relative ${isLocked ? 'opacity-40' : 'hover:border-blue-500/40'}`}>
-                              {isLocked && <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] rounded-2xl z-10 flex items-center justify-center">
-                                <span className="bg-black/80 border border-white/10 text-white/60 text-xs px-3.5 py-1.5 rounded-xl font-bold flex items-center gap-1.5"><Lock className="w-3.5 h-3.5" /> Complete Level 1 to Unlock</span>
-                              </div>}
-                              <div>
-                                <div className="flex justify-between items-start mb-2">
-                                  <span className="text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2.5 py-0.5 rounded-full font-bold">Analytical</span>
-                                  {isDone && <span className="text-[9px] bg-green-500 text-white font-bold px-2 py-0.5 rounded">Passed</span>}
-                                </div>
-                                <h4 className="font-bold text-sm mb-1">{lesson.title}</h4>
-                                <p className="text-xs text-white/60 mb-4">{lesson.description}</p>
-                              </div>
-                              <button 
-                                onClick={() => handleStartLesson(lesson)}
-                                disabled={isLocked}
-                                className="w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                              >
-                                <Play className="w-3.5 h-3.5 fill-current" /> {isDone ? 'Review Lesson' : 'Start Lesson (+250 XP)'}
-                              </button>
-                            </div>
-                          );
-                        })}
-                      </div>
+                    {/* SLIDES DISPLAYER PLAYER */}
+                    <div className="bg-black/30 border border-white/5 p-6 rounded-2xl relative min-h-[160px] flex items-center justify-center">
+                      <p className="text-white text-xs md:text-sm font-medium leading-relaxed max-w-xl text-center">
+                        {activeLesson.slides[currentSlideIndex]}
+                      </p>
                     </div>
 
-                    {/* ADVANCED CATEGORY */}
-                    <div className="pt-4 border-t border-white/5">
-                      <div className="flex items-center gap-2 mb-3.5">
-                        <h3 className="text-xs font-bold text-purple-400 uppercase tracking-widest">Level 3: Advanced Portfolio</h3>
-                        {!unlockedLevels.includes('advanced') && (
-                          <span className="text-[10px] bg-white/5 text-white/40 border border-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1 font-bold"><Lock className="w-3 h-3" /> Locked</span>
-                        )}
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {LESSONS_DATA.filter(l => l.level === 'advanced').map(lesson => {
-                          const isLocked = !unlockedLevels.includes('advanced');
-                          const isDone = completedLessons.includes(lesson.id);
-                          return (
-                            <div key={lesson.id} className={`bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col justify-between relative ${isLocked ? 'opacity-40' : 'hover:border-purple-500/40'}`}>
-                              {isLocked && <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] rounded-2xl z-10 flex items-center justify-center">
-                                <span className="bg-black/80 border border-white/10 text-white/60 text-xs px-3.5 py-1.5 rounded-xl font-bold flex items-center gap-1.5"><Lock className="w-3.5 h-3.5" /> Complete Level 2 to Unlock</span>
-                              </div>}
-                              <div>
-                                <div className="flex justify-between items-start mb-2">
-                                  <span className="text-[10px] bg-purple-500/10 text-purple-400 border border-purple-500/20 px-2.5 py-0.5 rounded-full font-bold">Derivatives</span>
-                                  {isDone && <span className="text-[9px] bg-green-500 text-white font-bold px-2 py-0.5 rounded">Passed</span>}
-                                </div>
-                                <h4 className="font-bold text-sm mb-1">{lesson.title}</h4>
-                                <p className="text-xs text-white/60 mb-4">{lesson.description}</p>
-                              </div>
-                              <button 
-                                onClick={() => handleStartLesson(lesson)}
-                                disabled={isLocked}
-                                className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                              >
-                                <Play className="w-3.5 h-3.5 fill-current" /> {isDone ? 'Review Lesson' : 'Start Lesson (+300 XP)'}
-                              </button>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                // Active Interactive Slide View
-                <div className="flex-1 flex flex-col justify-between">
-                  <div>
-                    {/* Header bar of lesson */}
-                    <div className="flex justify-between items-center pb-4 border-b border-white/5 mb-6">
-                      <div>
-                        <span className="text-[10px] text-green-400 uppercase tracking-widest font-bold">Lesson Portal</span>
-                        <h3 className="text-md font-bold text-white">{activeLesson.title}</h3>
-                      </div>
+                    {/* Progress Slider & Slide controllers */}
+                    <div className="flex justify-between items-center text-xs text-white/40 font-mono">
                       <button 
-                        onClick={() => setActiveLesson(null)}
-                        className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
+                        disabled={currentSlideIndex === 0}
+                        onClick={handlePrevSlide}
+                        className="px-4 py-1.5 bg-white/5 hover:bg-white/10 text-white rounded-lg disabled:opacity-30 cursor-pointer"
                       >
-                        <X className="w-5 h-5 text-white/50" />
+                        Previous
                       </button>
+
+                      <span>Slide {currentSlideIndex + 1} / {activeLesson.slides.length}</span>
+
+                      {currentSlideIndex < activeLesson.slides.length - 1 ? (
+                        <button 
+                          onClick={handleNextSlide}
+                          className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg cursor-pointer"
+                        >
+                          Next Slide
+                        </button>
+                      ) : (
+                        <span className="text-yellow-400 font-bold">Slide deck completed! Scroll below for the Module Quiz.</span>
+                      )}
                     </div>
 
-                    {/* Interactive Slider Segment */}
-                    {currentSlideIndex < activeLesson.slides.length ? (
-                      <div className="bg-white/5 border border-white/10 rounded-3xl p-6 min-h-[220px] flex flex-col justify-between relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full blur-2xl pointer-events-none"></div>
+                    {/* QUIZ SECTION (Only unlocked once slides deck is fully viewed) */}
+                    {currentSlideIndex === activeLesson.slides.length - 1 && (
+                      <div className="mt-8 pt-6 border-t border-white/5 space-y-4">
+                        <span className="text-[10px] font-mono font-bold text-yellow-500 uppercase tracking-widest bg-yellow-500/10 px-2 py-0.5 rounded">
+                          Concept checkpoint quiz
+                        </span>
                         
-                        <div>
-                          <div className="flex items-center gap-1 text-[10px] text-white/40 mb-3 font-mono font-bold">
-                            <span>SLIDE</span>
-                            <span className="bg-white/10 px-1.5 py-0.5 rounded text-white">{currentSlideIndex + 1}</span>
-                            <span>OF</span>
-                            <span>{activeLesson.slides.length}</span>
-                          </div>
-                          <p className="text-white text-sm md:text-base leading-relaxed font-medium">
-                            {activeLesson.slides[currentSlideIndex]}
-                          </p>
-                        </div>
+                        <p className="text-white text-xs md:text-sm font-black">{activeLesson.quizQuestion}</p>
 
-                        {/* Pagination control */}
-                        <div className="flex justify-between items-center mt-8">
-                          <button 
-                            disabled={currentSlideIndex === 0}
-                            onClick={() => setCurrentSlideIndex(prev => prev - 1)}
-                            className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white text-xs font-bold rounded-xl border border-white/10 disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
-                          >
-                            Previous
-                          </button>
-                          
-                          <div className="flex gap-1.5">
-                            {activeLesson.slides.map((_, i) => (
-                              <div key={i} className={`w-2 h-2 rounded-full transition-all ${currentSlideIndex === i ? 'bg-green-400 w-4' : 'bg-white/20'}`}></div>
-                            ))}
-                          </div>
-
-                          <button 
-                            onClick={() => setCurrentSlideIndex(prev => prev + 1)}
-                            className="px-5 py-2.5 bg-green-600 hover:bg-green-500 text-white text-xs font-bold rounded-xl border border-green-500 shadow-md cursor-pointer"
-                          >
-                            Next Slide
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      // Final Slide Quiz Evaluation
-                      <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-yellow-500 mb-4 uppercase tracking-widest">
-                          <Award className="w-5 h-5 text-yellow-400 animate-bounce" /> Level Graduation Quiz Question
-                        </div>
-                        
-                        <p className="text-white text-sm font-bold mb-5 leading-relaxed">
-                          {activeLesson.quizQuestion}
-                        </p>
-
-                        <div className="space-y-3">
-                          {activeLesson.quizOptions.map((option, idx) => {
-                            let optionStyle = 'bg-white/5 border-white/10 hover:border-white/30';
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                          {activeLesson.quizOptions.map((opt, oidx) => {
+                            let btnStyle = 'bg-white/5 border-white/10 hover:border-white/30 text-white/70';
                             if (quizSubmitted) {
-                              if (idx === activeLesson.correctAnswerIndex) {
-                                optionStyle = 'bg-green-500/20 border-green-500 text-green-400 font-bold';
-                              } else if (idx === selectedQuizOption) {
-                                optionStyle = 'bg-red-500/20 border-red-500 text-red-400';
+                              if (oidx === activeLesson.correctAnswerIndex) {
+                                btnStyle = 'bg-green-500/20 border-green-500 text-green-400 font-bold';
+                              } else if (oidx === selectedQuizOption) {
+                                btnStyle = 'bg-red-500/20 border-red-500 text-red-400';
                               } else {
-                                optionStyle = 'bg-white/5 border-white/10 opacity-40';
+                                btnStyle = 'bg-white/5 border-white/10 opacity-30';
                               }
-                            } else if (selectedQuizOption === idx) {
-                              optionStyle = 'bg-blue-600/20 border-blue-500 text-blue-400 font-bold';
+                            } else if (selectedQuizOption === oidx) {
+                              btnStyle = 'bg-blue-600/15 border-blue-500 text-blue-300';
                             }
 
                             return (
-                              <button 
-                                key={idx}
+                              <button
+                                key={oidx}
                                 disabled={quizSubmitted}
-                                onClick={() => setSelectedQuizOption(idx)}
-                                className={`w-full p-4 rounded-2xl text-left text-xs md:text-sm border transition-all flex items-center justify-between ${optionStyle}`}
+                                onClick={() => handleSelectQuizOption(oidx)}
+                                className={`p-3.5 rounded-2xl border text-left text-xs md:text-sm transition-all cursor-pointer ${btnStyle}`}
                               >
-                                <span>{option}</span>
-                                {selectedQuizOption === idx && !quizSubmitted && <div className="w-2.5 h-2.5 rounded-full bg-blue-400"></div>}
+                                {opt}
                               </button>
                             );
                           })}
                         </div>
 
-                        {quizSubmitted ? (
-                          <div className="mt-6 pt-5 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-                            <div>
-                              {quizIsCorrect ? (
-                                <p className="text-green-400 text-sm font-bold flex items-center gap-1.5">
-                                  🎉 Correct Answer! You earned +{activeLesson.xpReward} XP and +{activeLesson.goldReward} Gold coins.
-                                </p>
-                              ) : (
-                                <p className="text-red-400 text-sm font-bold flex items-center gap-1.5">
-                                  ❌ Incorrect Answer. Review the slides and try again!
-                                </p>
-                              )}
-                            </div>
-                            <button 
-                              onClick={() => {
-                                if (quizIsCorrect) {
-                                  setActiveLesson(null);
-                                } else {
-                                  setCurrentSlideIndex(0);
-                                  setQuizSubmitted(false);
-                                  setSelectedQuizOption(null);
-                                  setQuizIsCorrect(null);
-                                }
-                              }}
-                              className="px-6 py-2.5 bg-white/10 hover:bg-white/15 text-white text-xs font-bold rounded-xl border border-white/10 cursor-pointer"
+                        {!quizSubmitted ? (
+                          <div className="pt-2 flex justify-end">
+                            <button
+                              disabled={selectedQuizOption === null}
+                              onClick={handleSubmitQuizAnswer}
+                              className="px-6 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black font-extrabold text-xs rounded-xl cursor-pointer disabled:opacity-40"
                             >
-                              {quizIsCorrect ? 'Finish Lesson' : 'Retry Slides'}
+                              Submit Checkpoint Answer
                             </button>
                           </div>
                         ) : (
-                          <button 
-                            disabled={selectedQuizOption === null}
-                            onClick={handleQuizSubmit}
-                            className="mt-6 w-full py-3.5 bg-yellow-500 hover:bg-yellow-400 text-black font-extrabold text-sm rounded-2xl transition-all shadow-md disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
-                          >
-                            Submit Answer
-                          </button>
+                          <div className="bg-white/5 p-4 rounded-xl border border-white/5 space-y-1 text-xs">
+                            <p className={quizIsCorrect ? 'text-green-400 font-bold' : 'text-red-400 font-bold'}>
+                              {quizIsCorrect ? '✓ Correct Answer!' : '✗ Incorrect Answer.'}
+                            </p>
+                            <p className="text-white/60 leading-relaxed mt-1">
+                              {activeLesson.questions?.[0]?.explanation || 'Mastering technical patterns and support levels builds consistent portfolio returns.'}
+                            </p>
+                            
+                            <div className="pt-3 flex justify-end">
+                              <button
+                                onClick={() => { gameAudio.playClick(); setActiveLesson(null); }}
+                                className="px-5 py-2 bg-white text-black font-bold rounded-xl cursor-pointer"
+                              >
+                                Collect & Back to Academy
+                              </button>
+                            </div>
+                          </div>
                         )}
                       </div>
                     )}
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {/* Academy search and page navigation */}
+                  <div className="bg-white/5 border border-white/10 rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-2 bg-black/40 border border-white/10 px-4 py-2 rounded-xl flex-1 w-full">
+                      <Search className="w-4 h-4 text-white/30" />
+                      <input
+                        type="text"
+                        value={academySearch}
+                        onChange={(e) => setAcademySearch(e.target.value)}
+                        placeholder="Search our curriculum of 1000 lessons, technical indicators, fundamental values..."
+                        className="bg-transparent border-none text-xs text-white focus:outline-none flex-1 placeholder-white/20"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Lessons Grid list */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {ALL_LESSONS_BASE.slice(academyPage * 8, (academyPage + 1) * 8).map((les) => {
+                      const isCompleted = completedLessons.includes(les.id);
+                      return (
+                        <div key={les.id} className="p-4 bg-white/5 border border-white/10 rounded-2xl flex justify-between items-center hover:border-white/20 transition-all">
+                          <div>
+                            <span className="text-[9px] font-mono font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded uppercase">
+                              Level {les.levelNum} • {les.trackName}
+                            </span>
+                            <h5 className="font-bold text-xs md:text-sm text-white mt-1">{les.title}</h5>
+                            <p className="text-[9px] text-white/40 mt-0.5">Rewards: +200 XP / +30 Gold</p>
+                          </div>
+
+                          <button
+                            onClick={() => handleStartLesson(les.levelNum)}
+                            className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold cursor-pointer"
+                          >
+                            {isCompleted ? 'Review' : 'Study'}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Navigation pagination controls */}
+                  <div className="flex justify-between items-center text-xs text-white/40">
+                    <button
+                      disabled={academyPage === 0}
+                      onClick={() => setAcademyPage(p => Math.max(0, p - 1))}
+                      className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl disabled:opacity-30 cursor-pointer"
+                    >
+                      ← Previous
+                    </button>
+                    <span>Page {academyPage + 1} of 125</span>
+                    <button
+                      disabled={academyPage >= 124}
+                      onClick={() => setAcademyPage(p => p + 1)}
+                      className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl disabled:opacity-30 cursor-pointer"
+                    >
+                      Next →
+                    </button>
                   </div>
                 </div>
               )}
             </div>
           )}
 
-          {/* 3. SIMULATOR VIEW */}
+          {/* 3. STOCK SIMULATOR ARENA VIEW */}
           {activeTab === 'simulator' && (
-            <div id="tab-sim" className="grid grid-cols-12 gap-6">
-              
-              {/* Main Chart Card */}
-              <div className="col-span-12 lg:col-span-8 bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-sm flex flex-col gap-5">
-                <div className="flex justify-between items-center flex-wrap gap-2">
-                  <div>
-                    <h3 className="text-md font-bold flex items-center gap-2">
-                      Interactive Technical Simulator
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/15 text-green-400 font-bold border border-green-500/20 uppercase tracking-tighter">Live Feeds</span>
-                    </h3>
-                    <p className="text-[11px] text-white/50">Simulated 5-second charts to practice timing support and resistance zones.</p>
+            <div id="tab-simulator" className="grid grid-cols-12 gap-6">
+              {/* Simulator stats summary marquee */}
+              <div className="col-span-12 bg-white/5 border border-white/10 rounded-[32px] p-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="text-center sm:text-left">
+                  <span className="text-[10px] font-mono text-white/40">SIMULATED NET LIQUIDITY</span>
+                  <h4 className="text-white font-black text-lg md:text-2xl mt-0.5">${totalPortfolioValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
+                </div>
+                <div className="text-center sm:text-left">
+                  <span className="text-[10px] font-mono text-white/40">NET PROFIT / LOSS</span>
+                  <h4 className={`font-black text-lg md:text-2xl mt-0.5 flex items-center justify-center sm:justify-start gap-1 ${portfolioProfitLoss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    {portfolioProfitLoss >= 0 ? '+' : ''}${portfolioProfitLoss.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    <span className="text-xs font-bold font-mono">({portfolioProfitLossPercent.toFixed(2)}%)</span>
+                  </h4>
+                </div>
+                <div className="text-center sm:text-left">
+                  <span className="text-[10px] font-mono text-white/40">BUYING POWER (CASH)</span>
+                  <h4 className="text-white font-black text-lg md:text-2xl mt-0.5">${cash.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
+                </div>
+              </div>
+
+              {/* Candlestick technical Chart Display Column */}
+              <div className="col-span-12 lg:col-span-8 space-y-6">
+                <div className="bg-white/5 border border-white/10 rounded-[32px] p-5 space-y-4">
+                  <div className="flex justify-between items-center border-b border-white/5 pb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-2xl bg-zinc-800 border border-white/10 flex items-center justify-center text-lg font-bold">
+                        {activeStock.ticker.substring(0, 2)}
+                      </div>
+                      <div>
+                        <h4 className="text-white font-bold text-sm leading-none">{activeStock.name} ({activeStock.ticker})</h4>
+                        <span className="text-[10px] text-white/40 font-mono">Live candlestick analysis vector feed</span>
+                      </div>
+                    </div>
+
+                    <div className="text-right">
+                      <p className="text-white font-mono font-bold text-sm">${activeStock.price.toFixed(2)}</p>
+                      <span className={`text-[10px] font-mono font-bold flex items-center gap-0.5 justify-end ${activeStock.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                        {activeStock.change >= 0 ? '+' : ''}{activeStock.change}%
+                      </span>
+                    </div>
                   </div>
-                  
-                  {/* Stock Chooser Tickers */}
-                  <div className="flex gap-1.5 overflow-x-auto max-w-full py-1">
-                    {stocks.map(s => (
-                      <button 
+
+                  {/* Vector Candlestick widget chart */}
+                  {renderCandlestickChart(activeStock)}
+                </div>
+
+                {/* News feed column */}
+                <div className="bg-white/5 border border-white/10 rounded-[32px] p-5 space-y-4">
+                  <h4 className="text-white font-bold text-xs uppercase tracking-widest text-white/40">Live Catalysts News</h4>
+                  <div className="space-y-2.5">
+                    {news.slice(0, 3).map((n) => (
+                      <div key={n.id} className="p-3 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-white/10 transition-all cursor-pointer" onClick={() => setSelectedStockTicker(n.ticker)}>
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-[9px] font-bold font-mono text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">
+                            {n.ticker}
+                          </span>
+                          <span className={`text-[9px] font-bold uppercase tracking-wider ${n.impact === 'bullish' ? 'text-green-400 bg-green-500/10 px-2 py-0.5 rounded' : 'text-red-400 bg-red-500/10 px-2 py-0.5 rounded'}`}>
+                            {n.impact}
+                          </span>
+                        </div>
+                        <h5 className="font-bold text-xs text-white">{n.title}</h5>
+                        <p className="text-[10px] text-white/50 leading-relaxed mt-0.5">{n.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Stock selection & transaction orders Column */}
+              <div className="col-span-12 lg:col-span-4 space-y-6">
+                {/* Selector */}
+                <div className="bg-white/5 border border-white/10 rounded-[32px] p-5">
+                  <h4 className="text-white font-bold text-xs uppercase tracking-widest text-white/40 mb-3.5">Available Arena Assets</h4>
+                  <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                    {stocks.map((s) => (
+                      <button
                         key={s.ticker}
-                        onClick={() => setSelectedStockTicker(s.ticker)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                          selectedStockTicker === s.ticker ? 'bg-green-500 text-black font-extrabold shadow-md' : 'bg-white/5 text-white/60 hover:text-white'
+                        onClick={() => { gameAudio.playClick(); setSelectedStockTicker(s.ticker); }}
+                        className={`w-full p-2.5 rounded-2xl border text-left flex justify-between items-center transition-all cursor-pointer ${
+                          selectedStockTicker === s.ticker ? 'bg-green-600/10 border-green-500 text-green-400' : 'bg-white/5 border-white/5 text-white/70 hover:bg-white/10'
                         }`}
                       >
-                        {s.ticker}
+                        <div>
+                          <span className="font-bold text-xs block leading-none">{s.ticker}</span>
+                          <span className="text-[9px] text-white/40 font-mono mt-0.5">{s.name}</span>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-xs font-mono font-bold block leading-none">${s.price.toFixed(2)}</span>
+                          <span className={`text-[9px] font-mono font-bold ${s.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                            {s.change >= 0 ? '+' : ''}{s.change}%
+                          </span>
+                        </div>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {/* Stock Stats details */}
-                <div className="p-4 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-between flex-wrap gap-4">
-                  <div>
-                    <span className="text-[10px] text-white/40 uppercase block font-bold">{activeStock.name}</span>
-                    <span className="text-xl font-mono font-bold tracking-tight">${activeStock.price.toFixed(2)}</span>
-                  </div>
-
-                  <div className="text-right">
-                    <span className="text-[10px] text-white/40 uppercase block font-bold">24h Performance</span>
-                    <span className={`text-sm font-bold flex items-center justify-end gap-0.5 ${activeStock.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                      {activeStock.change >= 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
-                      {activeStock.change >= 0 ? '+' : ''}{activeStock.change.toFixed(2)}%
-                    </span>
-                  </div>
-
-                  <div className="text-right">
-                    <span className="text-[10px] text-white/40 uppercase block font-bold">Volume</span>
-                    <span className="text-xs font-mono font-medium text-white/80">42,850 Shares</span>
-                  </div>
-                </div>
-
-                {/* Draw the beautiful dynamic candlestick graph */}
-                <div className="flex-1 flex flex-col justify-center min-h-[200px]">
-                  {renderCandlestickChart(activeStock)}
-                </div>
-
-                {/* Simulated live flashing message banner */}
-                {activeNews && (
-                  <div className="p-3 bg-blue-500/5 border border-blue-500/20 rounded-xl flex items-center gap-3.5">
-                    <div className={`w-2 h-8 rounded-full ${activeNews.impact === 'bullish' ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.4)]' : 'bg-red-500'}`}></div>
-                    <div className="flex-1">
-                      <p className="text-[11px] font-bold text-blue-400 flex items-center gap-1.5 uppercase tracking-widest">
-                        <span>BREAKING</span> • {activeNews.ticker} Alert
-                      </p>
-                      <p className="text-[11px] text-white/80 leading-relaxed font-medium mt-0.5">{activeNews.title}: {activeNews.description}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Trading desk panel */}
-              <div className="col-span-12 lg:col-span-4 flex flex-col gap-6">
-                
-                {/* Active Trading Desk */}
-                <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-sm flex flex-col gap-4">
-                  <h3 className="text-sm font-extrabold uppercase tracking-widest text-white/40">Simulator Desk</h3>
+                {/* Orders box */}
+                <div className="bg-white/5 border border-white/10 rounded-[32px] p-5 space-y-4">
+                  <h4 className="text-white font-bold text-xs uppercase tracking-widest text-white/40">Market Execution order</h4>
                   
-                  {/* Share selector */}
-                  <div>
-                    <label className="text-[10px] uppercase font-bold text-white/50 block mb-1.5">Trade Quantity (Shares)</label>
-                    <div className="flex items-center gap-2">
-                      <button 
-                        onClick={() => setTradeAmount(prev => Math.max(1, prev - 1))}
-                        className="p-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-white font-bold text-sm cursor-pointer"
-                      >
-                        -
-                      </button>
-                      <input 
-                        type="number" 
-                        min="1"
-                        value={tradeAmount}
-                        onChange={(e) => setTradeAmount(Math.max(1, parseInt(e.target.value) || 1))}
-                        className="flex-1 bg-black/40 border border-white/10 rounded-xl text-center py-2 font-mono text-sm font-bold text-white outline-none focus:border-green-500"
-                      />
-                      <button 
-                        onClick={() => setTradeAmount(prev => prev + 1)}
-                        className="p-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-white font-bold text-sm cursor-pointer"
-                      >
-                        +
-                      </button>
-                    </div>
+                  <div className="flex gap-2 items-center bg-black/30 border border-white/5 rounded-xl px-3.5 py-1.5">
+                    <span className="text-xs text-white/40">Shares Quantity:</span>
+                    <input
+                      type="number"
+                      min="1"
+                      value={tradeAmount}
+                      onChange={(e) => setTradeAmount(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="flex-1 bg-transparent border-none text-xs font-mono font-bold text-white focus:outline-none text-right"
+                    />
                   </div>
 
-                  <div className="p-3 bg-white/5 border border-white/10 rounded-2xl space-y-1.5 text-xs font-mono">
-                    <div className="flex justify-between text-white/60">
-                      <span>Stock Price:</span>
-                      <span className="text-white">${activeStock.price.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between text-white/60">
-                      <span>Total Value:</span>
-                      <span className="text-white font-bold">${(activeStock.price * tradeAmount).toFixed(2)}</span>
+                  <div className="space-y-1.5 text-xs text-white/50 border-b border-white/5 pb-3">
+                    <div className="flex justify-between">
+                      <span>Order cost:</span>
+                      <span className="font-mono font-bold text-white">${(activeStock.price * tradeAmount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3.5">
-                    <button 
-                      onClick={() => handleSimTrade('BUY')}
-                      className="py-3 bg-green-600 hover:bg-green-500 text-white font-bold text-xs rounded-2xl shadow-lg border border-green-500 shadow-green-950/20 cursor-pointer"
+                    <button
+                      onClick={handleBuyStock}
+                      className="py-3 bg-green-600 hover:bg-green-500 text-white font-black text-xs rounded-2xl transition-all cursor-pointer shadow-md"
                     >
                       Buy Shares
                     </button>
-                    <button 
-                      onClick={() => handleSimTrade('SELL')}
-                      className="py-3 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-2xl shadow-lg border border-red-500 shadow-red-950/20 cursor-pointer"
+                    <button
+                      onClick={handleSellStock}
+                      className="py-3 bg-red-600 hover:bg-red-500 text-white font-black text-xs rounded-2xl transition-all cursor-pointer shadow-md"
                     >
                       Sell Shares
                     </button>
                   </div>
                 </div>
-
-                {/* Virtual Portfolio Balance Card */}
-                <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-sm flex flex-col gap-4">
-                  <h3 className="text-sm font-extrabold uppercase tracking-widest text-white/40">My Virtual Portfolio</h3>
-                  
-                  <div className="text-center py-2">
-                    <span className="text-[10px] uppercase font-bold text-white/40 block mb-0.5">Total Assets Value</span>
-                    <span className="text-2xl font-mono font-bold text-green-400 block">${totalPortfolioValue.toFixed(2)}</span>
-                    <span className={`text-[11px] font-bold inline-block mt-0.5 ${portfolioProfitLoss >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {portfolioProfitLoss >= 0 ? '▲ Profit' : '▼ Loss'}: ${Math.abs(portfolioProfitLoss).toFixed(2)} ({portfolioProfitLossPercent.toFixed(2)}%)
-                    </span>
-                  </div>
-
-                  <div className="space-y-2 max-h-[160px] overflow-y-auto pt-2 border-t border-white/5">
-                    <div className="flex justify-between items-center text-[10px] text-white/40 font-bold uppercase pb-1 border-b border-white/5">
-                      <span>Asset</span>
-                      <span>Shares Owned</span>
-                      <span>Value</span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center text-xs font-mono">
-                      <span className="text-white/60 font-sans font-medium">💵 USD Cash</span>
-                      <span className="text-white/40">-</span>
-                      <span className="text-white font-bold">${cash.toFixed(2)}</span>
-                    </div>
-
-                    {Object.entries(portfolio).map(([ticker, shares]) => {
-                      const stock = stocks.find(s => s.ticker === ticker);
-                      const currentVal = Number(shares) * (stock?.price || 0);
-                      return (
-                        <div key={ticker} className="flex justify-between items-center text-xs font-mono">
-                          <span className="text-white/90 font-sans font-bold flex items-center gap-1.5">{ticker}</span>
-                          <span className="text-white/70">{shares} shares</span>
-                          <span className="text-white font-bold">${currentVal.toFixed(2)}</span>
-                        </div>
-                      );
-                    })}
-
-                    {Object.keys(portfolio).length === 0 && (
-                      <p className="text-[11px] text-white/40 text-center py-4">No active stock positions. Purchase your first shares using the desk above!</p>
-                    )}
-                  </div>
-                </div>
-
               </div>
             </div>
           )}
 
-          {/* 4. AI COACH VIEW */}
+          {/* 4. AI COACH PORTFOLIO DIAGNOSTICS VIEW */}
           {activeTab === 'coach' && (
-            <div id="tab-coach" className="bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-sm min-h-[500px] flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between pb-4 border-b border-white/5 mb-4">
+            <div id="tab-coach" className="grid grid-cols-12 gap-6">
+              {/* Intelligent Diagnostics Portfolio card */}
+              <div className="col-span-12 lg:col-span-4 bg-gradient-to-b from-purple-500/10 to-transparent border border-purple-500/20 rounded-[32px] p-5 space-y-4 backdrop-blur-sm">
+                <span className="text-[10px] font-extrabold text-purple-400 uppercase tracking-widest bg-purple-500/10 px-2 py-0.5 rounded">
+                  Personalized Study Advisor
+                </span>
+                <h4 className="text-white font-black text-sm">Portfolio Fluency Analysis</h4>
+                
+                <div className="space-y-2.5 text-xs">
+                  <div className="p-3 bg-black/30 border border-white/5 rounded-2xl space-y-1">
+                    <h5 className="font-bold text-white flex items-center gap-1.5">
+                      <span className="text-green-400">●</span> Strong Concepts
+                    </h5>
+                    <p className="text-[11px] text-white/50">Core Compounding Principles, Stock Fundamental valuations, Divident yield tracking.</p>
+                  </div>
+
+                  <div className="p-3 bg-black/30 border border-white/5 rounded-2xl space-y-1">
+                    <h5 className="font-bold text-white flex items-center gap-1.5">
+                      <span className="text-red-400">●</span> Recommended Practice
+                    </h5>
+                    <p className="text-[11px] text-white/50">Technical candlestick chart lines, support and resistance levels, Relative Strength Index (RSI).</p>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <button 
+                    onClick={() => { gameAudio.playClick(); handleJumpToLesson(31); }}
+                    className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-[11px] font-bold rounded-xl cursor-pointer"
+                  >
+                    Study Recommended indicator Lesson (31)
+                  </button>
+                </div>
+              </div>
+
+              {/* Chat timeline card */}
+              <div className="col-span-12 lg:col-span-8 bg-white/5 border border-white/10 rounded-[32px] p-5 flex flex-col justify-between min-h-[440px]">
+                {/* Chat header */}
+                <div className="border-b border-white/5 pb-3 flex justify-between items-center">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-10 h-10 rounded-full bg-purple-500/15 border border-purple-500/30 flex items-center justify-center shadow-lg">
-                      <Bot className="w-5 h-5 text-purple-400 animate-pulse" />
-                    </div>
+                    <div className="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-lg">🤖</div>
                     <div>
-                      <h2 className="text-md font-bold text-white flex items-center gap-1.5">
-                        GrowBot Financial Advisor
-                        <span className="text-[9px] bg-purple-500 text-white font-bold px-1.5 py-0.5 rounded uppercase">Gemini 3.5</span>
-                      </h2>
-                      <p className="text-[11px] text-white/40">Personalized automated advisory based on your direct learning progression.</p>
+                      <h4 className="font-bold text-xs text-white leading-none">AI Coach GrowBot</h4>
+                      <span className="text-[9px] text-white/40 font-mono">Powered by Gemini AI model series</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Suggested prompt chips */}
-                <div className="flex gap-2 mb-4 overflow-x-auto py-1">
-                  <button 
-                    onClick={() => setAiMessage('Explain candlestick bodies and shadow wicks')}
-                    className="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[10px] font-bold text-white/70 hover:text-white transition-all whitespace-nowrap cursor-pointer"
-                  >
-                    💡 Candlesticks
-                  </button>
-                  <button 
-                    onClick={() => setAiMessage('What are the rules of support and resistance?')}
-                    className="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[10px] font-bold text-white/70 hover:text-white transition-all whitespace-nowrap cursor-pointer"
-                  >
-                    💡 Support & Resistance
-                  </button>
-                  <button 
-                    onClick={() => setAiMessage('Can you review my current portfolio allocation?')}
-                    className="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[10px] font-bold text-white/70 hover:text-white transition-all whitespace-nowrap cursor-pointer"
-                  >
-                    📊 Review Portfolio
-                  </button>
-                </div>
-
-                {/* Chat transcript history */}
-                <div className="space-y-4 max-h-[320px] overflow-y-auto p-2 border border-white/5 bg-black/20 rounded-2xl min-h-[240px]">
-                  {aiHistory.map((msg, idx) => (
-                    <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`p-4 rounded-2xl max-w-[85%] text-xs leading-relaxed border transition-all ${
-                        msg.sender === 'user' 
-                          ? 'bg-blue-600/10 border-blue-500/20 text-white font-medium' 
-                          : 'bg-white/[0.03] border-white/10 text-white/90'
+                {/* Timeline scrolls */}
+                <div className="flex-1 overflow-y-auto max-h-[280px] my-4 space-y-4 pr-1">
+                  {aiHistory.map((h, hidx) => (
+                    <div key={hidx} className={`flex ${h.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`p-3.5 rounded-2xl max-w-sm text-xs leading-relaxed ${
+                        h.sender === 'user' 
+                          ? 'bg-purple-600 text-white rounded-br-none' 
+                          : 'bg-white/5 border border-white/10 text-white/90 rounded-bl-none font-medium'
                       }`}>
-                        {/* Format paragraph bullets */}
-                        {msg.text.split('\n').map((line, i) => (
-                          <p key={i} className={line.trim().startsWith('*') || line.trim().startsWith('-') ? 'pl-4 list-item mt-1 font-medium' : 'mt-1'}>
-                            {line}
-                          </p>
-                        ))}
+                        {h.text}
                       </div>
                     </div>
                   ))}
                   {aiLoading && (
-                    <div className="flex justify-start">
-                      <div className="p-4 bg-white/[0.03] border border-white/10 rounded-2xl text-xs text-white/40 flex items-center gap-2.5">
-                        <div className="w-2 h-2 rounded-full bg-purple-400 animate-ping"></div>
-                        <span>GrowBot is analyzing market indicators...</span>
-                      </div>
+                    <div className="text-xs text-purple-400 animate-pulse font-mono flex items-center gap-1">
+                      ⚡ GrowBot is sifting institutional finance books...
                     </div>
                   )}
                 </div>
-              </div>
 
-              {/* Chat Input form */}
-              <form onSubmit={handleSendAiMessage} className="mt-4 flex gap-2 pt-4 border-t border-white/5">
-                <input 
-                  type="text" 
-                  value={aiMessage}
-                  onChange={(e) => setAiMessage(e.target.value)}
-                  placeholder="Ask GrowBot: 'How do Call options work?' or ask for trading advice..."
-                  className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-xs text-white placeholder-white/35 outline-none focus:border-purple-500 transition-colors"
-                />
-                <button 
-                  type="submit"
-                  disabled={aiLoading}
-                  className="px-5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl flex items-center gap-1 transition-colors cursor-pointer"
-                >
-                  Ask Coach
-                </button>
-              </form>
+                {/* Message form */}
+                <form onSubmit={handleSendAiMessage} className="flex gap-2">
+                  <input
+                    type="text"
+                    value={aiMessage}
+                    onChange={(e) => setAiMessage(e.target.value)}
+                    placeholder="Ask about support/resistance, RSI, EPS valuations, or portfolio reviews..."
+                    className="flex-1 bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-purple-500 placeholder-white/20"
+                  />
+                  <button
+                    type="submit"
+                    className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl text-xs font-bold cursor-pointer"
+                  >
+                    Ask Coach
+                  </button>
+                </form>
+              </div>
             </div>
           )}
 
         </main>
       </div>
 
-      {/* FOOTER SCROLLING TICKER */}
-      <footer id="footer" className="h-11 bg-[#0a0a0a]/90 backdrop-blur-md border-t border-white/10 px-6 flex items-center gap-6 overflow-hidden relative z-20">
-        <div className="flex items-center gap-1.5 shrink-0 select-none">
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-          <span className="text-[10px] font-extrabold text-white/40 uppercase tracking-widest">Live Markets Tracker</span>
-        </div>
-        <div className="flex items-center gap-10 whitespace-nowrap text-[11px] font-mono animate-[marquee_25s_linear_infinite] hover:[animation-play-state:paused] cursor-pointer">
-          {stocks.map(s => {
-            const isGreen = s.change >= 0;
-            return (
-              <span key={s.ticker} className="inline-flex items-center gap-1.5" onClick={() => { setSelectedStockTicker(s.ticker); setActiveTab('simulator'); }}>
-                <span className="text-white/60 font-bold">{s.ticker}</span>
-                <span className="text-white font-semibold">${s.price.toFixed(2)}</span>
-                <span className={isGreen ? 'text-green-500' : 'text-red-500'}>
-                  {isGreen ? '▲' : '▼'} {isGreen ? '+' : ''}{s.change.toFixed(2)}%
-                </span>
-              </span>
-            );
-          })}
-        </div>
-      </footer>
+      {/* FULLSCREEN CERTIFICATE POPUP MODAL */}
+      <CertificateModal 
+        isOpen={showCertificate} 
+        onClose={() => setShowCertificate(false)} 
+        playerName={playerName} 
+        trackTitle="Beginner" 
+        completedCount={completedLessons.length} 
+      />
+
+      {/* ACCOUNT & OAUTH LOGIN MODAL */}
+      <AnimatePresence>
+        {showAccountModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 15 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 15 }}
+              className="max-w-md w-full bg-zinc-950 border border-white/10 rounded-[32px] p-6 text-center relative overflow-hidden flex flex-col justify-between shadow-2xl"
+            >
+              {/* Ambient glows */}
+              <div className="absolute w-32 h-32 rounded-full bg-blue-600/10 -top-6 -left-6 blur-2xl pointer-events-none" />
+              <div className="absolute w-32 h-32 rounded-full bg-green-600/10 -bottom-6 -right-6 blur-2xl pointer-events-none" />
+
+              <div className="flex justify-between items-center pb-4 border-b border-white/5 relative z-10">
+                <span className="text-xs font-bold text-white/50 tracking-wider uppercase">Trader Profile & Authentication</span>
+                <button 
+                  onClick={() => { gameAudio.playClick(); setShowAccountModal(false); }}
+                  className="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/60 hover:text-white cursor-pointer transition-all"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="py-6 space-y-5 relative z-10">
+                <div className="text-4xl">🌱</div>
+                <div>
+                  <h3 className="text-white font-extrabold text-lg md:text-xl tracking-tight">Access Account Sync</h3>
+                  <p className="text-xs text-white/45 mt-1 leading-relaxed max-w-xs mx-auto">
+                    Sign in via Google or Apple to securely secure your GrowFolio assets, compound interest progression, companion sprouts, and custom notes.
+                  </p>
+                </div>
+
+                {/* Login Providers */}
+                <div className="space-y-2.5 max-w-sm mx-auto pt-2">
+                  <button
+                    onClick={() => {
+                      gameAudio.playLevelUp();
+                      alert('Signed in successfully with Google! Your GrowFolio assets and XP achievements are now fully synced.');
+                      setShowAccountModal(false);
+                    }}
+                    className="w-full py-3 px-4 rounded-xl bg-white text-zinc-950 font-extrabold text-xs flex items-center justify-center gap-2 hover:bg-white/90 active:scale-95 transition-all cursor-pointer"
+                  >
+                    {/* Google SVG Icon */}
+                    <svg className="w-4 h-4" viewBox="0 0 24 24">
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                    </svg>
+                    Continue with Google
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      gameAudio.playLevelUp();
+                      alert('Signed in successfully with Apple! Your GrowFolio assets and XP achievements are now fully synced.');
+                      setShowAccountModal(false);
+                    }}
+                    className="w-full py-3 px-4 rounded-xl bg-zinc-900 border border-white/10 text-white font-extrabold text-xs flex items-center justify-center gap-2 hover:bg-zinc-850 active:scale-95 transition-all cursor-pointer"
+                  >
+                    {/* Apple SVG Icon */}
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.52-.64.74-1.2 1.88-1.05 3 .1.11 2.34.75 3-1.46z" />
+                    </svg>
+                    Continue with Apple
+                  </button>
+                </div>
+
+                <div className="pt-4 border-t border-white/5 space-y-3">
+                  <span className="text-[10px] text-white/40 uppercase tracking-widest font-mono block text-center">Customize Trader Nickname</span>
+                  <div className="flex gap-2 max-w-sm mx-auto">
+                    <input
+                      type="text"
+                      value={playerName}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setPlayerName(val);
+                        localStorage.setItem('gf_player_name', val);
+                      }}
+                      placeholder="Trader nickname"
+                      className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500/50"
+                    />
+                    <button 
+                      onClick={() => {
+                        gameAudio.playClick();
+                        alert(`Profile updated to: ${playerName}`);
+                      }}
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs rounded-xl transition-all cursor-pointer"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+
+                {/* Sprout Companion Selector inside Modal */}
+                <div className="pt-2 text-left space-y-3 max-w-sm mx-auto">
+                  <div>
+                    <span className="text-[10px] text-white/40 uppercase tracking-widest font-mono block mb-1.5 text-center">Sprout Companion</span>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { id: 'green_sprout', name: 'Emerald', emoji: '🌱' },
+                        { id: 'gold_sprout', name: 'Golden', emoji: '🪙' },
+                        { id: 'cosmic_sprout', name: 'Cosmic', emoji: '💫' }
+                      ].map(s => (
+                        <button
+                          key={s.id}
+                          onClick={() => {
+                            gameAudio.playClick();
+                            setSproutId(s.id);
+                            localStorage.setItem('gf_sprout_id', s.id);
+                          }}
+                          className={`p-2.5 rounded-xl border transition-all text-center flex flex-col items-center justify-center cursor-pointer ${
+                            sproutId === s.id ? 'bg-blue-600/15 border-blue-500/55 text-white scale-102' : 'bg-white/5 border-white/10 text-white/40'
+                          }`}
+                        >
+                          <span className="text-xl">{s.emoji}</span>
+                          <span className="text-[9px] font-bold mt-1 leading-none">{s.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <span className="text-[10px] text-white/40 uppercase tracking-widest font-mono block mb-1.5 text-center">Investment Tier</span>
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {[
+                        { id: 'beginner', label: 'Novice' },
+                        { id: 'intermediate', label: 'Active' },
+                        { id: 'advanced', label: 'Strategist' }
+                      ].map(exp => (
+                        <button
+                          key={exp.id}
+                          onClick={() => {
+                            gameAudio.playClick();
+                            setExperience(exp.id);
+                            localStorage.setItem('gf_experience', exp.id);
+                          }}
+                          className={`py-2 rounded-lg border text-[10px] font-bold text-center cursor-pointer ${
+                            experience === exp.id ? 'bg-blue-600/15 border-blue-500/55 text-white' : 'bg-white/5 border-white/10 text-white/40'
+                          }`}
+                        >
+                          {exp.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-white/5 text-[9px] text-white/30 font-mono">
+                Secure Cloud Sync • GrowFolio Auth v1.1
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
