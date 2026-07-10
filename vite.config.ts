@@ -23,6 +23,7 @@ function getRequestBody(req: any): Promise<any> {
 
 export default defineConfig(() => {
   return {
+    base: process.env.GITHUB_ACTIONS ? '/GrowFolio/' : '/',
     plugins: [
       react(),
       tailwindcss(),
