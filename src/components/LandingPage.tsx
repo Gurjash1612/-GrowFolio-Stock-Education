@@ -201,35 +201,37 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
   ];
 
   return (
-    <div className="bg-black text-white min-h-screen font-sans selection:bg-green-500/30 selection:text-green-400 overflow-x-hidden">
+    <div className="bg-[#000000] text-white min-h-screen font-sans selection:bg-emerald-500/30 selection:text-emerald-400 overflow-x-hidden relative">
+      {/* Premium ambient high-tech grid background overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none z-0 opacity-60" />
       
       {/* HEADER NAVBAR */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/5 py-4">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-2xl border-b border-white/[0.04] py-4">
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="w-8 h-8 bg-green-500/10 border border-green-500/20 rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.15)] text-green-400">
-              <svg viewBox="0 0 100 100" className="w-5 h-5" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div className="w-9 h-9 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.15)] text-emerald-400">
+              <svg viewBox="0 0 100 100" className="w-5 h-5 animate-pulse" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20 75 Q40 70 50 50 T80 25" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
                 <path d="M50 50 Q60 30 75 35 Q60 48 50 50" fill="currentColor" />
               </svg>
             </div>
-            <span className="text-sm font-black tracking-widest text-white uppercase font-mono">
-              GROW<span className="text-green-400">FOLIO</span>
+            <span className="text-sm font-black tracking-[0.25em] text-white uppercase font-mono">
+              GROW<span className="text-emerald-400">FOLIO</span>
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold text-white/60">
-            <a href="#features" className="hover:text-green-400 transition-colors">Features</a>
-            <button onClick={() => setShowAboutModal(true)} className="hover:text-green-400 transition-colors cursor-pointer bg-transparent border-none font-semibold">About Us</button>
-            <a href="#screenshots" className="hover:text-green-400 transition-colors">App Tour</a>
-            <a href="#faq" className="hover:text-green-400 transition-colors">FAQ</a>
-            <button onClick={() => setShowContactModal(true)} className="hover:text-green-400 transition-colors cursor-pointer bg-transparent border-none font-semibold">Contact Us</button>
+          <nav className="hidden md:flex items-center gap-8 text-[10px] font-mono tracking-widest uppercase font-semibold text-white/50">
+            <a href="#features" className="hover:text-white transition-colors">Features</a>
+            <button onClick={() => setShowAboutModal(true)} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none font-mono tracking-widest uppercase font-semibold">About Us</button>
+            <a href="#screenshots" className="hover:text-white transition-colors">App Tour</a>
+            <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
+            <button onClick={() => setShowContactModal(true)} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none font-mono tracking-widest uppercase font-semibold">Contact Us</button>
           </nav>
 
           <div className="flex items-center gap-3">
             <button 
               onClick={onLaunchApp}
-              className="px-4 py-2 bg-green-500 hover:bg-green-400 text-black font-extrabold text-xs rounded-xl shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_25px_rgba(34,197,94,0.5)] transition-all cursor-pointer"
+              className="px-5 py-2.5 bg-white hover:bg-neutral-200 text-black font-extrabold text-xs rounded-full shadow-[0_4px_20px_rgba(255,255,255,0.1)] transition-all duration-300 cursor-pointer"
             >
               Launch App
             </button>
@@ -238,37 +240,37 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
       </header>
 
       {/* HERO SECTION */}
-      <section className="relative pt-32 pb-20 md:py-40 bg-zinc-950/40 border-b border-white/5 overflow-hidden">
+      <section className="relative pt-36 pb-20 md:pt-44 md:pb-36 border-b border-white/[0.04] overflow-hidden">
         {/* Ambient neon radial glows */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-green-500/5 blur-[120px] pointer-events-none" />
-        <div className="absolute top-1/2 right-10 w-96 h-96 rounded-full bg-emerald-500/[0.03] blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[350px] rounded-full bg-emerald-500/[0.03] blur-[140px] pointer-events-none" />
+        <div className="absolute top-1/2 right-10 w-96 h-96 rounded-full bg-green-500/[0.01] blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
-              <Sparkles className="w-3.5 h-3.5 text-green-400 animate-pulse" />
-              <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest font-mono">The Gamified Investing Revolution</span>
+          <div className="lg:col-span-7 space-y-7 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08]">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+              <span className="text-[9px] font-bold text-neutral-300 uppercase tracking-widest font-mono">The Gamified Investing Revolution</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none text-white">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7.5xl font-black tracking-tighter leading-[0.9] text-white">
               Learn. Play.<br />
-              <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-green-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white via-neutral-100 to-neutral-400 bg-clip-text text-transparent">
                 Analyze. Invest.
               </span>
             </h1>
 
-            <p className="text-sm md:text-base text-white/50 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              GrowFolio is the ultimate interactive sandbox. Practice live trading simulation, raise your custom companion GrowTree, and level up your financial literacy in real time without risking a single penny.
+            <p className="text-xs md:text-sm text-neutral-400 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+              GrowFolio is the ultimate interactive learning sandbox. Practice real-time options trading, raise your custom companion GrowTree, and master professional financial strategies completely risk-free.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
               <button 
                 onClick={onLaunchApp}
-                className="px-6 py-3.5 bg-green-500 hover:bg-green-400 text-black font-extrabold text-xs rounded-2xl flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(34,197,94,0.25)] hover:shadow-[0_0_40px_rgba(34,197,94,0.45)] transition-all cursor-pointer group"
+                className="px-7 py-4 bg-white hover:bg-neutral-100 text-neutral-950 font-black text-xs rounded-full flex items-center justify-center gap-2 shadow-[0_4px_30px_rgba(255,255,255,0.15)] transition-all duration-300 cursor-pointer group transform hover:scale-[1.02]"
               >
                 Launch Simulator Demo
-                <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight className="w-4 h-4 text-neutral-950 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </button>
 
               <button 
@@ -278,26 +280,26 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
                   setReelPlaying(true);
                   setShowDemoModal(true);
                 }}
-                className="px-6 py-3.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-extrabold text-xs rounded-2xl flex items-center justify-center gap-2 transition-all cursor-pointer"
+                className="px-7 py-4 bg-transparent hover:bg-white/[0.05] border border-white/[0.1] text-white font-black text-xs rounded-full flex items-center justify-center gap-2 shadow-lg transition-all duration-300 cursor-pointer"
               >
-                <Play className="w-4 h-4 text-green-400 fill-current" />
-                Watch App Reel 🎬
+                <Play className="w-4 h-4 text-emerald-400 fill-current" />
+                Watch App Reel
               </button>
             </div>
 
             {/* Quick trust metrics */}
-            <div className="pt-8 border-t border-white/5 grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
+            <div className="pt-8 border-t border-white/[0.04] grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0">
               <div>
-                <span className="block text-xl font-mono font-black text-white">100%</span>
-                <span className="text-[10px] text-white/40 uppercase tracking-wider">Risk-Free</span>
+                <span className="block text-2xl font-mono font-black text-white bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">100%</span>
+                <span className="text-[9px] text-white/30 uppercase tracking-widest font-mono">Risk-Free</span>
               </div>
               <div>
-                <span className="block text-xl font-mono font-black text-white">30+</span>
-                <span className="text-[10px] text-white/40 uppercase tracking-wider">Pro Lessons</span>
+                <span className="block text-2xl font-mono font-black text-white bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">30+</span>
+                <span className="text-[9px] text-white/30 uppercase tracking-widest font-mono">Pro Lessons</span>
               </div>
               <div>
-                <span className="block text-xl font-mono font-black text-white">AI</span>
-                <span className="text-[10px] text-white/40 uppercase tracking-wider">Guided Coach</span>
+                <span className="block text-2xl font-mono font-black text-white bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">AI</span>
+                <span className="text-[9px] text-white/30 uppercase tracking-widest font-mono">Guided Coach</span>
               </div>
             </div>
           </div>
@@ -306,58 +308,68 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
           <div className="lg:col-span-5 flex justify-center relative">
             
             {/* Spinning decorative orbit circles */}
-            <div className="absolute inset-0 border border-white/5 rounded-full scale-110 pointer-events-none animate-[spin_40s_linear_infinite]" />
-            <div className="absolute inset-4 border border-dashed border-green-500/10 rounded-full scale-100 pointer-events-none animate-[spin_25s_linear_infinite]" />
+            <div className="absolute inset-0 border border-white/[0.03] rounded-full scale-110 pointer-events-none animate-[spin_40s_linear_infinite]" />
+            <div className="absolute inset-4 border border-dashed border-emerald-500/10 rounded-full scale-100 pointer-events-none animate-[spin_25s_linear_infinite]" />
 
             {/* Premium Phone Case Frame */}
-            <div className="w-[280px] h-[560px] bg-zinc-950 border-[6px] border-zinc-800 rounded-[48px] shadow-2xl relative overflow-hidden flex flex-col justify-between p-3.5 ring-1 ring-white/10">
+            <div className="w-[285px] h-[570px] bg-[#0c0c10] border-[8px] border-[#1d1d24] rounded-[52px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] relative overflow-hidden flex flex-col justify-between p-3.5 ring-1 ring-white/10">
               
               {/* Dynamic island notch */}
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-30 flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-zinc-900 absolute right-4" />
+              <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-30 flex items-center justify-center">
+                <div className="w-2.5 h-2.5 rounded-full bg-zinc-900 absolute right-4" />
               </div>
 
               {/* Internal Screen Content Mockup */}
-              <div className="flex-1 rounded-[36px] bg-neutral-950 overflow-hidden flex flex-col justify-between relative border border-white/5 p-4 pt-6 text-left">
+              <div className="flex-1 rounded-[36px] bg-neutral-950 overflow-hidden flex flex-col justify-between relative border border-white/[0.06] p-4 pt-6 text-left">
                 
                 {/* Simulated Ticker Bar */}
-                <div className="flex justify-between items-center pb-2 border-b border-white/5">
+                <div className="flex justify-between items-center pb-2 border-b border-white/[0.04]">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[9px] font-mono font-black bg-green-500/10 text-green-400 px-1.5 py-0.5 rounded">NVDA</span>
+                    <span className="text-[9px] font-mono font-black bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded">NVDA</span>
                     <span className="text-[9px] font-bold text-white/60">$128.50</span>
                   </div>
-                  <span className="text-[8px] font-mono text-green-400 font-bold">+3.42% ▲</span>
+                  <span className="text-[8px] font-mono text-emerald-400 font-bold">+3.42% ▲</span>
                 </div>
 
                 {/* GrowTree Animation mockup inside phone */}
                 <div className="flex-1 flex flex-col items-center justify-center py-4 relative">
                   {/* Glowing light behind the sprout */}
-                  <div className="absolute w-24 h-24 rounded-full bg-green-500/10 blur-xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                  <div className="absolute w-24 h-24 rounded-full bg-emerald-500/10 blur-xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
                   
                   {/* Floating particles */}
                   <div className="absolute inset-0 pointer-events-none overflow-hidden">
                     <span className="absolute top-8 left-10 text-[9px] animate-bounce text-emerald-400/80">💧</span>
                     <span className="absolute bottom-10 right-12 text-[10px] animate-pulse text-yellow-400">🪙 +15</span>
-                    <span className="absolute top-12 right-6 text-[8px] animate-bounce text-green-400">🌱 XP</span>
+                    <span className="absolute top-12 right-6 text-[8px] animate-bounce text-emerald-400">🌱 XP</span>
                   </div>
 
-                  {/* SVG Tree Graphic */}
-                  <svg className="w-24 h-24 relative z-10 drop-shadow-[0_0_15px_rgba(34,197,94,0.3)]" viewBox="0 0 100 100">
+                  {/* SVG Tree Graphic with premium linear gradients */}
+                  <svg className="w-24 h-24 relative z-10 drop-shadow-[0_0_15px_rgba(16,185,129,0.35)]" viewBox="0 0 100 100">
+                    <defs>
+                      <linearGradient id="phoneTrunkGrad" x1="0" y1="1" x2="0" y2="0">
+                        <stop offset="0%" stopColor="#1e130c" />
+                        <stop offset="100%" stopColor="#402c1d" />
+                      </linearGradient>
+                      <linearGradient id="phoneLeafGrad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor="#10b981" />
+                        <stop offset="100%" stopColor="#064e3b" />
+                      </linearGradient>
+                    </defs>
                     {/* Dirt Mound */}
-                    <path d="M25,85 C25,80 75,80 75,85" stroke="#4b3621" strokeWidth="4" strokeLinecap="round" fill="none" />
+                    <path d="M25,85 C25,80 75,80 75,85" stroke="#3b2314" strokeWidth="4" strokeLinecap="round" fill="none" opacity="0.6" />
                     {/* Trunk */}
-                    <path d="M50,85 L50,45" stroke="#78350f" strokeWidth="6" strokeLinecap="round" />
+                    <path d="M50,85 L50,45" stroke="url(#phoneTrunkGrad)" strokeWidth="6" strokeLinecap="round" />
                     {/* Branches */}
-                    <path d="M50,65 Q35,55 30,50" stroke="#78350f" strokeWidth="4" strokeLinecap="round" fill="none" />
-                    <path d="M50,55 Q65,48 70,40" stroke="#78350f" strokeWidth="4" strokeLinecap="round" fill="none" />
+                    <path d="M50,65 Q35,55 30,50" stroke="url(#phoneTrunkGrad)" strokeWidth="4" strokeLinecap="round" fill="none" />
+                    <path d="M50,55 Q65,48 70,40" stroke="url(#phoneTrunkGrad)" strokeWidth="4" strokeLinecap="round" fill="none" />
                     {/* Glowing Green Leaves */}
-                    <circle cx="50" cy="35" r="14" fill="rgba(34,197,94,0.85)" />
-                    <circle cx="32" cy="48" r="10" fill="rgba(16,185,129,0.85)" />
-                    <circle cx="68" cy="40" r="11" fill="rgba(52,211,153,0.85)" />
+                    <circle cx="50" cy="35" r="14" fill="url(#phoneLeafGrad)" opacity="0.9" />
+                    <circle cx="32" cy="48" r="10" fill="url(#phoneLeafGrad)" opacity="0.8" />
+                    <circle cx="68" cy="40" r="11" fill="url(#phoneLeafGrad)" opacity="0.85" />
                     
                     {/* Golden Coins inside Foliage */}
-                    <circle cx="50" cy="35" r="2.5" fill="#eab308" />
-                    <circle cx="68" cy="40" r="2.5" fill="#eab308" />
+                    <circle cx="50" cy="35" r="2.5" fill="#fbbf24" />
+                    <circle cx="68" cy="40" r="2.5" fill="#fbbf24" />
                   </svg>
 
                   <span className="text-[10px] font-mono text-white/50 tracking-wide mt-2">Emerald Sprout lvl 5</span>
@@ -378,14 +390,14 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
                   </div>
 
                   {/* Simulator Panel Mockup */}
-                  <div className="p-2 rounded-xl bg-white/[0.03] border border-white/5">
+                  <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                     <div className="flex justify-between items-center mb-1">
                       <span className="text-[8px] font-black uppercase text-white/40 font-mono">Market Simulator</span>
-                      <span className="text-[8px] font-bold text-green-400">Cash: $15,420</span>
+                      <span className="text-[8px] font-bold text-emerald-400">Cash: $15,420</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[9px] font-bold text-white">Buy NVDA Shares</span>
-                      <span className="text-[8px] font-bold text-white bg-green-500 px-2 py-0.5 rounded">CONFIRM</span>
+                      <span className="text-[8px] font-bold text-neutral-950 bg-emerald-400 px-2 py-0.5 rounded">CONFIRM</span>
                     </div>
                   </div>
                 </div>
@@ -393,29 +405,29 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
               </div>
 
               {/* Bottom bar pill indicator */}
-              <div className="w-20 h-1 bg-zinc-700 rounded-full mx-auto mt-2" />
+              <div className="w-20 h-1 bg-zinc-800 rounded-full mx-auto mt-2" />
             </div>
 
             {/* FLOATING GROWTREE DECORATION OVERLAY */}
-            <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-zinc-900/90 border border-white/10 rounded-2xl p-3 flex flex-col items-center justify-center text-center shadow-xl animate-bounce pointer-events-none hidden sm:flex">
+            <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-[#09090c]/85 border border-white/[0.08] backdrop-blur-xl rounded-2xl p-3 flex flex-col items-center justify-center text-center shadow-[0_12px_40px_rgba(0,0,0,0.85)] animate-bounce pointer-events-none hidden sm:flex">
               <span className="text-2xl">🌳</span>
-              <span className="text-[9px] font-mono font-bold text-green-400 mt-1">GrowTree Active</span>
+              <span className="text-[9px] font-mono font-black text-emerald-400 mt-1">GrowTree Active</span>
               <span className="text-[8px] text-white/40 font-bold">XP Multiplier +1.5x</span>
             </div>
 
             {/* FLOATING CHART DECORATION OVERLAY */}
-            <div className="absolute -top-6 -right-6 w-32 h-20 bg-zinc-900/90 border border-white/10 rounded-2xl p-2.5 shadow-xl pointer-events-none hidden sm:block">
+            <div className="absolute -top-6 -right-6 w-32 h-20 bg-[#09090c]/85 border border-white/[0.08] backdrop-blur-xl rounded-2xl p-2.5 shadow-[0_12px_40px_rgba(0,0,0,0.85)] pointer-events-none hidden sm:block">
               <div className="flex justify-between items-center mb-1">
                 <span className="text-[8px] font-mono font-bold text-white/50">Compound Gains</span>
-                <span className="text-[8px] font-bold text-green-400">+256%</span>
+                <span className="text-[8px] font-bold text-emerald-400">+256%</span>
               </div>
               {/* Mini visual SVG wave line */}
               <svg className="w-full h-8" viewBox="0 0 100 30">
-                <path d="M0,25 Q15,22 30,12 T60,18 T90,3 T100,2" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" />
+                <path d="M0,25 Q15,22 30,12 T60,18 T90,3 T100,2" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" />
                 <path d="M0,25 Q15,22 30,12 T60,18 T90,3 T100,2 L100,30 L0,30 Z" fill="url(#chart-glow)" opacity="0.15" />
                 <defs>
                   <linearGradient id="chart-glow" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#22c55e" />
+                    <stop offset="0%" stopColor="#10b981" />
                     <stop offset="100%" stopColor="#000000" />
                   </linearGradient>
                 </defs>
@@ -428,13 +440,13 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
       </section>
 
       {/* WHY GROWFOLIO? (DUOLINGO FOR INVESTING COMPARISON) */}
-      <section id="why-growfolio" className="py-20 max-w-7xl mx-auto px-6 border-b border-white/5 relative">
+      <section id="why-growfolio" className="py-20 max-w-7xl mx-auto px-6 border-b border-white/[0.04] relative">
         <div className="absolute top-1/2 left-10 w-96 h-96 rounded-full bg-emerald-500/[0.02] blur-[120px] pointer-events-none" />
 
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest font-mono">The Philosophy</span>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">Why GrowFolio?</h2>
-          <p className="text-sm text-white/50 leading-relaxed">
+          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest font-mono">The Philosophy</span>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white">Why GrowFolio?</h2>
+          <p className="text-xs md:text-sm text-neutral-400 leading-relaxed">
             Standard investing books are incredibly dry. We make understanding compound interest, market caps, and options greek matrices feel like playing **Duolingo** or a cozy RPG.
           </p>
         </div>
@@ -442,35 +454,35 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
           
           {/* THE GROWFOLIO WAY */}
-          <div className="p-8 rounded-[32px] bg-gradient-to-b from-green-950/20 to-zinc-950 border border-green-500/30 flex flex-col justify-between space-y-6">
+          <div className="p-8 rounded-[32px] bg-gradient-to-b from-emerald-950/15 to-[#09090c] border border-emerald-500/20 flex flex-col justify-between space-y-6 shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
             <div className="space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/30 flex items-center justify-center text-xl">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-xl">
                 🎮
               </div>
               <h3 className="text-xl font-bold text-white">The GrowFolio Game-Loop</h3>
-              <p className="text-xs text-white/60 leading-relaxed">
+              <p className="text-xs text-neutral-300 leading-relaxed">
                 Learn via visual mechanics. Answer bite-sized flashcard quizzes to earn water and gold. Water your companion Sprout, growing it into a massive branching GrowTree while visualising your compounding progress.
               </p>
             </div>
 
-            <ul className="space-y-2.5 pt-4 border-t border-white/5 text-xs text-white/80">
+            <ul className="space-y-2.5 pt-4 border-t border-white/[0.04] text-xs text-neutral-200">
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 Cozy gamified garden mechanics
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 Live sandbox simulation with zero risk
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                 Instant AI diagnostics for study feedback
               </li>
             </ul>
           </div>
 
           {/* THE BORING TEXTBOOK WAY */}
-          <div className="p-8 rounded-[32px] bg-zinc-950/40 border border-white/5 flex flex-col justify-between space-y-6 opacity-70">
+          <div className="p-8 rounded-[32px] bg-zinc-950/20 border border-white/[0.04] flex flex-col justify-between space-y-6 opacity-60">
             <div className="space-y-4">
               <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xl">
                 📚
@@ -481,7 +493,7 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
               </p>
             </div>
 
-            <ul className="space-y-2.5 pt-4 border-t border-white/5 text-xs text-white/50">
+            <ul className="space-y-2.5 pt-4 border-t border-white/[0.04] text-xs text-white/50">
               <li className="flex items-center gap-2.5">
                 <X className="w-4 h-4 text-red-500/60 flex-shrink-0" />
                 Extremely dry static vocabulary tests
@@ -501,14 +513,14 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
       </section>
 
       {/* CORE FEATURES GRID */}
-      <section id="features" className="py-20 max-w-7xl mx-auto px-6 border-b border-white/5 relative">
+      <section id="features" className="py-20 max-w-7xl mx-auto px-6 border-b border-white/[0.04] relative">
         {/* Glow corner */}
-        <div className="absolute bottom-0 right-10 w-96 h-96 rounded-full bg-green-500/[0.02] blur-[130px] pointer-events-none" />
+        <div className="absolute bottom-0 right-10 w-96 h-96 rounded-full bg-emerald-500/[0.02] blur-[130px] pointer-events-none" />
 
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest font-mono">The Engine</span>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">Powerful Learning Features</h2>
-          <p className="text-sm text-white/50 leading-relaxed">
+          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest font-mono">The Engine</span>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-white">Powerful Learning Features</h2>
+          <p className="text-xs md:text-sm text-neutral-400 leading-relaxed">
             Everything you need to transform from an absolute trading novice into a professional finance master, backed by AI and real-time market simulation mechanics.
           </p>
         </div>
@@ -517,13 +529,13 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
           {features.map((feat, idx) => (
             <div 
               key={idx} 
-              className="bg-zinc-950/40 hover:bg-zinc-900/50 border border-white/5 hover:border-green-500/20 p-6 rounded-[24px] space-y-3.5 transition-all group hover:-translate-y-1"
+              className="bg-[#0b0b0f]/65 hover:bg-[#0f0f14]/85 border border-white/[0.04] hover:border-emerald-500/20 p-6 rounded-[24px] space-y-3.5 transition-all duration-300 group hover:-translate-y-1 shadow-lg"
             >
-              <div className="w-10 h-10 rounded-xl bg-white/5 group-hover:bg-green-500/10 flex items-center justify-center transition-all">
+              <div className="w-10 h-10 rounded-xl bg-white/5 group-hover:bg-emerald-500/10 flex items-center justify-center transition-all">
                 {feat.icon}
               </div>
-              <h4 className="text-sm font-bold text-white group-hover:text-green-400 transition-colors">{feat.title}</h4>
-              <p className="text-[11px] text-white/45 leading-relaxed">{feat.description}</p>
+              <h4 className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">{feat.title}</h4>
+              <p className="text-[11px] text-neutral-400 leading-relaxed group-hover:text-neutral-300 transition-colors">{feat.description}</p>
             </div>
           ))}
         </div>
@@ -657,12 +669,12 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
       </section>
 
       {/* APP TOUR INTERACTIVE SCREENSHOTS SWITCHER */}
-      <section id="screenshots" className="py-20 max-w-7xl mx-auto px-6 border-b border-white/5 relative">
+      <section id="screenshots" className="py-20 max-w-7xl mx-auto px-6 border-b border-white/[0.04] relative">
         
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-4">
-          <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest font-mono">App Tour</span>
+          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest font-mono">App Tour</span>
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">Visual App Tour</h2>
-          <p className="text-sm text-white/50 leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-400 leading-relaxed">
             Click the options below to explore the visual design and full interactive modules active inside GrowFolio.
           </p>
         </div>
@@ -680,10 +692,10 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
             <button
               key={tab.id}
               onClick={() => setActiveScreenshot(tab.id as any)}
-              className={`px-4 py-2.5 rounded-full text-xs font-bold border cursor-pointer transition-all ${
+              className={`px-4 py-2.5 rounded-full text-xs font-bold border cursor-pointer transition-all duration-300 ${
                 activeScreenshot === tab.id 
-                  ? 'bg-green-500 text-black border-green-500 shadow-lg' 
-                  : 'bg-zinc-950 border-white/5 text-white/60 hover:text-white hover:border-white/10'
+                  ? 'bg-gradient-to-r from-emerald-500 to-green-400 text-neutral-950 border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)] font-black' 
+                  : 'bg-[#0b0b0f]/50 border-white/[0.04] text-white/50 hover:text-white hover:border-emerald-500/20'
               }`}
             >
               {tab.label}
@@ -692,104 +704,104 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
         </div>
 
         {/* Display screen frame representing screenshot */}
-        <div className="max-w-4xl mx-auto bg-zinc-950/60 border border-white/10 rounded-[32px] p-6 md:p-8 min-h-[400px] flex flex-col md:flex-row gap-8 items-center justify-between relative overflow-hidden shadow-2xl">
+        <div className="max-w-4xl mx-auto bg-[#07070a]/90 border border-white/[0.06] rounded-[32px] p-6 md:p-8 min-h-[400px] flex flex-col md:flex-row gap-8 items-center justify-between relative overflow-hidden shadow-2xl backdrop-blur-xl">
           {/* Subtle back ambient glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-green-500/[0.02] to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-10" />
 
           {/* Interactive Screen Details */}
           <div className="flex-1 space-y-4 relative z-10 max-w-md">
             {activeScreenshot === 'home' && (
               <>
-                <span className="text-[10px] font-mono font-bold text-green-400 uppercase tracking-wider bg-green-500/10 px-2.5 py-1 rounded">The Core Garden Hub</span>
+                <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/10">The Core Garden Hub</span>
                 <h3 className="text-2xl font-extrabold text-white">Compounding Garden & Leaderboards</h3>
-                <p className="text-xs text-white/50 leading-relaxed">
+                <p className="text-xs text-neutral-400 leading-relaxed">
                   Your primary dashboard. Track your portfolio equity curves, claim your active consecutive login streak bonuses, and view leagues rankings. Water your GrowTree using earned fluid supplies to witness physical tree branches growing!
                 </p>
                 <div className="grid grid-cols-2 gap-3 text-[11px] text-white/75 pt-2">
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Real-time active streaks</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Unlockable cosmetics</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Instant gold collection</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Multiple theme layouts</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Real-time active streaks</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Unlockable cosmetics</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Instant gold collection</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Multiple theme layouts</div>
                 </div>
               </>
             )}
 
             {activeScreenshot === 'academy' && (
               <>
-                <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-2.5 py-1 rounded">Gamified Curriculum</span>
+                <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/10">Gamified Curriculum</span>
                 <h3 className="text-2xl font-extrabold text-white">Full Option & Stocks Academy</h3>
-                <p className="text-xs text-white/50 leading-relaxed">
+                <p className="text-xs text-neutral-400 leading-relaxed">
                   Go from beginner finance to advanced trading. Study topics in bite-sized units translated into several world languages. Answer interactive quiz questionnaires to prove your financial fluency and unlock certificates.
                 </p>
                 <div className="grid grid-cols-2 gap-3 text-[11px] text-white/75 pt-2">
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Multi-language toggles</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Dynamic slide decks</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Search filter indexes</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Smart bookmarking</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Multi-language toggles</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Dynamic slide decks</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Search filter indexes</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Smart bookmarking</div>
                 </div>
               </>
             )}
 
             {activeScreenshot === 'simulator' && (
               <>
-                <span className="text-[10px] font-mono font-bold text-green-400 uppercase tracking-wider bg-green-500/10 px-2.5 py-1 rounded">Real-Time Price Sandbox</span>
+                <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/10">Real-Time Price Sandbox</span>
                 <h3 className="text-2xl font-extrabold text-white">Active Limit Order Trading</h3>
-                <p className="text-xs text-white/50 leading-relaxed">
+                <p className="text-xs text-neutral-400 leading-relaxed">
                   Trade volatile virtual assets (NVDA, TSLA, BTC) impacted by dynamically updated catalyst news stories. Test technical analysis tools, buy long or short shares, check real-time bidding spreads, and analyze your average cost basis.
                 </p>
                 <div className="grid grid-cols-2 gap-3 text-[11px] text-white/75 pt-2">
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Real-time active orders</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> News impact indicators</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Transaction histories</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Interactive charts</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Real-time active orders</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> News impact indicators</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Transaction histories</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Interactive charts</div>
                 </div>
               </>
             )}
 
             {activeScreenshot === 'coach' && (
               <>
-                <span className="text-[10px] font-mono font-bold text-purple-400 uppercase tracking-wider bg-purple-500/10 px-2.5 py-1 rounded">Interactive Study Assistant</span>
+                <span className="text-[10px] font-mono font-bold text-purple-400 uppercase tracking-wider bg-purple-500/10 px-2.5 py-1 rounded border border-purple-500/10">Interactive Study Assistant</span>
                 <h3 className="text-2xl font-extrabold text-white">AI Coach Diagnostic Feed</h3>
-                <p className="text-xs text-white/50 leading-relaxed">
+                <p className="text-xs text-neutral-400 leading-relaxed">
                   Your direct link to a personalized financial mentor. Ask questions, analyze complex simulator strategies, and receive automatic behavioral trade reviews. Learn why your trade entries succeeded or failed from a professional tutor.
                 </p>
                 <div className="grid grid-cols-2 gap-3 text-[11px] text-white/75 pt-2">
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Instant chat answers</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Risk diagnostics logs</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Behavior analysis reports</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Tailored study pathways</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Instant chat answers</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Risk diagnostics logs</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Behavior analysis reports</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Tailored study pathways</div>
                 </div>
               </>
             )}
 
             {activeScreenshot === 'profile' && (
               <>
-                <span className="text-[10px] font-mono font-bold text-green-400 uppercase tracking-wider bg-green-500/10 px-2.5 py-1 rounded">Aesthetic Customizer</span>
+                <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/10">Aesthetic Customizer</span>
                 <h3 className="text-2xl font-extrabold text-white">Custom Profile & Secure Login</h3>
-                <p className="text-xs text-white/50 leading-relaxed">
+                <p className="text-xs text-neutral-400 leading-relaxed">
                   Personalize your visual trader avatar with premium accessories, clothing lines, and facial expressions. Secure your study advancements and simulated portfolio gains using Google or Apple authentication credentials.
                 </p>
                 <div className="grid grid-cols-2 gap-3 text-[11px] text-white/75 pt-2">
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Google & Apple Oauth</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Dynamic avatar customizer</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Verifiable PDF awards</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Complete sync stats</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Google & Apple Oauth</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Dynamic avatar customizer</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Verifiable PDF awards</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Complete sync stats</div>
                 </div>
               </>
             )}
 
             {activeScreenshot === 'arcade' && (
               <>
-                <span className="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider bg-amber-500/10 px-2.5 py-1 rounded">Academy Arcade</span>
+                <span className="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/10">Academy Arcade</span>
                 <h3 className="text-2xl font-extrabold text-white">1,000+ Level Trading Mini-Games</h3>
-                <p className="text-xs text-white/50 leading-relaxed">
+                <p className="text-xs text-neutral-400 leading-relaxed">
                   Put your charting skills to the ultimate test in our gamified Arcade. Master technical configurations and candlestick layouts. Progress across 1,000+ levels across three advanced mini-games.
                 </p>
                 <div className="grid grid-cols-2 gap-3 text-[11px] text-white/75 pt-2">
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> 1,000+ Level Campaign Mode</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Candlestick pattern matching</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Breakout target forecasting</div>
-                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Gold and XP progression save</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> 1,000+ Level Campaign Mode</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Candlestick pattern matching</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Breakout target forecasting</div>
+                  <div className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Gold and XP progression save</div>
                 </div>
               </>
             )}
@@ -810,24 +822,24 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
               }}
               className={`mt-6 px-5 py-3 border rounded-2xl text-xs font-black flex items-center gap-2 transition-all cursor-pointer ${
                 activeScreenshot === 'arcade' 
-                  ? 'bg-amber-500 hover:bg-amber-400 text-black border-amber-500/20 shadow-[0_0_20px_rgba(245,158,11,0.2)]'
-                  : 'bg-white/5 hover:bg-white/10 border-white/10 text-white'
+                  ? 'bg-amber-500 hover:bg-amber-400 text-black border-amber-500/20 shadow-[0_0_20px_rgba(245,158,11,0.25)]'
+                  : 'bg-white/5 hover:bg-white/10 border-white/[0.08] text-white'
               }`}
             >
               {activeScreenshot === 'arcade' ? '🎮 Play Academy Arcade Instantly' : 'Launch Sandbox Mode'}
-              <ChevronRight className={`w-4 h-4 ${activeScreenshot === 'arcade' ? 'text-black' : 'text-green-400'}`} />
+              <ChevronRight className={`w-4 h-4 ${activeScreenshot === 'arcade' ? 'text-black' : 'text-emerald-400'}`} />
             </button>
           </div>
 
           {/* Interactive Screen Mockup representation */}
-          <div className="flex-1 w-full max-w-sm bg-black border border-white/5 rounded-3xl p-5 min-h-[300px] flex flex-col justify-between relative shadow-inner">
+          <div className="flex-1 w-full max-w-sm bg-neutral-950 border border-white/[0.06] rounded-3xl p-5 min-h-[300px] flex flex-col justify-between relative shadow-inner">
             
             {/* Simple Dynamic screen header */}
-            <div className="flex justify-between items-center pb-3 border-b border-white/5 mb-3">
+            <div className="flex justify-between items-center pb-3 border-b border-white/[0.04] mb-3">
               <span className="text-[9px] font-mono text-white/40 font-bold uppercase">GrowFolio App View v1.2</span>
               <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-ping" />
-                <span className="text-[8px] text-white/60 font-bold">SIM ACTIVE</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                <span className="text-[8px] text-emerald-400 font-bold">SIM ACTIVE</span>
               </div>
             </div>
 
@@ -835,14 +847,14 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
             <div className="flex-1 flex flex-col justify-center space-y-3">
               {activeScreenshot === 'home' && (
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+                  <div className="flex justify-between items-center p-3 rounded-2xl bg-white/[0.02] border border-white/[0.04]">
                     <div>
                       <span className="text-[8px] text-white/40 block">MY SIMULATED BALANCE</span>
                       <span className="text-lg font-mono font-black text-white">$15,420.00</span>
                     </div>
-                    <span className="text-[10px] font-mono text-green-400 font-extrabold">+18.5% today</span>
+                    <span className="text-[10px] font-mono text-emerald-400 font-extrabold">+18.5% today</span>
                   </div>
-                  <div className="p-3 rounded-2xl bg-green-500/5 border border-green-500/25 flex items-center justify-between">
+                  <div className="p-3 rounded-2xl bg-emerald-500/5 border border-emerald-500/25 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-xl">🌳</span>
                       <div>
@@ -850,14 +862,14 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
                         <p className="text-[8px] text-white/40">Requires water in 4 hours</p>
                       </div>
                     </div>
-                    <span className="text-[9px] text-green-400 font-mono font-bold">lvl 5</span>
+                    <span className="text-[9px] text-emerald-400 font-mono font-bold">lvl 5</span>
                   </div>
                 </div>
               )}
 
               {activeScreenshot === 'academy' && (
                 <div className="space-y-2">
-                  <div className="p-3 bg-white/[0.02] border border-white/5 rounded-2xl">
+                  <div className="p-3 bg-white/[0.02] border border-white/[0.04] rounded-2xl">
                     <span className="text-[8px] text-blue-400 font-bold block uppercase tracking-wider mb-0.5">Lesson 3 of 10</span>
                     <h4 className="text-xs font-black text-white">Delta & Option sensitivity</h4>
                     <p className="text-[9px] text-white/50 mt-1">Delta measures the rate of change in an option's premium relative to a $1 change in the underlying asset...</p>
@@ -876,13 +888,13 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
                     <span>Bid: $182.40</span>
                   </div>
                   {/* Mini graph SVG */}
-                  <svg className="w-full h-16 bg-white/[0.01] border border-white/5 rounded-xl p-1" viewBox="0 0 100 40">
-                    <path d="M0,35 Q20,32 40,15 T80,25 T100,2" fill="none" stroke="#22c55e" strokeWidth="1.5" />
-                    <circle cx="100" cy="2" r="2" fill="#22c55e" />
+                  <svg className="w-full h-16 bg-white/[0.01] border border-white/[0.04] rounded-xl p-1" viewBox="0 0 100 40">
+                    <path d="M0,35 Q20,32 40,15 T80,25 T100,2" fill="none" stroke="#10b981" strokeWidth="1.5" />
+                    <circle cx="100" cy="2" r="2" fill="#10b981" />
                   </svg>
                   <div className="grid grid-cols-2 gap-2">
-                    <button className="py-1.5 bg-green-500/25 text-green-400 font-bold text-[9px] rounded-lg border border-green-500/30">Buy Long</button>
-                    <button className="py-1.5 bg-red-500/25 text-red-400 font-bold text-[9px] rounded-lg border border-red-500/30">Sell Short</button>
+                    <button className="py-1.5 bg-emerald-500/20 text-emerald-400 font-bold text-[9px] rounded-lg border border-emerald-500/30">Buy Long</button>
+                    <button className="py-1.5 bg-red-500/20 text-red-400 font-bold text-[9px] rounded-lg border border-red-500/30">Sell Short</button>
                   </div>
                 </div>
               )}
@@ -912,8 +924,8 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-2 text-[8px] text-white/60">
-                    <div className="p-1.5 bg-white/5 rounded border border-white/5">👔 Outfit: Business Casual</div>
-                    <div className="p-1.5 bg-white/5 rounded border border-white/5">🎓 Progress: 8 / 30 Lessons</div>
+                    <div className="p-1.5 bg-white/5 rounded border border-white/[0.04]">👔 Outfit: Business Casual</div>
+                    <div className="p-1.5 bg-white/5 rounded border border-white/[0.04]">🎓 Progress: 8 / 30 Lessons</div>
                   </div>
                 </div>
               )}
@@ -925,17 +937,17 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
                     <p className="text-[7.5px] text-white/60 leading-normal">Test real chart setups with high-volume breakouts across multiple games.</p>
                   </div>
                   <div className="grid grid-cols-3 gap-1.5 text-[8px]">
-                    <div className="p-1.5 bg-zinc-900 border border-white/5 rounded-lg text-center">
+                    <div className="p-1.5 bg-zinc-900 border border-white/[0.04] rounded-lg text-center">
                       <span className="block text-[10px] mb-0.5">📈</span>
                       <strong className="block text-[8px] text-white">Predictor</strong>
                       <span className="text-[6.5px] text-white/40 font-mono">1,050 levels</span>
                     </div>
-                    <div className="p-1.5 bg-zinc-900 border border-white/5 rounded-lg text-center">
+                    <div className="p-1.5 bg-zinc-900 border border-white/[0.04] rounded-lg text-center">
                       <span className="block text-[10px] mb-0.5">🕯️</span>
                       <strong className="block text-[8px] text-white">Matcher</strong>
                       <span className="text-[6.5px] text-white/40 font-mono">1,050 levels</span>
                     </div>
-                    <div className="p-1.5 bg-zinc-900 border border-white/5 rounded-lg text-center">
+                    <div className="p-1.5 bg-zinc-900 border border-white/[0.04] rounded-lg text-center">
                       <span className="block text-[10px] mb-0.5">🎯</span>
                       <strong className="block text-[8px] text-white">Breakouts</strong>
                       <span className="text-[6.5px] text-white/40 font-mono">1,050 levels</span>
@@ -946,7 +958,7 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
             </div>
 
             {/* Footer mockup controls */}
-            <div className="pt-2 border-t border-white/5 mt-3 flex justify-between text-[8px] text-white/30 font-bold">
+            <div className="pt-2 border-t border-white/[0.04] mt-3 flex justify-between text-[8px] text-white/30 font-bold">
               <span>ACTIVE USER: GROWTRADER</span>
               <span>120 XP</span>
             </div>
@@ -957,13 +969,13 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="py-20 max-w-7xl mx-auto px-6 border-b border-white/5 relative text-center">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[250px] rounded-full bg-green-500/5 blur-[100px] pointer-events-none" />
+      <section className="py-20 max-w-7xl mx-auto px-6 border-b border-white/[0.04] relative text-center">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[250px] rounded-full bg-emerald-500/5 blur-[100px] pointer-events-none" />
 
         <div className="max-w-2xl mx-auto mb-16 space-y-4">
-          <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest font-mono">Real Endorsements</span>
+          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest font-mono">Real Endorsements</span>
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">Loved by Learning Investors</h2>
-          <p className="text-sm text-white/50 leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-400 leading-relaxed">
             Here is what active users, professional teachers, and visual learners say about using GrowFolio.
           </p>
         </div>
@@ -989,12 +1001,12 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
               avatar: "🧙‍♂️"
             }
           ].map((test, idx) => (
-            <div key={idx} className="bg-zinc-950/40 border border-white/5 p-6 rounded-3xl space-y-4 relative overflow-hidden flex flex-col justify-between">
+            <div key={idx} className="bg-[#0b0b0f]/65 hover:bg-[#0f0f14]/85 border border-white/[0.04] p-6 rounded-3xl space-y-4 relative overflow-hidden flex flex-col justify-between shadow-lg transition-all duration-300">
               {/* Huge elegant double quotation mark background */}
               <span className="absolute -top-4 right-4 text-7xl font-serif text-white/5 pointer-events-none select-none">“</span>
-              <p className="text-xs text-white/70 italic leading-relaxed relative z-10">"{test.quote}"</p>
+              <p className="text-xs text-neutral-300 italic leading-relaxed relative z-10">"{test.quote}"</p>
               
-              <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+              <div className="flex items-center gap-3 pt-4 border-t border-white/[0.04]">
                 <span className="text-2xl">{test.avatar}</span>
                 <div>
                   <h4 className="text-xs font-black text-white">{test.author}</h4>
@@ -1007,13 +1019,13 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
       </section>
 
       {/* FAQ ACCORDION SECTION */}
-      <section id="faq" className="py-20 max-w-4xl mx-auto px-6 border-b border-white/5 relative">
+      <section id="faq" className="py-20 max-w-4xl mx-auto px-6 border-b border-white/[0.04] relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-emerald-500/[0.02] blur-[100px] pointer-events-none" />
 
         <div className="text-center mb-16 space-y-4">
-          <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest font-mono">Frequently Asked Questions</span>
+          <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest font-mono">Frequently Asked Questions</span>
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white">Got Questions?</h2>
-          <p className="text-sm text-white/50 leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-400 leading-relaxed">
             Everything you need to know about the GrowFolio simulation platform.
           </p>
         </div>
@@ -1024,14 +1036,14 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
             return (
               <div 
                 key={idx} 
-                className="bg-zinc-950/40 border border-white/5 rounded-2xl overflow-hidden transition-all duration-350"
+                className="bg-[#0b0b0f]/60 border border-white/[0.04] rounded-2xl overflow-hidden transition-all duration-300 shadow-md"
               >
                 <button
                   onClick={() => setActiveFaq(isOpen ? null : idx)}
                   className="w-full p-5 text-left flex justify-between items-center cursor-pointer hover:bg-white/[0.01]"
                 >
                   <span className="text-sm font-bold text-white pr-4">{faq.q}</span>
-                  <ChevronDown className={`w-4 h-4 text-green-400 transition-transform duration-350 ${isOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 text-emerald-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 <AnimatePresence initial={false}>

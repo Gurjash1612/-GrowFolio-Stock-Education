@@ -41,7 +41,7 @@ export function IntroLogo({ onComplete }: IntroLogoProps) {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-zinc-950 flex flex-col items-center justify-center overflow-hidden select-none">
+    <div className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center overflow-hidden select-none">
       {/* 1. Deep Space Cosmic Background Gradients */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-emerald-500/[0.02] blur-[120px] pointer-events-none animate-pulse" />

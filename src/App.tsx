@@ -161,12 +161,12 @@ const LIVE_GLOBAL_INDICES = [
 
 // Visual Themes configs with pricing
 const SYSTEM_THEMES: ThemeConfig[] = [
-  { id: 'forest', name: 'Dark Forest', description: 'Emerald green canopies of financial growth', cost: 0, unlocked: true, bgGradient: 'from-emerald-950/20 via-zinc-950 to-zinc-950', cardStyle: 'bg-white/[0.02] border-white/10', textAccent: 'text-green-400', buttonAccent: 'bg-green-600 hover:bg-green-500' },
-  { id: 'wallstreet', name: 'Wall Street Slate', description: 'Golden brass tones representing premium capital structures', cost: 150, unlocked: false, bgGradient: 'from-amber-950/20 via-zinc-950 to-zinc-950', cardStyle: 'bg-amber-500/5 border-amber-500/20', textAccent: 'text-amber-400', buttonAccent: 'bg-amber-600 hover:bg-amber-500 text-black' },
-  { id: 'space', name: 'Cosmic Violet', description: 'Nebula violet and deep cosmic black holes', cost: 300, unlocked: false, bgGradient: 'from-purple-950/25 via-zinc-950 to-zinc-950', cardStyle: 'bg-purple-500/5 border-purple-500/20', textAccent: 'text-purple-400', buttonAccent: 'bg-purple-600 hover:bg-purple-500' },
-  { id: 'ocean', name: 'Deep Sea Blue', description: 'Serene blue oceans with floating market assets', cost: 400, unlocked: false, bgGradient: 'from-cyan-950/20 via-zinc-950 to-zinc-950', cardStyle: 'bg-cyan-500/5 border-cyan-500/20', textAccent: 'text-cyan-400', buttonAccent: 'bg-cyan-600 hover:bg-cyan-500' },
-  { id: 'winter', name: 'Frosted Blizzard', description: 'Ice blue margins with pristine frosted snow', cost: 500, unlocked: false, bgGradient: 'from-sky-950/20 via-zinc-950 to-zinc-950', cardStyle: 'bg-sky-500/5 border-sky-500/20', textAccent: 'text-sky-400', buttonAccent: 'bg-sky-600 hover:bg-sky-500' },
-  { id: 'cyber', name: 'Neon Synthwave', description: 'Fuchsia glow and glowing retro matrix grid', cost: 700, unlocked: false, bgGradient: 'from-fuchsia-950/25 via-zinc-950 to-zinc-950', cardStyle: 'bg-fuchsia-500/5 border-fuchsia-500/20', textAccent: 'text-fuchsia-400', buttonAccent: 'bg-fuchsia-600 hover:bg-fuchsia-500' },
+  { id: 'forest', name: 'Dark Forest', description: 'Emerald green canopies of financial growth', cost: 0, unlocked: true, bgGradient: 'from-emerald-950/65 via-[#02130c] to-[#010805]', cardStyle: 'bg-[#07070a]/90 border border-emerald-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-emerald-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
+  { id: 'wallstreet', name: 'Wall Street Slate', description: 'Golden brass tones representing premium capital structures', cost: 150, unlocked: false, bgGradient: 'from-amber-950/65 via-[#130d02] to-[#080501]', cardStyle: 'bg-[#07070a]/90 border border-amber-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-amber-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
+  { id: 'space', name: 'Cosmic Violet', description: 'Nebula violet and deep cosmic black holes', cost: 300, unlocked: false, bgGradient: 'from-purple-950/65 via-[#0e0213] to-[#060108]', cardStyle: 'bg-[#07070a]/90 border border-purple-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-purple-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
+  { id: 'ocean', name: 'Deep Sea Blue', description: 'Serene blue oceans with floating market assets', cost: 400, unlocked: false, bgGradient: 'from-cyan-950/65 via-[#020f13] to-[#010608]', cardStyle: 'bg-[#07070a]/90 border border-cyan-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-cyan-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
+  { id: 'winter', name: 'Frosted Blizzard', description: 'Ice blue margins with pristine frosted snow', cost: 500, unlocked: false, bgGradient: 'from-sky-950/65 via-[#020e13] to-[#010608]', cardStyle: 'bg-[#07070a]/90 border border-sky-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-sky-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
+  { id: 'cyber', name: 'Neon Synthwave', description: 'Fuchsia glow and glowing retro matrix grid', cost: 700, unlocked: false, bgGradient: 'from-fuchsia-950/65 via-[#130213] to-[#080108]', cardStyle: 'bg-[#07070a]/90 border border-fuchsia-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-fuchsia-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
 ];
 
 export default function App() {
@@ -1056,7 +1056,7 @@ export default function App() {
   return (
     <div 
       id="growfolio-root" 
-      className={`min-h-screen bg-gradient-to-b ${selectedTheme.bgGradient} text-white flex flex-col font-sans overflow-x-hidden`}
+      className={`min-h-screen bg-black bg-gradient-to-b ${selectedTheme.bgGradient} text-white flex flex-col font-sans overflow-x-hidden`}
     >
       {/* 2. LIVE INDEX MARKET TICKER MARQUEE */}
       <div className="bg-black/85 border-b border-white/10 py-1.5 px-4 overflow-hidden relative z-40 hidden md:block select-none">
@@ -1080,17 +1080,17 @@ export default function App() {
       <div className="flex-1 flex flex-col md:flex-row max-w-[1280px] w-full mx-auto relative z-10 p-4 md:p-6 gap-6">
         
         {/* SIDEBAR NAVIGATION */}
-        <aside id="sidebar" className="hidden md:flex w-24 bg-white/[0.02] border border-white/10 rounded-[32px] flex-col items-center py-8 gap-10 backdrop-blur-md">
+        <aside id="sidebar" className="hidden md:flex w-24 bg-[#07070a]/90 border border-white/[0.06] rounded-[32px] flex-col items-center py-8 gap-10 backdrop-blur-2xl">
           {/* Brand Icon */}
-          <div className="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)]">
-            <TrendingUp className="w-6 h-6 text-white" />
+          <div className="w-11 h-11 bg-emerald-500 rounded-full flex items-center justify-center">
+            <TrendingUp className="w-5 h-5 text-neutral-950" />
           </div>
 
           <nav className="flex flex-col gap-6">
             <button 
               onClick={() => { gameAudio.playClick(); setActiveTab('dashboard'); }}
-              className={`p-3.5 rounded-2xl transition-all cursor-pointer ${
-                activeTab === 'dashboard' ? 'bg-white/10 text-green-400 border border-white/10' : 'text-white/40 hover:text-white/80'
+              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer ${
+                activeTab === 'dashboard' ? 'bg-white text-black shadow-lg font-black' : 'text-white/40 hover:text-white/80 hover:bg-white/[0.02]'
               }`}
               title="Dashboard Hub"
             >
@@ -1098,8 +1098,8 @@ export default function App() {
             </button>
             <button 
               onClick={() => { gameAudio.playClick(); setActiveTab('academy'); }}
-              className={`p-3.5 rounded-2xl transition-all cursor-pointer ${
-                activeTab === 'academy' ? 'bg-white/10 text-blue-400 border border-white/10' : 'text-white/40 hover:text-white/80'
+              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer ${
+                activeTab === 'academy' ? 'bg-white text-black shadow-lg font-black' : 'text-white/40 hover:text-white/80 hover:bg-white/[0.02]'
               }`}
               title="Investing Academy"
             >
@@ -1107,8 +1107,8 @@ export default function App() {
             </button>
             <button 
               onClick={() => { gameAudio.playClick(); setActiveTab('simulator'); }}
-              className={`p-3.5 rounded-2xl transition-all cursor-pointer ${
-                activeTab === 'simulator' ? 'bg-white/10 text-green-400 border border-white/10' : 'text-white/40 hover:text-white/80'
+              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer ${
+                activeTab === 'simulator' ? 'bg-white text-black shadow-lg font-black' : 'text-white/40 hover:text-white/80 hover:bg-white/[0.02]'
               }`}
               title="Stock Market Arena"
             >
@@ -1116,8 +1116,8 @@ export default function App() {
             </button>
             <button 
               onClick={() => { gameAudio.playClick(); setActiveTab('coach'); }}
-              className={`p-3.5 rounded-2xl transition-all cursor-pointer ${
-                activeTab === 'coach' ? 'bg-white/10 text-purple-400 border border-white/10' : 'text-white/40 hover:text-white/80'
+              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer ${
+                activeTab === 'coach' ? 'bg-white text-black shadow-lg font-black' : 'text-white/40 hover:text-white/80 hover:bg-white/[0.02]'
               }`}
               title="AI GrowBot Coach"
             >
@@ -1148,14 +1148,14 @@ export default function App() {
         <main className="flex-1 flex flex-col gap-6">
           
           {/* HEADER BAR */}
-          <header className={`bg-white/[0.02] border border-white/10 rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-4 backdrop-blur-md relative overflow-hidden`}>
+          <header className={`bg-[#07070a]/90 border border-white/[0.06] rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-4 backdrop-blur-2xl relative overflow-hidden`}>
             <div className="flex items-center gap-3">
-              <div className="md:hidden p-2.5 bg-green-500/10 border border-green-500/20 rounded-xl">
-                <TrendingUp className="w-6 h-6 text-green-400" />
+              <div className="md:hidden p-2.5 bg-white/[0.03] border border-white/[0.08] rounded-full">
+                <TrendingUp className="w-5 h-5 text-emerald-400" />
               </div>
               <div>
                 <h1 className="text-xl font-bold tracking-tight flex items-center gap-2">
-                  GrowFolio <span className="text-green-500 text-xs px-2.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 font-normal">PRO</span>
+                  GrowFolio <span className="text-emerald-400 text-[9px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">PRO</span>
                 </h1>
                 <p className="text-xs text-white/50">Grow Your Assets Alongside Your Knowledge</p>
               </div>
@@ -1168,7 +1168,7 @@ export default function App() {
                 {/* Back to Landing Website button */}
                 <button
                   onClick={() => { gameAudio.playClick(); setView('landing'); }}
-                  className="flex items-center gap-1.5 text-[10px] font-mono font-bold bg-white/5 hover:bg-white/10 border border-white/10 px-2.5 py-1.5 rounded-xl text-white/70 hover:text-white transition-all cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 text-[10px] font-mono font-bold bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] px-2.5 py-1.5 rounded-xl text-white transition-all cursor-pointer shadow-sm"
                 >
                   ← Landing Website
                 </button>
@@ -1176,7 +1176,7 @@ export default function App() {
                 {/* Account & Login button */}
                 <button
                   onClick={() => { gameAudio.playClick(); setShowAccountModal(true); }}
-                  className="flex items-center gap-1.5 text-[10px] font-mono font-bold bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/25 px-2.5 py-1.5 rounded-xl text-blue-400 hover:text-blue-300 transition-all cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 text-[10px] font-mono font-bold bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 px-2.5 py-1.5 rounded-xl text-emerald-400 hover:text-emerald-300 transition-all cursor-pointer shadow-sm"
                 >
                   <User className="w-3.5 h-3.5" />
                   Account & Login
@@ -1186,20 +1186,20 @@ export default function App() {
                 <button
                   onClick={handleCloudBackup}
                   disabled={syncingCloud}
-                  className="hidden lg:flex items-center gap-1.5 text-[10px] font-mono font-bold bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl text-white/60 hover:text-white transition-all cursor-pointer"
+                  className="hidden lg:flex items-center gap-1.5 text-[10px] font-mono font-bold bg-white/[0.03] border border-white/[0.06] px-3 py-1.5 rounded-xl text-white transition-all cursor-pointer"
                 >
                   <CloudLightning className="w-3.5 h-3.5" />
                   {syncingCloud ? 'Syncing...' : 'Cloud Backup'}
                 </button>
 
                 {/* Gold Counter */}
-                <div className="bg-white/5 border border-white/10 rounded-xl px-2.5 py-1.5 flex items-center gap-1.5" title="Gold earned to unlock decorations">
+                <div className="bg-[#0b0b0f] border border-white/[0.04] rounded-xl px-2.5 py-1.5 flex items-center gap-1.5" title="Gold earned to unlock decorations">
                   <Coins className="w-3.5 h-3.5 text-yellow-500" />
                   <span className="font-mono text-xs font-bold text-yellow-400">{gold} <span className="text-[9px] text-white/40 font-sans">GOLD</span></span>
                 </div>
 
                 {/* Language Selector */}
-                <div className="bg-white/5 border border-white/10 rounded-xl px-2.5 py-1.5 flex items-center gap-1" title="Select Academy Language">
+                <div className="bg-[#0b0b0f] border border-white/[0.04] rounded-xl px-2.5 py-1.5 flex items-center gap-1" title="Select Academy Language">
                   <Languages className="w-3.5 h-3.5 text-blue-400" />
                   <select
                     value={language}
@@ -1223,7 +1223,7 @@ export default function App() {
                 </div>
                 <div className="w-full h-1.5 bg-white/5 rounded-full border border-white/10 overflow-hidden relative" title={`XP: ${xp} / ${currentRank.nextAt}`}>
                   <div 
-                    className="h-full bg-gradient-to-r from-green-500 to-emerald-400 transition-all duration-1000"
+                    className="h-full bg-gradient-to-r from-emerald-500 to-green-400 transition-all duration-1000"
                     style={{ width: `${xpProgressPercent}%` }}
                   ></div>
                 </div>
@@ -1236,17 +1236,17 @@ export default function App() {
           </header>
 
           {/* TAB BAR FOR RESPONSIVE MOBILE */}
-          <div className="flex md:hidden bg-white/5 border border-white/10 rounded-2xl p-1.5 justify-around backdrop-blur-md">
-            <button onClick={() => { gameAudio.playClick(); setActiveTab('dashboard'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'dashboard' ? 'bg-white/10 text-green-400' : 'text-white/50'}`}>
+          <div className="flex md:hidden bg-[#07070a]/90 border border-white/[0.06] rounded-2xl p-1.5 justify-around backdrop-blur-2xl">
+            <button onClick={() => { gameAudio.playClick(); setActiveTab('dashboard'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'dashboard' ? 'bg-white text-black font-extrabold shadow-sm' : 'text-white/50'}`}>
               <Home className="w-4 h-4 mb-0.5" /> Dashboard
             </button>
-            <button onClick={() => { gameAudio.playClick(); setActiveTab('academy'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'academy' ? 'bg-white/10 text-blue-400' : 'text-white/50'}`}>
+            <button onClick={() => { gameAudio.playClick(); setActiveTab('academy'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'academy' ? 'bg-white text-black font-extrabold shadow-sm' : 'text-white/50'}`}>
               <GraduationCap className="w-4 h-4 mb-0.5" /> Academy
             </button>
-            <button onClick={() => { gameAudio.playClick(); setActiveTab('simulator'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'simulator' ? 'bg-white/10 text-green-400' : 'text-white/50'}`}>
+            <button onClick={() => { gameAudio.playClick(); setActiveTab('simulator'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'simulator' ? 'bg-white text-black font-extrabold shadow-sm' : 'text-white/50'}`}>
               <TrendingUp className="w-4 h-4 mb-0.5" /> Simulator
             </button>
-            <button onClick={() => { gameAudio.playClick(); setActiveTab('coach'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'coach' ? 'bg-white/10 text-purple-400' : 'text-white/50'}`}>
+            <button onClick={() => { gameAudio.playClick(); setActiveTab('coach'); }} className={`flex-1 py-2.5 flex flex-col items-center rounded-xl text-[10px] ${activeTab === 'coach' ? 'bg-white text-black font-extrabold shadow-sm' : 'text-white/50'}`}>
               <Bot className="w-4 h-4 mb-0.5" /> AI Coach
             </button>
           </div>
