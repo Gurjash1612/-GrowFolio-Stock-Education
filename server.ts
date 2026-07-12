@@ -79,6 +79,126 @@ async function startServer() {
     }
   });
 
+  // Helper to generate a realistic 12-candlestick history trend from prevClose to current price
+  const generateHistory = (currentPrice: number, prevClose: number, count = 12) => {
+    const history = [];
+    let price = prevClose;
+    const step = (currentPrice - prevClose) / count;
+    for (let i = 0; i < count; i++) {
+      const open = price;
+      const change = step + (Math.random() - 0.5) * (price * 0.015);
+      const close = i === count - 1 ? currentPrice : price + change;
+      const high = Math.max(open, close) * (1 + Math.random() * 0.008);
+      const low = Math.min(open, close) * (1 - Math.random() * 0.008);
+      history.push({
+        open: Number(open.toFixed(2)),
+        high: Number(high.toFixed(2)),
+        low: Number(low.toFixed(2)),
+        close: Number(close.toFixed(2))
+      });
+      price = close;
+    }
+    return history;
+  };
+
+  // Real-time stock quotes proxy from Yahoo Finance with automated USD->INR conversion
+  app.get('/api/stocks/quotes', async (req, res) => {
+    try {
+      const symbolsQuery = req.query.symbols as string;
+      if (!symbolsQuery) {
+        return res.status(400).json({ error: 'Symbols query parameter is required' });
+      }
+
+      // We append USDINR=X to get the current exact USD->INR exchange rate
+      const allSymbols = `${symbolsQuery},USDINR=X`;
+      const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${allSymbols}`;
+
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Yahoo Finance API responded with status ${response.status}`);
+      }
+
+      const data: any = await response.json();
+      const results = data?.quoteResponse?.result || [];
+
+      // Find exchange rate
+      const rateObj = results.find((r: any) => r.symbol === 'USDINR=X');
+      const conversionRate = rateObj?.regularMarketPrice || 83.5;
+
+      const stocksList = results
+        .filter((r: any) => r.symbol !== 'USDINR=X')
+        .map((r: any) => {
+          const isUSD = r.currency === 'USD';
+          const multiplier = isUSD ? conversionRate : 1;
+
+          const currentPrice = Number((r.regularMarketPrice * multiplier).toFixed(2));
+          const prevClose = Number((r.regularMarketPreviousClose * multiplier).toFixed(2));
+          const priceChangePercent = r.regularMarketChangePercent || 0;
+
+          return {
+            ticker: r.symbol,
+            name: r.longName || r.shortName || r.symbol,
+            price: currentPrice,
+            prevPrice: prevClose,
+            change: Number(priceChangePercent.toFixed(2)),
+            history: generateHistory(currentPrice, prevClose)
+          };
+        });
+
+      return res.json({ stocks: stocksList, conversionRate });
+    } catch (error: any) {
+      console.error('Error in fetchQuotes:', error);
+      return res.status(500).json({ error: 'Failed to fetch real-time stock quotes', details: error.message });
+    }
+  });
+
+  // Real-time stock search from Yahoo Finance
+  app.get('/api/stocks/search', async (req, res) => {
+    try {
+      const query = req.query.q as string;
+      if (!query) {
+        return res.status(400).json({ error: 'Query parameter "q" is required' });
+      }
+
+      const url = `https://query1.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(query)}`;
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Yahoo Finance Search API responded with status ${response.status}`);
+      }
+
+      const data: any = await response.json();
+      const quotes = data?.quotes || [];
+
+      // Filter search results to relevant stock tickers from NSE, BSE, and US exchanges
+      const filteredQuotes = quotes
+        .filter((q: any) => {
+          const sym = q.symbol || '';
+          return sym.endsWith('.NS') || sym.endsWith('.BO') || (!sym.includes('.') && !sym.includes('-'));
+        })
+        .map((q: any) => ({
+          ticker: q.symbol,
+          name: q.shortname || q.longname || q.symbol,
+          exchange: q.exchange || (q.symbol.endsWith('.NS') ? 'NSE' : q.symbol.endsWith('.BO') ? 'BSE' : 'US'),
+          type: q.quoteType || 'EQUITY'
+        }));
+
+      return res.json({ results: filteredQuotes });
+    } catch (error: any) {
+      console.error('Error in searchStocks:', error);
+      return res.status(500).json({ error: 'Failed to search stock tickers', details: error.message });
+    }
+  });
+
   // Dynamic asset serving and Vite routing middleware
   if (process.env.NODE_ENV !== 'production') {
     const { createServer: createViteServer } = await import('vite');

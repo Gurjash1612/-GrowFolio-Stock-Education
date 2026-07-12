@@ -27,14 +27,43 @@ import {
   ArrowLeft,
   ArrowRight,
   Trophy,
-  Phone
+  Phone,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
+
+import { gameAudio } from '../utils/audio';
 
 interface LandingPageProps {
   onLaunchApp: (tab?: 'dashboard' | 'academy' | 'simulator' | 'coach', subtab?: 'garden' | 'arcade' | 'rewards' | 'social' | 'notebook' | 'analytics') => void;
 }
 
 export function LandingPage({ onLaunchApp }: LandingPageProps) {
+  const [musicMuted, setMusicMuted] = useState(() => localStorage.getItem('gf_music_muted') === 'true');
+
+  useEffect(() => {
+    const triggerIntroMusic = () => {
+      if (localStorage.getItem('gf_music_muted') !== 'true') {
+        gameAudio.playIntroMusic();
+      }
+      window.removeEventListener('click', triggerIntroMusic);
+      window.removeEventListener('touchstart', triggerIntroMusic);
+    };
+
+    window.addEventListener('click', triggerIntroMusic);
+    window.addEventListener('touchstart', triggerIntroMusic);
+
+    // Also attempt playing on mount (if AudioContext is already unlocked)
+    if (localStorage.getItem('gf_music_muted') !== 'true') {
+      gameAudio.playIntroMusic();
+    }
+
+    return () => {
+      window.removeEventListener('click', triggerIntroMusic);
+      window.removeEventListener('touchstart', triggerIntroMusic);
+    };
+  }, []);
+
   const [activeScreenshot, setActiveScreenshot] = useState<'home' | 'academy' | 'simulator' | 'coach' | 'profile' | 'arcade'>('home');
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [showDemoModal, setShowDemoModal] = useState(false);
@@ -326,7 +355,7 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
                 <div className="flex justify-between items-center pb-2 border-b border-white/[0.04]">
                   <div className="flex items-center gap-1.5">
                     <span className="text-[9px] font-mono font-black bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded">NVDA</span>
-                    <span className="text-[9px] font-bold text-white/60">$128.50</span>
+                    <span className="text-[9px] font-bold text-white/60">₹10,730</span>
                   </div>
                   <span className="text-[8px] font-mono text-emerald-400 font-bold">+3.42% ▲</span>
                 </div>
@@ -393,7 +422,7 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
                   <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.04]">
                     <div className="flex justify-between items-center mb-1">
                       <span className="text-[8px] font-black uppercase text-white/40 font-mono">Market Simulator</span>
-                      <span className="text-[8px] font-bold text-emerald-400">Cash: $15,420</span>
+                      <span className="text-[8px] font-bold text-emerald-400">Cash: ₹12,85,000</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[9px] font-bold text-white">Buy NVDA Shares</span>

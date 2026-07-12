@@ -65,89 +65,148 @@ import { IntroLogo } from './components/IntroLogo';
 const ALL_LESSONS_BASE = generateLessonsList();
 
 const INITIAL_STOCKS: Stock[] = [
+  // Indian Stocks (BSE/NSE) - Fallback prices in ₹
+  {
+    ticker: 'RELIANCE.NS',
+    name: 'Reliance Industries Limited',
+    price: 2950.00,
+    prevPrice: 2932.00,
+    change: 0.61,
+    history: [
+      { open: 2910, high: 2940, low: 2905, close: 2932 },
+      { open: 2932, high: 2965, low: 2928, close: 2950 },
+    ]
+  },
+  {
+    ticker: 'TCS.NS',
+    name: 'Tata Consultancy Services Limited',
+    price: 3820.00,
+    prevPrice: 3845.00,
+    change: -0.65,
+    history: [
+      { open: 3850, high: 3870, low: 3830, close: 3845 },
+      { open: 3845, high: 3860, low: 3810, close: 3820 },
+    ]
+  },
+  {
+    ticker: 'HDFCBANK.NS',
+    name: 'HDFC Bank Limited',
+    price: 1525.50,
+    prevPrice: 1515.00,
+    change: 0.69,
+    history: [
+      { open: 1500, high: 1520, low: 1498, close: 1515 },
+      { open: 1515, high: 1532, low: 1512, close: 1525.5 },
+    ]
+  },
+  {
+    ticker: 'INFY.NS',
+    name: 'Infosys Limited',
+    price: 1435.00,
+    prevPrice: 1420.00,
+    change: 1.06,
+    history: [
+      { open: 1410, high: 1428, low: 1405, close: 1420 },
+      { open: 1420, high: 1445, low: 1418, close: 1435 },
+    ]
+  },
+  {
+    ticker: 'TATAMOTORS.NS',
+    name: 'Tata Motors Limited',
+    price: 945.80,
+    prevPrice: 935.00,
+    change: 1.16,
+    history: [
+      { open: 925, high: 938, low: 920, close: 935 },
+      { open: 935, high: 952, low: 931, close: 945.8 },
+    ]
+  },
+  {
+    ticker: 'SBIN.NS',
+    name: 'State Bank of India',
+    price: 765.20,
+    prevPrice: 770.00,
+    change: -0.62,
+    history: [
+      { open: 772, high: 778, low: 765, close: 770 },
+      { open: 770, high: 773, low: 762, close: 765.2 },
+    ]
+  },
+  {
+    ticker: 'ITC.NS',
+    name: 'ITC Limited',
+    price: 435.10,
+    prevPrice: 432.00,
+    change: 0.72,
+    history: [
+      { open: 428, high: 433, low: 427, close: 432 },
+      { open: 432, high: 437, low: 430, close: 435.1 },
+    ]
+  },
+  // USA Stocks (Converted to ₹ with 1 USD = 83.5 INR)
+  {
+    ticker: 'AAPL',
+    name: 'Apple Inc.',
+    price: 15030.00,
+    prevPrice: 14870.00,
+    change: 1.08,
+    history: [
+      { open: 14750, high: 14900, low: 14700, close: 14870 },
+      { open: 14870, high: 15120, low: 14820, close: 15030 },
+    ]
+  },
+  {
+    ticker: 'MSFT',
+    name: 'Microsoft Corporation',
+    price: 35150.00,
+    prevPrice: 35300.00,
+    change: -0.42,
+    history: [
+      { open: 35400, high: 35600, low: 35200, close: 35300 },
+      { open: 35300, high: 35450, low: 35050, close: 35150 },
+    ]
+  },
   {
     ticker: 'NVDA',
-    name: 'NVIDIA Corp.',
-    price: 943.12,
-    prevPrice: 932.00,
-    change: 1.19,
+    name: 'NVIDIA Corporation',
+    price: 78500.00,
+    prevPrice: 77200.00,
+    change: 1.68,
     history: [
-      { open: 920, high: 935, low: 915, close: 930 },
-      { open: 930, high: 945, low: 925, close: 938 },
-      { open: 938, high: 950, low: 930, close: 942 },
-      { open: 942, high: 948, low: 935, close: 940 },
-      { open: 940, high: 955, low: 938, close: 943.12 },
+      { open: 76000, high: 77500, low: 75800, close: 77200 },
+      { open: 77200, high: 79100, low: 76800, close: 78500 },
     ]
   },
   {
     ticker: 'TSLA',
     name: 'Tesla Inc.',
-    price: 182.45,
-    prevPrice: 185.20,
-    change: -1.48,
+    price: 15250.00,
+    prevPrice: 15500.00,
+    change: -1.61,
     history: [
-      { open: 192, high: 195, low: 188, close: 190 },
-      { open: 190, high: 192, low: 184, close: 186 },
-      { open: 186, high: 189, low: 182, close: 185.2 },
-      { open: 185.2, high: 187, low: 180, close: 182.45 },
-    ]
-  },
-  {
-    ticker: 'AAPL',
-    name: 'Apple Inc.',
-    price: 178.90,
-    prevPrice: 178.10,
-    change: 0.45,
-    history: [
-      { open: 176, high: 178, low: 175, close: 177.2 },
-      { open: 177.2, high: 179, low: 176.5, close: 178.1 },
-      { open: 178.1, high: 180.2, low: 177.8, close: 178.9 },
-    ]
-  },
-  {
-    ticker: 'BTC',
-    name: 'Bitcoin',
-    price: 68420.00,
-    prevPrice: 66800.00,
-    change: 2.42,
-    history: [
-      { open: 65200, high: 66400, low: 64800, close: 66100 },
-      { open: 66100, high: 67200, low: 65800, close: 66800 },
-      { open: 66800, high: 69100, low: 66500, close: 68420 },
+      { open: 15700, high: 15850, low: 15400, close: 15500 },
+      { open: 15500, high: 15600, low: 15150, close: 15250 },
     ]
   },
   {
     ticker: 'AMZN',
     name: 'Amazon.com Inc.',
-    price: 185.50,
-    prevPrice: 184.10,
-    change: 0.76,
+    price: 15500.00,
+    prevPrice: 15400.00,
+    change: 0.65,
     history: [
-      { open: 181, high: 183.5, low: 180.2, close: 182.8 },
-      { open: 182.8, high: 185, low: 182, close: 184.1 },
-      { open: 184.1, high: 186.2, low: 183.5, close: 185.5 },
-    ]
-  },
-  {
-    ticker: 'MSFT',
-    name: 'Microsoft Corp.',
-    price: 421.15,
-    prevPrice: 423.80,
-    change: -0.62,
-    history: [
-      { open: 425, high: 429, low: 423, close: 426.2 },
-      { open: 426.2, high: 428, low: 422, close: 423.8 },
-      { open: 423.8, high: 425.5, low: 419.5, close: 421.15 },
+      { open: 15250, high: 15450, low: 15200, close: 15400 },
+      { open: 15400, high: 15600, low: 15350, close: 15500 },
     ]
   }
 ];
 
 const MARKET_NEWS: NewsItem[] = [
   { id: 'n1', ticker: 'NVDA', title: 'NVIDIA releases custom AI chip architecture', impact: 'bullish', description: 'NVIDIA launched its next-generation ultra-efficient silicon, driving server farm demand.' },
-  { id: 'n2', ticker: 'TSLA', title: 'Tesla Full Self-Driving receives approval in major markets', impact: 'bullish', description: 'Regulators fast-tracked driverless software rollouts, projecting a spike in subscription revenues.' },
-  { id: 'n3', ticker: 'BTC', title: 'Institutional crypto ETF inflows hit record weekly highs', impact: 'bullish', description: 'Wall Street capital continues pouring into digital asset trusts, straining circulating supply.' },
-  { id: 'n4', ticker: 'MSFT', title: 'Global cloud infrastructure outage limits business services', impact: 'bearish', description: 'Enterprise users experienced localized downtime, raising questions around operational resilience.' },
-  { id: 'n5', ticker: 'AAPL', title: 'Supply chain friction delays next-gen hardware delivery', impact: 'bearish', description: 'Chipset shortages are expected to defer launch window sales targets into next fiscal quarter.' }
+  { id: 'n2', ticker: 'RELIANCE.NS', title: 'Reliance announces major expansion in green energy sector', impact: 'bullish', description: 'Reliance shares surged after announcing a massive new clean energy plant in Gujarat.' },
+  { id: 'n3', ticker: 'TCS.NS', title: 'TCS secures multi-billion dollar digital contract in Europe', impact: 'bullish', description: 'Europe enterprise deal wins bolster project pipelines for the Indian IT major.' },
+  { id: 'n4', ticker: 'AAPL', title: 'Global cloud infrastructure outage limits business services', impact: 'bearish', description: 'Enterprise users experienced localized downtime, raising questions around operational resilience.' },
+  { id: 'n5', ticker: 'HDFCBANK.NS', title: 'HDFC Bank reports double-digit credit growth in quarterly audit', impact: 'bullish', description: 'Strong deposit and lending trends drive financial sector recovery in Indian markets.' }
 ];
 
 const LIVE_GLOBAL_INDICES = [
@@ -247,17 +306,17 @@ export default function App() {
   // Simulator state
   const [cash, setCash] = useState<number>(() => {
     const saved = localStorage.getItem('gf_cash');
-    return saved ? parseFloat(saved) : 10000;
+    return saved ? parseFloat(saved) : 1000000;
   });
   const [portfolio, setPortfolio] = useState<{ [ticker: string]: number }>(() => {
     const saved = localStorage.getItem('gf_portfolio');
-    return saved ? JSON.parse(saved) : { NVDA: 5, AAPL: 10 };
+    return saved ? JSON.parse(saved) : { "RELIANCE.NS": 10, "AAPL": 5 };
   });
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
     const saved = localStorage.getItem('gf_transactions');
     return saved ? JSON.parse(saved) : [
-      { ticker: 'NVDA', type: 'BUY', shares: 5, price: 920, timestamp: '2026-06-25 10:30' },
-      { ticker: 'AAPL', type: 'BUY', shares: 10, price: 176, timestamp: '2026-06-25 14:15' }
+      { ticker: 'RELIANCE.NS', type: 'BUY', shares: 10, price: 2950, timestamp: '2026-06-25 10:30' },
+      { ticker: 'AAPL', type: 'BUY', shares: 5, price: 15000, timestamp: '2026-06-25 14:15' }
     ];
   });
 
@@ -328,10 +387,15 @@ export default function App() {
 
   // Stock Market Simulator Data
   const [stocks, setStocks] = useState<Stock[]>(INITIAL_STOCKS);
-  const [selectedStockTicker, setSelectedStockTicker] = useState<string>('NVDA');
+  const [selectedStockTicker, setSelectedStockTicker] = useState<string>('RELIANCE.NS');
   const [tradeAmount, setTradeAmount] = useState<number>(1);
   const [news, setNews] = useState<NewsItem[]>(MARKET_NEWS);
   const [activeNews, setActiveNews] = useState<NewsItem | null>(MARKET_NEWS[0]);
+
+  // Stock search states
+  const [stockSearchQuery, setStockSearchQuery] = useState<string>('');
+  const [stockSearchResults, setStockSearchResults] = useState<{ ticker: string; name: string; exchange: string }[]>([]);
+  const [stockSearchLoading, setStockSearchLoading] = useState<boolean>(false);
 
   // Tree Decorations
   const [unlockedDecorations, setUnlockedDecorations] = useState<string[]>(() => {
@@ -444,6 +508,84 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, []);
+
+  // Fetch real-time exact prices for all stocks from our backend
+  useEffect(() => {
+    const fetchRealPrices = async () => {
+      try {
+        const symbolsList = stocks.map(s => s.ticker).join(',');
+        if (!symbolsList) return;
+        const response = await fetch(`/api/stocks/quotes?symbols=${encodeURIComponent(symbolsList)}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.stocks && data.stocks.length > 0) {
+            setStocks(prevStocks => {
+              // merge to maintain order and update with exact live prices
+              return prevStocks.map(existing => {
+                const fetched = data.stocks.find((fs: any) => fs.ticker === existing.ticker);
+                return fetched ? { ...existing, price: fetched.price, prevPrice: fetched.prevPrice, change: fetched.change, history: fetched.history } : existing;
+              });
+            });
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch real-time stock prices', err);
+      }
+    };
+
+    fetchRealPrices();
+    // Refresh exact prices from Yahoo Finance every 15 seconds
+    const interval = setInterval(fetchRealPrices, 15000);
+    return () => clearInterval(interval);
+  }, [stocks.length]); // re-trigger when user adds a new searched ticker
+
+  const handleStockSearch = async (query: string) => {
+    setStockSearchQuery(query);
+    if (!query.trim()) {
+      setStockSearchResults([]);
+      return;
+    }
+    setStockSearchLoading(true);
+    try {
+      const response = await fetch(`/api/stocks/search?q=${encodeURIComponent(query)}`);
+      if (response.ok) {
+        const data = await response.json();
+        setStockSearchResults(data.results || []);
+      }
+    } catch (err) {
+      console.error('Failed to search stock', err);
+    } finally {
+      setStockSearchLoading(false);
+    }
+  };
+
+  const handleAddSearchedStock = async (ticker: string) => {
+    setStockSearchResults([]);
+    setStockSearchQuery('');
+    
+    // Check if stock is already in our arena list
+    if (stocks.some(s => s.ticker === ticker)) {
+      setSelectedStockTicker(ticker);
+      return;
+    }
+
+    setStockSearchLoading(true);
+    try {
+      const response = await fetch(`/api/stocks/quotes?symbols=${ticker}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.stocks && data.stocks.length > 0) {
+          const newStock = data.stocks[0];
+          setStocks(prev => [newStock, ...prev]);
+          setSelectedStockTicker(ticker);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch searched stock details', err);
+    } finally {
+      setStockSearchLoading(false);
+    }
+  };
 
   // Compute stats
   const activeStock = stocks.find(s => s.ticker === selectedStockTicker) || stocks[0];
@@ -981,7 +1123,7 @@ export default function App() {
               <g key={i}>
                 <line x1={padX} y1={y} x2={width - padX} y2={y} stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
                 <text x={padX - 8} y={y + 3} fill="rgba(255,255,255,0.3)" fontSize="8" className="font-mono text-right" textAnchor="end">
-                  ${priceVal.toFixed(2)}
+                  ₹{priceVal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </text>
               </g>
             );
@@ -1045,6 +1187,7 @@ export default function App() {
       <LandingPage 
         onLaunchApp={(tab, subtab) => { 
           gameAudio.playClick(); 
+          gameAudio.stopIntroMusic();
           setView('app'); 
           if (tab) setActiveTab(tab); 
           if (subtab) setActiveSubTab(subtab); 
@@ -1739,18 +1882,18 @@ export default function App() {
               <div className="col-span-12 bg-white/5 border border-white/10 rounded-[32px] p-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="text-center sm:text-left">
                   <span className="text-[10px] font-mono text-white/40">SIMULATED NET LIQUIDITY</span>
-                  <h4 className="text-white font-black text-lg md:text-2xl mt-0.5">${totalPortfolioValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
+                  <h4 className="text-white font-black text-lg md:text-2xl mt-0.5">₹{totalPortfolioValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
                 </div>
                 <div className="text-center sm:text-left">
                   <span className="text-[10px] font-mono text-white/40">NET PROFIT / LOSS</span>
                   <h4 className={`font-black text-lg md:text-2xl mt-0.5 flex items-center justify-center sm:justify-start gap-1 ${portfolioProfitLoss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                    {portfolioProfitLoss >= 0 ? '+' : ''}${portfolioProfitLoss.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {portfolioProfitLoss >= 0 ? '+' : ''}₹{portfolioProfitLoss.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     <span className="text-xs font-bold font-mono">({portfolioProfitLossPercent.toFixed(2)}%)</span>
                   </h4>
                 </div>
                 <div className="text-center sm:text-left">
                   <span className="text-[10px] font-mono text-white/40">BUYING POWER (CASH)</span>
-                  <h4 className="text-white font-black text-lg md:text-2xl mt-0.5">${cash.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
+                  <h4 className="text-white font-black text-lg md:text-2xl mt-0.5">₹{cash.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
                 </div>
               </div>
 
@@ -1769,7 +1912,7 @@ export default function App() {
                     </div>
 
                     <div className="text-right">
-                      <p className="text-white font-mono font-bold text-sm">${activeStock.price.toFixed(2)}</p>
+                      <p className="text-white font-mono font-bold text-sm">₹{activeStock.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                       <span className={`text-[10px] font-mono font-bold flex items-center gap-0.5 justify-end ${activeStock.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                         {activeStock.change >= 0 ? '+' : ''}{activeStock.change}%
                       </span>
@@ -1807,6 +1950,52 @@ export default function App() {
                 {/* Selector */}
                 <div className="bg-white/5 border border-white/10 rounded-[32px] p-5">
                   <h4 className="text-white font-bold text-xs uppercase tracking-widest text-white/40 mb-3.5">Available Arena Assets</h4>
+                  
+                  {/* Real-time Search Box */}
+                  <div className="mb-4 relative">
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-white/40" />
+                        <input
+                          type="text"
+                          placeholder="Search BSE, NSE, or US stocks..."
+                          value={stockSearchQuery}
+                          onChange={(e) => handleStockSearch(e.target.value)}
+                          className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none focus:border-green-500 transition-all font-sans"
+                        />
+                      </div>
+                      {stockSearchLoading && (
+                        <div className="flex items-center justify-center px-1">
+                          <RefreshCw className="w-3.5 h-3.5 text-green-400 animate-spin" />
+                        </div>
+                      )}
+                    </div>
+
+                    {stockSearchResults.length > 0 && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-zinc-900 border border-white/15 rounded-xl max-h-[180px] overflow-y-auto z-50 shadow-2xl backdrop-blur-md p-1.5 space-y-1">
+                        <div className="flex justify-between items-center px-2 py-1 border-b border-white/5 mb-1">
+                          <span className="text-[9px] font-bold text-white/40 uppercase tracking-widest">Search Results</span>
+                          <button onClick={() => setStockSearchResults([])} className="text-white/40 hover:text-white text-[10px] font-bold">Close</button>
+                        </div>
+                        {stockSearchResults.map((res) => (
+                          <button
+                            key={res.ticker}
+                            onClick={() => handleAddSearchedStock(res.ticker)}
+                            className="w-full text-left p-2 hover:bg-white/5 rounded-lg flex justify-between items-center transition-all cursor-pointer"
+                          >
+                            <div className="min-w-0 flex-1 pr-2">
+                              <span className="font-bold text-xs text-white block truncate">{res.ticker}</span>
+                              <span className="text-[9px] text-white/40 block truncate">{res.name}</span>
+                            </div>
+                            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/10 text-white/80 shrink-0 font-mono">
+                              {res.exchange}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                   <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
                     {stocks.map((s) => (
                       <button
@@ -1821,7 +2010,7 @@ export default function App() {
                           <span className="text-[9px] text-white/40 font-mono mt-0.5">{s.name}</span>
                         </div>
                         <div className="text-right">
-                          <span className="text-xs font-mono font-bold block leading-none">${s.price.toFixed(2)}</span>
+                          <span className="text-xs font-mono font-bold block leading-none">₹{s.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                           <span className={`text-[9px] font-mono font-bold ${s.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                             {s.change >= 0 ? '+' : ''}{s.change}%
                           </span>
@@ -1849,7 +2038,7 @@ export default function App() {
                   <div className="space-y-1.5 text-xs text-white/50 border-b border-white/5 pb-3">
                     <div className="flex justify-between">
                       <span>Order cost:</span>
-                      <span className="font-mono font-bold text-white">${(activeStock.price * tradeAmount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                      <span className="font-mono font-bold text-white">₹{(activeStock.price * tradeAmount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                     </div>
                   </div>
 

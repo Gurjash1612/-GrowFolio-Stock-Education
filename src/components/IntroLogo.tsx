@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { TrendingUp, Sparkles, ChevronRight } from 'lucide-react';
+import { gameAudio } from '../utils/audio';
 
 interface IntroLogoProps {
   onComplete: () => void;
@@ -11,6 +12,20 @@ export function IntroLogo({ onComplete }: IntroLogoProps) {
   const [showSkip, setShowSkip] = useState(false);
 
   useEffect(() => {
+    // Attempt to play intro music immediately
+    gameAudio.playIntroMusic();
+
+    // To handle browser autoplay policies, retry playing on first mouse/touch interaction anywhere in the intro screen
+    const handleInteraction = () => {
+      gameAudio.playIntroMusic();
+      // Remove listeners after first successful attempt
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('touchstart', handleInteraction);
+    };
+
+    window.addEventListener('click', handleInteraction);
+    window.addEventListener('touchstart', handleInteraction);
+
     // Progress loader emulation
     const duration = 2400; // 2.4 seconds total loader
     const intervalTime = 30;
@@ -37,6 +52,8 @@ export function IntroLogo({ onComplete }: IntroLogoProps) {
     return () => {
       clearInterval(timer);
       clearTimeout(skipTimer);
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('touchstart', handleInteraction);
     };
   }, [onComplete]);
 
