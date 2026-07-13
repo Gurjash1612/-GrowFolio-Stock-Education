@@ -218,7 +218,7 @@ async function startServer() {
           sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://growfolio.app/</loc>
+    <loc>https://gurjash1612.github.io/-GrowFolio-Stock-Education/</loc>
     <lastmod>2026-07-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -229,7 +229,7 @@ async function startServer() {
 
       // Replace the default placeholder host with the actual requested protocol + host
       const host = `${req.protocol}://${req.get('host')}`;
-      sitemapContent = sitemapContent.replace(/https:\/\/growfolio\.app/g, host);
+      sitemapContent = sitemapContent.replace(/https:\/\/gurjash1612\.github\.io\/-GrowFolio-Stock-Education/g, host);
 
       res.header('Content-Type', 'application/xml');
       return res.send(sitemapContent);
