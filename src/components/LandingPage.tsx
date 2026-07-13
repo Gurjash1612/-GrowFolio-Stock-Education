@@ -1219,6 +1219,7 @@ export function LandingPage({ onLaunchApp }: LandingPageProps) {
             <button onClick={() => setShowPrivacyModal(true)} className="hover:text-green-400 cursor-pointer transition-colors bg-transparent border-none font-mono">Privacy Policy</button>
             <button onClick={() => setShowTermsModal(true)} className="hover:text-green-400 cursor-pointer transition-colors bg-transparent border-none font-mono">Terms & Conditions</button>
             <button onClick={() => setShowContactModal(true)} className="hover:text-green-400 cursor-pointer transition-colors bg-transparent border-none font-mono">Contact Us</button>
+            <a href="/sitemap.xml" target="_blank" rel="noreferrer" className="hover:text-green-400 cursor-pointer transition-colors bg-transparent border-none font-mono no-underline">Sitemap</a>
           </div>
 
           <div className="flex items-center gap-1.5 text-white/60">

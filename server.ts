@@ -199,6 +199,46 @@ async function startServer() {
     }
   });
 
+  // Serve sitemap.xml dynamically with host replacement
+  app.get('/sitemap.xml', async (req, res) => {
+    try {
+      const fs = await import('fs/promises');
+      let sitemapPath = path.join(process.cwd(), 'public', 'sitemap.xml');
+      let sitemapContent = '';
+      
+      try {
+        sitemapContent = await fs.readFile(sitemapPath, 'utf-8');
+      } catch {
+        // Fallback to dist folder in production builds
+        const fallbackPath = path.join(process.cwd(), 'dist', 'sitemap.xml');
+        try {
+          sitemapContent = await fs.readFile(fallbackPath, 'utf-8');
+        } catch {
+          // Complete fallback if files are not accessible
+          sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://growfolio.app/</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>`;
+        }
+      }
+
+      // Replace the default placeholder host with the actual requested protocol + host
+      const host = `${req.protocol}://${req.get('host')}`;
+      sitemapContent = sitemapContent.replace(/https:\/\/growfolio\.app/g, host);
+
+      res.header('Content-Type', 'application/xml');
+      return res.send(sitemapContent);
+    } catch (error) {
+      console.error('Error serving dynamic sitemap:', error);
+      return res.status(500).send('Error serving sitemap');
+    }
+  });
+
   // Dynamic asset serving and Vite routing middleware
   if (process.env.NODE_ENV !== 'production') {
     const { createServer: createViteServer } = await import('vite');
