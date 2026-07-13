@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gurjash1612.github.io/-GrowFolio-Stock-Education/sitemap.xml

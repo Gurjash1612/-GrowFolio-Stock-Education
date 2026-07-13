@@ -199,6 +199,55 @@ async function startServer() {
     }
   });
 
+  // Serve robots.txt dynamically or statically
+  app.get('/robots.txt', async (req, res) => {
+    try {
+      const fs = await import('fs/promises');
+      const robotsPath = path.join(process.cwd(), 'public', 'robots.txt');
+      let content = '';
+      try {
+        content = await fs.readFile(robotsPath, 'utf-8');
+      } catch {
+        const fallbackPath = path.join(process.cwd(), 'robots.txt');
+        try {
+          content = await fs.readFile(fallbackPath, 'utf-8');
+        } catch {
+          content = `User-agent: *\nAllow: /\n\nSitemap: https://gurjash1612.github.io/-GrowFolio-Stock-Education/sitemap.xml`;
+        }
+      }
+      res.header('Content-Type', 'text/plain');
+      return res.send(content);
+    } catch (error) {
+      console.error('Error serving robots.txt:', error);
+      return res.status(500).send('Error serving robots.txt');
+    }
+  });
+
+  // Serve sitemap.xsl dynamically
+  app.get('/sitemap.xsl', async (req, res) => {
+    try {
+      const fs = await import('fs/promises');
+      const xslPath = path.join(process.cwd(), 'public', 'sitemap.xsl');
+      let content = '';
+      try {
+        content = await fs.readFile(xslPath, 'utf-8');
+      } catch {
+        const fallbackPath = path.join(process.cwd(), 'sitemap.xsl');
+        try {
+          content = await fs.readFile(fallbackPath, 'utf-8');
+        } catch {
+          res.status(404).send('Not Found');
+          return;
+        }
+      }
+      res.header('Content-Type', 'application/xml');
+      return res.send(content);
+    } catch (error) {
+      console.error('Error serving sitemap.xsl:', error);
+      return res.status(500).send('Error serving sitemap.xsl');
+    }
+  });
+
   // Serve sitemap.xml dynamically with host replacement
   app.get('/sitemap.xml', async (req, res) => {
     try {
