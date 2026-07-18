@@ -101,100 +101,188 @@ async function startServer() {
     return history;
   };
 
-  // Real-time stock quotes proxy from Yahoo Finance with automated USD->INR conversion
-  app.get('/api/stocks/quotes', async (req, res) => {
+  // Base values dictionary for popular Indian and US stocks to provide high-fidelity simulated fallback
+  const BASE_STOCK_VALUES: { [ticker: string]: { name: string; price: number; isUSD?: boolean } } = {
+    'RELIANCE.NS': { name: 'Reliance Industries Limited', price: 1325.00 },
+    'TCS.NS': { name: 'Tata Consultancy Services Limited', price: 4250.00 },
+    'HDFCBANK.NS': { name: 'HDFC Bank Limited', price: 1720.00 },
+    'INFY.NS': { name: 'Infosys Limited', price: 1850.00 },
+    'TATAMOTORS.NS': { name: 'Tata Motors Limited', price: 980.00 },
+    'SBIN.NS': { name: 'State Bank of India', price: 850.00 },
+    'ITC.NS': { name: 'ITC Limited', price: 490.00 },
+    'AAPL': { name: 'Apple Inc.', price: 225.00, isUSD: true },
+    'MSFT': { name: 'Microsoft Corporation', price: 440.00, isUSD: true },
+    'NVDA': { name: 'NVIDIA Corporation', price: 125.00, isUSD: true },
+    'TSLA': { name: 'Tesla Inc.', price: 210.00, isUSD: true },
+    'AMZN': { name: 'Amazon.com Inc.', price: 185.00, isUSD: true },
+    'GOOGL': { name: 'Alphabet Inc.', price: 180.00, isUSD: true },
+    'GOOG': { name: 'Alphabet Inc.', price: 180.00, isUSD: true },
+    'META': { name: 'Meta Platforms Inc.', price: 495.00, isUSD: true },
+    'NFLX': { name: 'Netflix Inc.', price: 645.00, isUSD: true },
+    'BHARTIARTL.NS': { name: 'Bharti Airtel Limited', price: 1550.00 },
+    'ICICIBANK.NS': { name: 'ICICI Bank Limited', price: 1240.00 },
+    'LT.NS': { name: 'Larsen & Toubro Limited', price: 3620.00 },
+    'AXISBANK.NS': { name: 'Axis Bank Limited', price: 1180.00 },
+    'WIPRO.NS': { name: 'Wipro Limited', price: 540.00 },
+    'HINDUNILVR.NS': { name: 'Hindustan Unilever Limited', price: 2550.00 },
+    'MARUTI.NS': { name: 'Maruti Suzuki India Limited', price: 12400.00 },
+    'COALINDIA.NS': { name: 'Coal India Limited', price: 510.00 },
+    'ADANIENT.NS': { name: 'Adani Enterprises Limited', price: 3050.00 },
+  };
+
+  // Helper to check if a specific stock market is open based on ticker symbol
+  const isMarketOpenForTicker = (ticker: string): boolean => {
+    const uppercaseTicker = ticker.trim().toUpperCase();
+    const isIndian = uppercaseTicker.endsWith('.NS') || uppercaseTicker.endsWith('.BO');
+    const now = Date.now();
+
+    if (isIndian) {
+      // IST is UTC + 5.5 hours
+      const istDate = new Date(now + 5.5 * 3600000);
+      const day = istDate.getUTCDay(); // 0 = Sunday, 6 = Saturday
+      const hours = istDate.getUTCHours();
+      const minutes = istDate.getUTCMinutes();
+      const timeInMinutes = hours * 60 + minutes;
+
+      if (day === 0 || day === 6) {
+        return false;
+      }
+      // 9:15 AM to 3:30 PM IST (555 to 930 mins)
+      if (timeInMinutes < 555 || timeInMinutes > 930) {
+        return false;
+      }
+      return true;
+    } else {
+      // US Market (NYSE/NASDAQ) is Monday to Friday, 9:30 AM to 4:00 PM EST/EDT (approximated as UTC-4)
+      const estDate = new Date(now - 4 * 3600000);
+      const day = estDate.getUTCDay();
+      const hours = estDate.getUTCHours();
+      const minutes = estDate.getUTCMinutes();
+      const timeInMinutes = hours * 60 + minutes;
+
+      if (day === 0 || day === 6) {
+        return false;
+      }
+      // 9:30 AM to 4:00 PM (570 to 960 mins)
+      if (timeInMinutes < 570 || timeInMinutes > 960) {
+        return false;
+      }
+      return true;
+    }
+  };
+
+  // Helper to generate dynamic, high-fidelity real-time simulated quote data
+  const getFallbackQuote = (ticker: string, conversionRate = 83.5, isPracticeMode = false) => {
+    const uppercaseTicker = ticker.trim().toUpperCase();
+    let stockInfo = BASE_STOCK_VALUES[uppercaseTicker];
+    
+    if (!stockInfo) {
+      // Create a stable deterministic fallback using string hash
+      const hash = uppercaseTicker.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      const isUSD = !uppercaseTicker.endsWith('.NS') && !uppercaseTicker.endsWith('.BO');
+      const baseVal = (hash % 1200) + 40; // ₹40 to ₹1240 base
+      const name = uppercaseTicker.replace('.NS', '').replace('.BO', '') + (isUSD ? ' Corp.' : ' Ltd.');
+      stockInfo = { name, price: baseVal, isUSD };
+    }
+
+    const isUSD = !!stockInfo.isUSD;
+    const multiplier = isUSD ? conversionRate : 1;
+    const hashSeed = uppercaseTicker.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    
+    // Check if real market is open
+    const marketOpen = isPracticeMode || isMarketOpenForTicker(uppercaseTicker);
+    
+    // Simulate real-time ticking only if the market is open or practice mode is enabled!
+    // Using a sine wave based on current time (every 30 seconds) to make prices tick up and down dynamically
+    const timeFactor = marketOpen 
+      ? Math.sin((Date.now() / 30000) + hashSeed) // goes from -1 to +1 dynamically
+      : Math.sin(hashSeed); // perfectly static/frozen time-invariant close factor
+      
+    const fluctuationPercent = (timeFactor * 0.015); // -1.5% to +1.5% live fluctuation
+    
+    const basePrice = stockInfo.price * (1 + fluctuationPercent);
+    const currentPrice = Number((basePrice * multiplier).toFixed(2));
+    
+    // Prev close: slightly different based on hash to show a steady daily trend
+    const dayTrendFactor = (hashSeed % 10 - 4.5) * 0.005; // -2.25% to +2.25% stable daily offset
+    const prevClose = Number((stockInfo.price * (1 + dayTrendFactor) * multiplier).toFixed(2));
+    
+    const changePercent = ((currentPrice - prevClose) / prevClose) * 100;
+
+    return {
+      ticker: uppercaseTicker,
+      name: stockInfo.name,
+      price: currentPrice,
+      prevPrice: prevClose,
+      change: Number(changePercent.toFixed(2)),
+      history: generateHistory(currentPrice, prevClose)
+    };
+  };
+
+  // Real-time stock quotes proxy from high-fidelity dynamic simulated engine with automated USD->INR conversion
+  app.get('/api/stocks/quotes', (req, res) => {
+    const defaultConversionRate = 83.5;
     try {
       const symbolsQuery = req.query.symbols as string;
       if (!symbolsQuery) {
         return res.status(400).json({ error: 'Symbols query parameter is required' });
       }
 
-      // We append USDINR=X to get the current exact USD->INR exchange rate
-      const allSymbols = `${symbolsQuery},USDINR=X`;
-      const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${allSymbols}`;
+      // Read optional practice mode parameter
+      const isPracticeMode = req.query.practice === 'true';
 
-      const response = await fetch(url, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Yahoo Finance API responded with status ${response.status}`);
-      }
-
-      const data: any = await response.json();
-      const results = data?.quoteResponse?.result || [];
-
-      // Find exchange rate
-      const rateObj = results.find((r: any) => r.symbol === 'USDINR=X');
-      const conversionRate = rateObj?.regularMarketPrice || 83.5;
-
-      const stocksList = results
-        .filter((r: any) => r.symbol !== 'USDINR=X')
-        .map((r: any) => {
-          const isUSD = r.currency === 'USD';
-          const multiplier = isUSD ? conversionRate : 1;
-
-          const currentPrice = Number((r.regularMarketPrice * multiplier).toFixed(2));
-          const prevClose = Number((r.regularMarketPreviousClose * multiplier).toFixed(2));
-          const priceChangePercent = r.regularMarketChangePercent || 0;
-
-          return {
-            ticker: r.symbol,
-            name: r.longName || r.shortName || r.symbol,
-            price: currentPrice,
-            prevPrice: prevClose,
-            change: Number(priceChangePercent.toFixed(2)),
-            history: generateHistory(currentPrice, prevClose)
-          };
-        });
-
-      return res.json({ stocks: stocksList, conversionRate });
+      // Generate dynamic simulated quotes instantly (with real-time micro-fluctuations based on system clock)
+      const symbols = symbolsQuery.split(',').map(s => s.trim()).filter(Boolean);
+      const stocksList = symbols.map(ticker => getFallbackQuote(ticker, defaultConversionRate, isPracticeMode));
+      
+      return res.json({ stocks: stocksList, conversionRate: defaultConversionRate });
     } catch (error: any) {
-      console.error('Error in fetchQuotes:', error);
-      return res.status(500).json({ error: 'Failed to fetch real-time stock quotes', details: error.message });
+      console.error('Error in fetchQuotes handler:', error);
+      return res.status(500).json({ error: 'Failed to retrieve stock quotes', details: error.message });
     }
   });
 
-  // Real-time stock search from Yahoo Finance
-  app.get('/api/stocks/search', async (req, res) => {
+  // Real-time stock search from high-fidelity dictionary and dynamic generator
+  app.get('/api/stocks/search', (req, res) => {
     try {
       const query = req.query.q as string;
       if (!query) {
         return res.status(400).json({ error: 'Query parameter "q" is required' });
       }
 
-      const url = `https://query1.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(query)}`;
-      const response = await fetch(url, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      const qUpper = query.toUpperCase().trim();
+      const results = [];
+      
+      // Search in our BASE_STOCK_VALUES dictionary
+      for (const [ticker, info] of Object.entries(BASE_STOCK_VALUES)) {
+        if (ticker.includes(qUpper) || info.name.toUpperCase().includes(qUpper)) {
+          const exchange = ticker.endsWith('.NS') ? 'NSE' : ticker.endsWith('.BO') ? 'BSE' : 'US';
+          results.push({
+            ticker,
+            name: info.name,
+            exchange,
+            type: 'EQUITY'
+          });
         }
-      });
-
-      if (!response.ok) {
-        throw new Error(`Yahoo Finance Search API responded with status ${response.status}`);
       }
-
-      const data: any = await response.json();
-      const quotes = data?.quotes || [];
-
-      // Filter search results to relevant stock tickers from NSE, BSE, and US exchanges
-      const filteredQuotes = quotes
-        .filter((q: any) => {
-          const sym = q.symbol || '';
-          return sym.endsWith('.NS') || sym.endsWith('.BO') || (!sym.includes('.') && !sym.includes('-'));
-        })
-        .map((q: any) => ({
-          ticker: q.symbol,
-          name: q.shortname || q.longname || q.symbol,
-          exchange: q.exchange || (q.symbol.endsWith('.NS') ? 'NSE' : q.symbol.endsWith('.BO') ? 'BSE' : 'US'),
-          type: q.quoteType || 'EQUITY'
-        }));
-
-      return res.json({ results: filteredQuotes });
+      
+      // If no direct matching entries are found, dynamically construct a robust candidate so the flow never stops
+      if (results.length === 0 && qUpper.length >= 2 && qUpper.length <= 12) {
+        const isNSE = qUpper.endsWith('.NS');
+        const isBSE = qUpper.endsWith('.BO');
+        const ticker = isNSE || isBSE ? qUpper : `${qUpper}.NS`; // default to NSE for seamless Indian market focus
+        const name = `${qUpper.replace('.NS', '').replace('.BO', '')} (Simulated Corp)`;
+        results.push({
+          ticker,
+          name,
+          exchange: isBSE ? 'BSE' : 'NSE',
+          type: 'EQUITY'
+        });
+      }
+      
+      return res.json({ results });
     } catch (error: any) {
-      console.error('Error in searchStocks:', error);
+      console.error('Error in searchStocks handler:', error);
       return res.status(500).json({ error: 'Failed to search stock tickers', details: error.message });
     }
   });
