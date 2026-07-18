@@ -385,12 +385,12 @@ const LIVE_GLOBAL_INDICES = [
 
 // Visual Themes configs with pricing
 const SYSTEM_THEMES: ThemeConfig[] = [
-  { id: 'forest', name: 'Dark Forest', description: 'Emerald green canopies of financial growth', cost: 0, unlocked: true, bgGradient: 'from-emerald-950/65 via-[#02130c] to-[#010805]', cardStyle: 'bg-[#07070a]/90 border border-emerald-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-emerald-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
-  { id: 'wallstreet', name: 'Wall Street Slate', description: 'Golden brass tones representing premium capital structures', cost: 150, unlocked: false, bgGradient: 'from-amber-950/65 via-[#130d02] to-[#080501]', cardStyle: 'bg-[#07070a]/90 border border-amber-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-amber-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
-  { id: 'space', name: 'Cosmic Violet', description: 'Nebula violet and deep cosmic black holes', cost: 300, unlocked: false, bgGradient: 'from-purple-950/65 via-[#0e0213] to-[#060108]', cardStyle: 'bg-[#07070a]/90 border border-purple-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-purple-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
-  { id: 'ocean', name: 'Deep Sea Blue', description: 'Serene blue oceans with floating market assets', cost: 400, unlocked: false, bgGradient: 'from-cyan-950/65 via-[#020f13] to-[#010608]', cardStyle: 'bg-[#07070a]/90 border border-cyan-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-cyan-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
-  { id: 'winter', name: 'Frosted Blizzard', description: 'Ice blue margins with pristine frosted snow', cost: 500, unlocked: false, bgGradient: 'from-sky-950/65 via-[#020e13] to-[#010608]', cardStyle: 'bg-[#07070a]/90 border border-sky-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-sky-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
-  { id: 'cyber', name: 'Neon Synthwave', description: 'Fuchsia glow and glowing retro matrix grid', cost: 700, unlocked: false, bgGradient: 'from-fuchsia-950/65 via-[#130213] to-[#080108]', cardStyle: 'bg-[#07070a]/90 border border-fuchsia-500/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]', textAccent: 'text-fuchsia-400', buttonAccent: 'bg-white hover:bg-neutral-200 text-neutral-950 font-extrabold tracking-wide shadow-xl transition-all' },
+  { id: 'forest', name: 'Dark Forest', description: 'Emerald green canopies of financial growth', cost: 0, unlocked: true, bgGradient: 'from-emerald-950/70 via-slate-950 to-neutral-950', cardStyle: 'bg-neutral-950/40 backdrop-blur-3xl border border-emerald-500/15 shadow-[0_24px_50px_rgba(0,0,0,0.6)] rounded-3xl', textAccent: 'text-emerald-400', buttonAccent: 'bg-gradient-to-tr from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-black font-extrabold tracking-wide shadow-lg transition-all rounded-2xl' },
+  { id: 'wallstreet', name: 'Wall Street Slate', description: 'Golden brass tones representing premium capital structures', cost: 150, unlocked: false, bgGradient: 'from-amber-950/70 via-slate-950 to-neutral-950', cardStyle: 'bg-neutral-950/40 backdrop-blur-3xl border border-amber-500/15 shadow-[0_24px_50px_rgba(0,0,0,0.6)] rounded-3xl', textAccent: 'text-amber-400', buttonAccent: 'bg-gradient-to-tr from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-black font-extrabold tracking-wide shadow-lg transition-all rounded-2xl' },
+  { id: 'space', name: 'Cosmic Violet', description: 'Nebula violet and deep cosmic black holes', cost: 300, unlocked: false, bgGradient: 'from-purple-950/70 via-slate-950 to-neutral-950', cardStyle: 'bg-neutral-950/40 backdrop-blur-3xl border border-purple-500/15 shadow-[0_24px_50px_rgba(0,0,0,0.6)] rounded-3xl', textAccent: 'text-purple-400', buttonAccent: 'bg-gradient-to-tr from-purple-500 to-fuchsia-600 hover:from-purple-400 hover:to-fuchsia-500 text-white font-extrabold tracking-wide shadow-lg transition-all rounded-2xl' },
+  { id: 'ocean', name: 'Deep Sea Blue', description: 'Serene blue oceans with floating market assets', cost: 400, unlocked: false, bgGradient: 'from-cyan-950/70 via-slate-950 to-neutral-950', cardStyle: 'bg-neutral-950/40 backdrop-blur-3xl border border-cyan-500/15 shadow-[0_24px_50px_rgba(0,0,0,0.6)] rounded-3xl', textAccent: 'text-cyan-400', buttonAccent: 'bg-gradient-to-tr from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-extrabold tracking-wide shadow-lg transition-all rounded-2xl' },
+  { id: 'winter', name: 'Frosted Blizzard', description: 'Ice blue margins with pristine frosted snow', cost: 500, unlocked: false, bgGradient: 'from-sky-950/70 via-slate-950 to-neutral-950', cardStyle: 'bg-neutral-950/40 backdrop-blur-3xl border border-sky-500/15 shadow-[0_24px_50px_rgba(0,0,0,0.6)] rounded-3xl', textAccent: 'text-sky-400', buttonAccent: 'bg-gradient-to-tr from-sky-400 to-indigo-500 hover:from-sky-300 hover:to-indigo-400 text-black font-extrabold tracking-wide shadow-lg transition-all rounded-2xl' },
+  { id: 'cyber', name: 'Neon Synthwave', description: 'Fuchsia glow and glowing retro matrix grid', cost: 700, unlocked: false, bgGradient: 'from-fuchsia-950/70 via-slate-950 to-neutral-950', cardStyle: 'bg-neutral-950/40 backdrop-blur-3xl border border-fuchsia-500/15 shadow-[0_24px_50px_rgba(0,0,0,0.6)] rounded-3xl', textAccent: 'text-fuchsia-400', buttonAccent: 'bg-gradient-to-tr from-fuchsia-500 to-pink-600 hover:from-fuchsia-400 hover:to-pink-500 text-white font-extrabold tracking-wide shadow-lg transition-all rounded-2xl' },
 ];
 
 export default function App() {
@@ -1757,66 +1757,89 @@ export default function App() {
       <div className="flex-1 flex flex-col md:flex-row max-w-[1280px] w-full mx-auto relative z-10 p-4 md:p-6 gap-6">
         
         {/* SIDEBAR NAVIGATION */}
-        <aside id="sidebar" className="hidden md:flex w-24 bg-[#07070a]/90 border border-white/[0.06] rounded-[32px] flex-col items-center py-8 gap-10 backdrop-blur-2xl">
+        <aside id="sidebar" className="hidden md:flex w-24 bg-neutral-950/60 border border-white/[0.08] rounded-[32px] flex-col items-center py-8 gap-10 backdrop-blur-3xl shadow-[0_16px_48px_rgba(0,0,0,0.8)] relative overflow-hidden">
+          {/* Ambient subtle decorative light inside sidebar */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent pointer-events-none" />
+          
           {/* Brand Icon */}
-          <div className="w-11 h-11 bg-emerald-500 rounded-full flex items-center justify-center">
-            <TrendingUp className="w-5 h-5 text-neutral-950" />
+          <div className="w-12 h-12 bg-gradient-to-tr from-emerald-400 to-green-500 rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(16,185,129,0.35)] transform transition-transform duration-500 hover:rotate-12">
+            <TrendingUp className="w-5.5 h-5.5 text-neutral-950 stroke-[2.5]" />
           </div>
 
-          <nav className="flex flex-col gap-6">
+          <nav className="flex flex-col gap-6 relative z-10">
             <button 
               onClick={() => { gameAudio.playClick(); setActiveTab('dashboard'); }}
-              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer ${
-                activeTab === 'dashboard' ? 'bg-white text-black shadow-lg font-black' : 'text-white/40 hover:text-white/80 hover:bg-white/[0.02]'
+              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer relative group ${
+                activeTab === 'dashboard' 
+                  ? 'bg-gradient-to-tr from-neutral-50 to-neutral-200 text-neutral-950 shadow-[0_10px_25px_rgba(255,255,255,0.12)] scale-105 font-extrabold' 
+                  : 'text-white/40 hover:text-white/80 hover:bg-white/[0.03] hover:scale-105 active:scale-95'
               }`}
               title="Dashboard Hub"
             >
-              <Home className="w-5 h-5" />
+              <Home className="w-5.5 h-5.5" />
+              {activeTab === 'dashboard' && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-emerald-400 rounded-r-full" />
+              )}
             </button>
             <button 
               onClick={() => { gameAudio.playClick(); setActiveTab('academy'); }}
-              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer ${
-                activeTab === 'academy' ? 'bg-white text-black shadow-lg font-black' : 'text-white/40 hover:text-white/80 hover:bg-white/[0.02]'
+              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer relative group ${
+                activeTab === 'academy' 
+                  ? 'bg-gradient-to-tr from-neutral-50 to-neutral-200 text-neutral-950 shadow-[0_10px_25px_rgba(255,255,255,0.12)] scale-105 font-extrabold' 
+                  : 'text-white/40 hover:text-white/80 hover:bg-white/[0.03] hover:scale-105 active:scale-95'
               }`}
               title="Investing Academy"
             >
-              <GraduationCap className="w-5 h-5" />
+              <GraduationCap className="w-5.5 h-5.5" />
+              {activeTab === 'academy' && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-emerald-400 rounded-r-full" />
+              )}
             </button>
             <button 
               onClick={() => { gameAudio.playClick(); setActiveTab('simulator'); }}
-              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer ${
-                activeTab === 'simulator' ? 'bg-white text-black shadow-lg font-black' : 'text-white/40 hover:text-white/80 hover:bg-white/[0.02]'
+              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer relative group ${
+                activeTab === 'simulator' 
+                  ? 'bg-gradient-to-tr from-neutral-50 to-neutral-200 text-neutral-950 shadow-[0_10px_25px_rgba(255,255,255,0.12)] scale-105 font-extrabold' 
+                  : 'text-white/40 hover:text-white/80 hover:bg-white/[0.03] hover:scale-105 active:scale-95'
               }`}
               title="Stock Market Arena"
             >
-              <TrendingUp className="w-5 h-5" />
+              <TrendingUp className="w-5.5 h-5.5" />
+              {activeTab === 'simulator' && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-emerald-400 rounded-r-full" />
+              )}
             </button>
             <button 
               onClick={() => { gameAudio.playClick(); setActiveTab('coach'); }}
-              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer ${
-                activeTab === 'coach' ? 'bg-white text-black shadow-lg font-black' : 'text-white/40 hover:text-white/80 hover:bg-white/[0.02]'
+              className={`p-3.5 rounded-2xl transition-all duration-300 cursor-pointer relative group ${
+                activeTab === 'coach' 
+                  ? 'bg-gradient-to-tr from-neutral-50 to-neutral-200 text-neutral-950 shadow-[0_10px_25px_rgba(255,255,255,0.12)] scale-105 font-extrabold' 
+                  : 'text-white/40 hover:text-white/80 hover:bg-white/[0.03] hover:scale-105 active:scale-95'
               }`}
               title="AI GrowBot Coach"
             >
-              <Bot className="w-5 h-5" />
+              <Bot className="w-5.5 h-5.5" />
+              {activeTab === 'coach' && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-emerald-400 rounded-r-full" />
+              )}
             </button>
           </nav>
 
           {/* Quick Mute Audio Controls */}
-          <div className="mt-auto flex flex-col gap-3">
+          <div className="mt-auto flex flex-col gap-3 relative z-10 w-full px-4">
             <button 
               onClick={handleToggleMusic}
-              className="p-2.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-white/50 hover:text-white cursor-pointer"
+              className="p-2.5 bg-neutral-900/80 border border-white/[0.06] rounded-xl hover:bg-neutral-800 text-white/50 hover:text-white cursor-pointer transition-all duration-200 flex items-center justify-center group"
               title="Toggle Background Music"
             >
-              {musicMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-green-400 animate-bounce" />}
+              {musicMuted ? <VolumeX className="w-4 h-4 text-red-400/80" /> : <Volume2 className="w-4 h-4 text-emerald-400 animate-[pulse_1.5s_infinite]" />}
             </button>
             <button 
               onClick={handleToggleSfx}
-              className="p-2.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 text-white/50 hover:text-white cursor-pointer"
+              className="p-2.5 bg-neutral-900/80 border border-white/[0.06] rounded-xl hover:bg-neutral-800 text-white/50 hover:text-white cursor-pointer transition-all duration-200 flex items-center justify-center group"
               title="Toggle Sound Effects"
             >
-              {sfxMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-blue-400" />}
+              {sfxMuted ? <VolumeX className="w-4 h-4 text-red-400/80" /> : <Volume2 className="w-4 h-4 text-blue-400" />}
             </button>
           </div>
         </aside>
@@ -1825,27 +1848,30 @@ export default function App() {
         <main className="flex-1 flex flex-col gap-6">
           
           {/* HEADER BAR */}
-          <header className={`bg-[#07070a]/90 border border-white/[0.06] rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-4 backdrop-blur-2xl relative overflow-hidden`}>
-            <div className="flex items-center gap-3">
-              <div className="md:hidden p-2.5 bg-white/[0.03] border border-white/[0.08] rounded-full">
+          <header className="bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-[28px] p-5 flex flex-col md:flex-row items-center justify-between gap-4 relative overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
+            {/* Fine decorative top sheen */}
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
+            
+            <div className="flex items-center gap-3 relative z-10">
+              <div className="md:hidden p-2.5 bg-gradient-to-tr from-emerald-500/10 to-green-500/10 border border-emerald-500/20 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.1)]">
                 <TrendingUp className="w-5 h-5 text-emerald-400" />
               </div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight flex items-center gap-2">
-                  GrowFolio <span className="text-emerald-400 text-[9px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">PRO</span>
+                <h1 className="text-xl font-extrabold tracking-tight flex items-center gap-2 text-white">
+                  GrowFolio <span className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/35 text-emerald-400 font-mono font-bold text-[9px] uppercase tracking-widest px-2.5 py-0.5 rounded-full shadow-[0_0_12px_rgba(16,185,129,0.15)]">PRO</span>
                 </h1>
-                <p className="text-xs text-white/50">Grow Your Assets Alongside Your Knowledge</p>
+                <p className="text-xs text-white/50 font-medium">Grow Your Assets Alongside Your Knowledge</p>
               </div>
             </div>
 
             {/* Profile Level Indicators */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3.5 md:gap-5 w-full md:w-auto">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3.5 md:gap-5 w-full md:w-auto relative z-10">
               {/* Controls and Stats Row */}
               <div className="flex flex-wrap items-center gap-2">
                 {/* Back to Landing Website button */}
                 <button
                   onClick={() => { gameAudio.playClick(); setView('landing'); }}
-                  className="flex items-center gap-1.5 text-[10px] font-mono font-bold bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] px-2.5 py-1.5 rounded-xl text-white transition-all cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 text-[10px] font-mono font-bold bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/20 px-3 py-1.5 rounded-xl text-white/95 transition-all duration-200 cursor-pointer shadow-sm active:scale-95"
                 >
                   ← Landing Website
                 </button>
@@ -1853,7 +1879,7 @@ export default function App() {
                 {/* Account & Login button */}
                 <button
                   onClick={() => { gameAudio.playClick(); setShowAccountModal(true); }}
-                  className="flex items-center gap-1.5 text-[10px] font-mono font-bold bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 px-2.5 py-1.5 rounded-xl text-emerald-400 hover:text-emerald-300 transition-all cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 text-[10px] font-mono font-bold bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 hover:border-emerald-500/40 px-3 py-1.5 rounded-xl text-emerald-400 hover:text-emerald-300 transition-all duration-200 cursor-pointer shadow-sm active:scale-95"
                 >
                   <User className="w-3.5 h-3.5" />
                   Account & Login
@@ -1863,25 +1889,25 @@ export default function App() {
                 <button
                   onClick={handleCloudBackup}
                   disabled={syncingCloud}
-                  className="hidden lg:flex items-center gap-1.5 text-[10px] font-mono font-bold bg-white/[0.03] border border-white/[0.06] px-3 py-1.5 rounded-xl text-white transition-all cursor-pointer"
+                  className="hidden lg:flex items-center gap-1.5 text-[10px] font-mono font-bold bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/20 px-3.5 py-1.5 rounded-xl text-white/95 transition-all duration-200 cursor-pointer active:scale-95 disabled:opacity-40"
                 >
-                  <CloudLightning className="w-3.5 h-3.5" />
+                  <CloudLightning className="w-3.5 h-3.5 text-sky-400" />
                   {syncingCloud ? 'Syncing...' : 'Cloud Backup'}
                 </button>
 
                 {/* Gold Counter */}
-                <div className="bg-[#0b0b0f] border border-white/[0.04] rounded-xl px-2.5 py-1.5 flex items-center gap-1.5" title="Gold earned to unlock decorations">
+                <div className="bg-neutral-950/60 border border-white/[0.06] rounded-xl px-3 py-1.5 flex items-center gap-1.5 shadow-sm" title="Gold earned to unlock decorations">
                   <Coins className="w-3.5 h-3.5 text-yellow-500" />
-                  <span className="font-mono text-xs font-bold text-yellow-400">{gold} <span className="text-[9px] text-white/40 font-sans">GOLD</span></span>
+                  <span className="font-mono text-xs font-bold text-yellow-400">{gold} <span className="text-[9px] text-white/40 font-sans font-normal">GOLD</span></span>
                 </div>
 
                 {/* Language Selector */}
-                <div className="bg-[#0b0b0f] border border-white/[0.04] rounded-xl px-2.5 py-1.5 flex items-center gap-1" title="Select Academy Language">
+                <div className="bg-neutral-950/60 border border-white/[0.06] rounded-xl px-3 py-1.5 flex items-center gap-1 shadow-sm" title="Select Academy Language">
                   <Languages className="w-3.5 h-3.5 text-blue-400" />
                   <select
                     value={language}
                     onChange={(e) => { gameAudio.playClick(); setLanguage(e.target.value as LanguageCode); }}
-                    className="bg-transparent border-none text-[10px] font-bold text-white focus:outline-none cursor-pointer"
+                    className="bg-transparent border-none text-[10px] font-bold text-white focus:outline-none cursor-pointer pr-1"
                   >
                     {LANGUAGES.map((lang) => (
                       <option key={lang.code} value={lang.code} className="bg-zinc-950 text-white">
@@ -1893,20 +1919,20 @@ export default function App() {
               </div>
 
               {/* XP Progression */}
-              <div className="flex-1 md:flex-initial flex flex-col md:items-end min-w-[150px]">
-                <div className="flex justify-between md:justify-end items-center gap-1.5 mb-1">
-                  <span className="text-[9px] text-white/50 uppercase tracking-widest font-bold">Investor Rank</span>
-                  <span className="text-[10px] font-extrabold text-yellow-500 uppercase tracking-tight">{currentRank.title}</span>
+              <div className="flex-1 md:flex-initial flex flex-col md:items-end min-w-[160px]">
+                <div className="flex justify-between md:justify-end items-center gap-1.5 mb-1.5">
+                  <span className="text-[9px] text-white/40 uppercase tracking-widest font-extrabold">Investor Rank</span>
+                  <span className="text-[10px] font-extrabold text-amber-400 uppercase tracking-tight">{currentRank.title}</span>
                 </div>
-                <div className="w-full h-1.5 bg-white/5 rounded-full border border-white/10 overflow-hidden relative" title={`XP: ${xp} / ${currentRank.nextAt}`}>
+                <div className="w-full h-2 bg-neutral-950/80 rounded-full border border-white/[0.08] overflow-hidden relative shadow-inner" title={`XP: ${xp} / ${currentRank.nextAt}`}>
                   <div 
-                    className="h-full bg-gradient-to-r from-emerald-500 to-green-400 transition-all duration-1000"
+                    className="h-full bg-gradient-to-r from-emerald-500 via-green-400 to-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.4)] transition-all duration-1000 rounded-full"
                     style={{ width: `${xpProgressPercent}%` }}
                   ></div>
                 </div>
-                <div className="flex justify-between w-full text-[8px] text-white/40 mt-0.5">
+                <div className="flex justify-between w-full text-[8.5px] font-mono text-white/40 mt-1">
                   <span>{xp} XP</span>
-                  <span>{currentRank.nextAt} XP for next rank</span>
+                  <span>{currentRank.nextAt} XP FOR NEXT RANK</span>
                 </div>
               </div>
             </div>
@@ -1934,7 +1960,7 @@ export default function App() {
           {activeTab === 'dashboard' && (
             <div id="tab-dashboard" className="space-y-6">
               {/* Bento Grid Subtab Selector Menu */}
-              <div className="flex overflow-x-auto gap-2 bg-white/5 border border-white/10 p-1.5 rounded-2xl">
+              <div className="flex overflow-x-auto gap-2 bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] p-1.5 rounded-2xl shadow-inner scrollbar-none">
                 {[
                   { id: 'garden', label: 'My SproutGarden', icon: '🌳' },
                   { id: 'arcade', label: 'Games Arcade', icon: '🎮' },
@@ -1946,8 +1972,10 @@ export default function App() {
                   <button
                     key={sub.id}
                     onClick={() => { gameAudio.playClick(); setActiveSubTab(sub.id as any); }}
-                    className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
-                      activeSubTab === sub.id ? 'bg-blue-600 text-white shadow-md' : 'text-white/50 hover:bg-white/10'
+                    className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 whitespace-nowrap cursor-pointer active:scale-95 ${
+                      activeSubTab === sub.id 
+                        ? 'bg-gradient-to-tr from-blue-500 to-indigo-600 text-white shadow-[0_4px_15px_rgba(59,130,246,0.35)] scale-102' 
+                        : 'text-white/50 hover:text-white/80 hover:bg-white/[0.03]'
                     }`}
                   >
                     <span>{sub.icon}</span> {sub.label}
@@ -1959,33 +1987,34 @@ export default function App() {
               {activeSubTab === 'garden' && (
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade-in">
                   {/* GrowTree Signature Canvas Column */}
-                  <div className="col-span-12 lg:col-span-5 bg-white/[0.02] border border-white/10 rounded-[32px] p-6 flex flex-col items-center justify-between backdrop-blur-sm relative overflow-hidden min-h-[440px]">
+                  <div className="col-span-12 lg:col-span-5 bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 flex flex-col items-center justify-between relative overflow-hidden min-h-[440px] shadow-[0_24px_50px_rgba(0,0,0,0.5)]">
                     <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-green-500/10 to-transparent pointer-events-none"></div>
                     
                     <div className="w-full flex justify-between items-start z-10">
                       <div>
-                        <span className="bg-green-500/10 text-green-400 border border-green-500/20 px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest block w-max">
+                        <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest block w-max shadow-[0_2px_10px_rgba(16,185,129,0.05)]">
                           🌳 {treeStage.name}
                         </span>
-                        <p className="text-white/40 text-xs mt-1 italic">"{treeStage.quote}"</p>
+                        <p className="text-white/40 text-[11px] mt-1.5 italic font-medium">"{treeStage.quote}"</p>
                       </div>
                       
                       {/* Streak widget */}
-                      <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-1 flex items-center gap-1.5 text-xs font-bold text-orange-400">
-                        <Zap className="w-4 h-4 text-orange-500" />
+                      <div className="bg-[#0c0d14]/80 border border-white/[0.08] rounded-xl px-3 py-1.5 flex items-center gap-1.5 text-xs font-bold text-orange-400 shadow-sm">
+                        <Zap className="w-4 h-4 text-orange-500 fill-orange-500/20" />
                         <span>{streak} Days</span>
                       </div>
                     </div>
 
                     {/* Floating XP pop indicator */}
                     {floatingXp && (
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-12 bg-green-500 text-white font-bold px-4 py-1.5 rounded-full shadow-lg text-sm z-30">
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-12 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-extrabold px-5 py-2 rounded-full shadow-[0_4px_20px_rgba(16,185,129,0.4)] text-sm z-30 animate-bounce">
                         {floatingXp}
                       </div>
                     )}
 
                     {/* Main Tree Art */}
                     <div className="my-4 relative flex items-center justify-center">
+                      <div className="absolute inset-0 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none scale-75"></div>
                       {renderTreeSVG()}
                     </div>
 
@@ -1995,19 +2024,19 @@ export default function App() {
                         <button 
                           onClick={handleWaterTree}
                           disabled={!waterReady}
-                          className={`py-3 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 border transition-all duration-300 ${
+                          className={`py-3 rounded-2xl font-black text-xs flex items-center justify-center gap-2 border transition-all duration-300 active:scale-95 ${
                             waterReady 
-                              ? 'bg-green-600 hover:bg-green-500 text-white border-green-500 shadow-[0_4px_12px_rgba(34,197,94,0.3)] cursor-pointer' 
-                              : 'bg-white/5 text-white/30 border-white/10 cursor-not-allowed'
+                              ? 'bg-gradient-to-tr from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-black border-emerald-400/20 shadow-[0_10_25px_rgba(16,185,129,0.3)] cursor-pointer' 
+                              : 'bg-neutral-900/60 text-white/30 border-white/[0.05] cursor-not-allowed'
                           }`}
                         >
-                          <Droplet className={`w-4 h-4 ${waterReady ? 'animate-bounce' : ''}`} />
+                          <Droplet className={`w-4 h-4 ${waterReady ? 'animate-bounce text-black' : 'text-white/30'}`} />
                           {waterReady ? 'Water Tree (+150 XP)' : 'Watered Today'}
                         </button>
 
                         <button 
                           onClick={() => { gameAudio.playClick(); setActiveTab('academy'); }}
-                          className="py-3 bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-500/30 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                          className="py-3 bg-gradient-to-tr from-blue-600/20 to-indigo-600/20 hover:from-blue-600/30 hover:to-indigo-600/30 text-blue-400 border border-blue-500/20 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer active:scale-95"
                         >
                           <Sparkles className="w-4 h-4 text-blue-400" />
                           Study & Grow
@@ -2015,7 +2044,7 @@ export default function App() {
                       </div>
 
                       {/* Water ready clock indicator */}
-                      <p className="text-[10px] text-white/40 text-center">
+                      <p className="text-[10px] font-medium text-white/40 text-center">
                         {waterReady ? 'Your GrowTree is thirsty! Water it to earn daily rewards.' : 'Tree hydrated. Next watering available in 14h.'}
                       </p>
                     </div>
@@ -2023,17 +2052,17 @@ export default function App() {
 
                   {/* Learning Journey Roadmap & Avatar customizer */}
                   <div className="col-span-12 lg:col-span-7 flex flex-col gap-6">
-                    {/* AVATAR PROFILE QUICK VIEW CARD */}
-                    <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-5 flex justify-between items-center relative overflow-hidden">
-                      <div className="space-y-1">
-                        <span className="text-[9px] font-mono font-bold text-blue-400 uppercase tracking-widest">Active Profile</span>
-                        <h4 className="font-bold text-sm text-white">Hey, {playerName || 'Honorary GrowTrader'}</h4>
-                        <p className="text-[11px] text-white/50 leading-normal max-w-sm">Customize your avatar hairdos and trade outfits or view your professional credentials.</p>
+                     {/* AVATAR PROFILE QUICK VIEW CARD */}
+                    <div className="bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-5 flex justify-between items-center relative overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.4)]">
+                      <div className="space-y-1 relative z-10">
+                        <span className="text-[9px] font-mono font-extrabold text-blue-400 uppercase tracking-widest bg-blue-500/10 px-2 py-0.5 rounded">Active Profile</span>
+                        <h4 className="font-extrabold text-sm text-white mt-1.5">Hey, {playerName || 'Honorary GrowTrader'}</h4>
+                        <p className="text-[11px] text-white/50 leading-relaxed max-w-sm">Customize your avatar hairdos and trade outfits or view your professional credentials.</p>
                         
-                        <div className="pt-2 flex gap-2">
+                        <div className="pt-2.5 flex gap-2">
                           <button
                             onClick={() => { gameAudio.playClick(); setActiveSubTab('social'); }}
-                            className="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 rounded-xl text-[10px] font-bold text-white/80 cursor-pointer"
+                            className="px-3.5 py-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] rounded-xl text-[10px] font-extrabold text-white/90 cursor-pointer transition-all duration-200 active:scale-95"
                           >
                             Customize Avatar
                           </button>
@@ -2041,7 +2070,7 @@ export default function App() {
                           {completedLessons.length >= 5 && (
                             <button
                               onClick={() => { gameAudio.playClick(); setCertificateTrack('Beginner'); setShowCertificate(true); }}
-                              className="px-3.5 py-1.5 bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 rounded-xl text-[10px] font-bold cursor-pointer border border-yellow-500/20"
+                              className="px-3.5 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 rounded-xl text-[10px] font-extrabold text-amber-400 cursor-pointer transition-all duration-200 active:scale-95 shadow-sm"
                             >
                               Show Certificate
                             </button>
@@ -2050,42 +2079,43 @@ export default function App() {
                       </div>
 
                       {/* Micro visual avatar bubble */}
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-950 to-zinc-900 border border-white/10 flex items-center justify-center text-3xl shadow-inner">
-                        👤
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-950/80 to-zinc-900 border border-white/10 flex items-center justify-center text-3xl shadow-[inset_0_2px_8px_rgba(0,0,0,0.6)] relative overflow-hidden shrink-0">
+                        <div className="absolute inset-0 bg-blue-500/5 blur-md"></div>
+                        <span className="relative z-10">👤</span>
                       </div>
                     </div>
 
                     {/* Classic roadmap */}
-                    <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-sm flex-1 flex flex-col justify-between">
-                      <h3 className="text-md font-bold mb-4 flex items-center justify-between">
+                    <div className="bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 flex-1 flex flex-col justify-between shadow-[0_12px_40px_rgba(0,0,0,0.4)]">
+                      <h3 className="text-sm font-extrabold text-white mb-4 flex items-center justify-between">
                         Learning Journey Roadmap
-                        <span className="text-xs text-blue-400 font-normal hover:underline cursor-pointer flex items-center gap-1" onClick={() => setActiveTab('academy')}>
+                        <span className="text-xs text-blue-400 font-bold hover:text-blue-300 transition-colors cursor-pointer flex items-center gap-1" onClick={() => setActiveTab('academy')}>
                           Open Academy <ChevronRight className="w-3.5 h-3.5" />
                         </span>
                       </h3>
 
                       <div className="space-y-3">
                         {/* BEGINNER CARD */}
-                        <div className="p-3.5 bg-green-500/10 border border-green-500/20 rounded-2xl text-white">
+                        <div className="p-3.5 bg-green-500/10 border border-green-500/15 rounded-2xl text-white shadow-sm">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-xs font-bold">1</div>
-                            <div className="flex-1">
-                              <div className="flex justify-between items-center">
-                                <h4 className="font-bold text-xs">Level 1: Beginner Investor</h4>
-                                <span className="text-[10px] text-green-400 font-mono">Completed</span>
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-green-400 to-emerald-500 text-neutral-950 flex items-center justify-center text-xs font-black shadow-[0_2px_10px_rgba(16,185,129,0.3)] shrink-0">1</div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex justify-between items-center gap-2">
+                                <h4 className="font-extrabold text-xs text-white truncate">Level 1: Beginner Investor</h4>
+                                <span className="text-[9px] text-green-400 font-mono font-bold bg-green-500/10 px-2 py-0.5 rounded-full shrink-0">COMPLETED</span>
                               </div>
-                              <p className="text-[10px] text-white/60">Money management, compounding, & stock market fundamentals.</p>
+                              <p className="text-[10px] text-white/50 leading-relaxed mt-0.5">Money management, compounding, & stock market fundamentals.</p>
                             </div>
                           </div>
                         </div>
 
                         {/* INTERMEDIATE CARD */}
-                        <div className="p-3.5 bg-white/5 border border-white/10 rounded-2xl text-white">
+                        <div className="p-3.5 bg-neutral-950/30 border border-white/[0.06] rounded-2xl text-white shadow-sm">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">2</div>
-                            <div className="flex-1">
-                              <h4 className="font-bold text-xs">Level 2: Active Charting</h4>
-                              <p className="text-[10px] text-white/60">Volume support, resistance break levels, and indicator lines.</p>
+                            <div className="w-8 h-8 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center text-xs font-black shadow-inner shrink-0">2</div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-extrabold text-xs text-white/80">Level 2: Active Charting</h4>
+                              <p className="text-[10px] text-white/40 leading-relaxed mt-0.5">Volume support, resistance break levels, and indicator lines.</p>
                             </div>
                           </div>
                         </div>
@@ -2218,34 +2248,39 @@ export default function App() {
             <div id="tab-academy" className="space-y-6">
               {/* Dynamic lesson screen if active */}
               {activeLesson ? (
-                <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-6 backdrop-blur-md relative">
+                <div className="bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 relative shadow-[0_24px_50px_rgba(0,0,0,0.5)]">
                   {/* Exit button */}
                   <button 
                     onClick={() => { gameAudio.playClick(); setActiveLesson(null); }}
-                    className="absolute top-6 right-6 text-white/50 hover:text-white bg-white/5 px-3.5 py-1 rounded-full text-xs cursor-pointer"
+                    className="absolute top-6 right-6 text-white/50 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] px-3.5 py-1.5 rounded-full text-xs font-bold cursor-pointer transition-all duration-200 active:scale-95"
                   >
                     ← Exit Lesson
                   </button>
 
                   <div className="space-y-6">
-                    <div className="border-b border-white/5 pb-4">
-                      <span className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest bg-blue-500/10 px-2 py-0.5 rounded">
+                    <div className="border-b border-white/[0.05] pb-4 pr-24">
+                      <span className="text-[10px] font-mono font-extrabold text-blue-400 uppercase tracking-widest bg-blue-500/10 px-2.5 py-0.5 rounded shadow-sm">
                         # LEVEL {activeLesson.levelNum} MODULE
                       </span>
-                      <h3 className="text-white font-black text-lg md:text-2xl mt-1 flex items-center gap-2">
+                      <h3 className="text-white font-extrabold text-lg md:text-2xl mt-2 flex items-center gap-2">
                         {activeLesson.title}
                         <button
                           onClick={() => handleToggleBookmark(activeLesson.levelNum, activeLesson.title)}
-                          className="p-1 bg-white/5 hover:bg-white/10 text-yellow-400 rounded-lg cursor-pointer"
+                          className="p-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] text-yellow-400 rounded-lg cursor-pointer transition-all active:scale-95"
                         >
                           <Bookmark className={`w-4 h-4 ${bookmarks.find(b => b.lessonNum === activeLesson.levelNum) ? 'fill-current' : ''}`} />
                         </button>
                       </h3>
-                      <p className="text-xs text-white/40 mt-1">{activeLesson.description}</p>
+                      <p className="text-xs text-white/40 mt-1 leading-relaxed">{activeLesson.description}</p>
                     </div>
 
                     {/* SLIDES DISPLAYER PLAYER */}
-                    <div className="bg-black/30 border border-white/5 p-6 rounded-2xl relative min-h-[160px] flex items-center justify-center">
+                    <div className="bg-neutral-950/60 border border-white/[0.05] p-6 rounded-2xl relative min-h-[160px] flex items-center justify-center shadow-inner">
+                      <div className="absolute top-2 left-2 flex gap-1">
+                        <span className="w-2.5 h-2.5 rounded-full bg-red-500/20"></span>
+                        <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/20"></span>
+                        <span className="w-2.5 h-2.5 rounded-full bg-green-500/20"></span>
+                      </div>
                       <p className="text-white text-xs md:text-sm font-medium leading-relaxed max-w-xl text-center">
                         {activeLesson.slides[currentSlideIndex]}
                       </p>
@@ -2256,29 +2291,29 @@ export default function App() {
                       <button 
                         disabled={currentSlideIndex === 0}
                         onClick={handlePrevSlide}
-                        className="px-4 py-1.5 bg-white/5 hover:bg-white/10 text-white rounded-lg disabled:opacity-30 cursor-pointer"
+                        className="px-4 py-1.5 bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] text-white/90 rounded-lg disabled:opacity-30 cursor-pointer transition-all duration-200 active:scale-95"
                       >
                         Previous
                       </button>
 
-                      <span>Slide {currentSlideIndex + 1} / {activeLesson.slides.length}</span>
+                      <span className="font-bold">Slide {currentSlideIndex + 1} / {activeLesson.slides.length}</span>
 
                       {currentSlideIndex < activeLesson.slides.length - 1 ? (
                         <button 
                           onClick={handleNextSlide}
-                          className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg cursor-pointer"
+                          className="px-4 py-1.5 bg-gradient-to-tr from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white rounded-lg cursor-pointer shadow-md active:scale-95 transition-all"
                         >
                           Next Slide
                         </button>
                       ) : (
-                        <span className="text-yellow-400 font-bold">Slide deck completed! Scroll below for the Module Quiz.</span>
+                        <span className="text-yellow-400 font-extrabold animate-pulse">Slide deck completed! Scroll below for the Module Quiz.</span>
                       )}
                     </div>
 
                     {/* QUIZ SECTION (Only unlocked once slides deck is fully viewed) */}
                     {currentSlideIndex === activeLesson.slides.length - 1 && (
                       <div className="mt-8 pt-6 border-t border-white/5 space-y-4">
-                        <span className="text-[10px] font-mono font-bold text-yellow-500 uppercase tracking-widest bg-yellow-500/10 px-2 py-0.5 rounded">
+                        <span className="text-[10px] font-mono font-black text-yellow-500 uppercase tracking-widest bg-yellow-500/10 px-2.5 py-1 rounded shadow-sm">
                           Concept checkpoint quiz
                         </span>
                         
@@ -2286,17 +2321,17 @@ export default function App() {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                           {activeLesson.quizOptions.map((opt, oidx) => {
-                            let btnStyle = 'bg-white/5 border-white/10 hover:border-white/30 text-white/70';
+                            let btnStyle = 'bg-neutral-950/30 border-white/[0.08] hover:border-white/[0.2] hover:bg-neutral-950/50 text-white/70';
                             if (quizSubmitted) {
                               if (oidx === activeLesson.correctAnswerIndex) {
-                                btnStyle = 'bg-green-500/20 border-green-500 text-green-400 font-bold';
+                                btnStyle = 'bg-green-500/20 border-green-500 text-green-400 font-extrabold shadow-sm';
                               } else if (oidx === selectedQuizOption) {
                                 btnStyle = 'bg-red-500/20 border-red-500 text-red-400';
                               } else {
                                 btnStyle = 'bg-white/5 border-white/10 opacity-30';
                               }
                             } else if (selectedQuizOption === oidx) {
-                              btnStyle = 'bg-blue-600/15 border-blue-500 text-blue-300';
+                              btnStyle = 'bg-blue-600/15 border-blue-500 text-blue-300 font-extrabold';
                             }
 
                             return (
@@ -2304,7 +2339,7 @@ export default function App() {
                                 key={oidx}
                                 disabled={quizSubmitted}
                                 onClick={() => handleSelectQuizOption(oidx)}
-                                className={`p-3.5 rounded-2xl border text-left text-xs md:text-sm transition-all cursor-pointer ${btnStyle}`}
+                                className={`p-4 rounded-2xl border text-left text-xs md:text-sm transition-all duration-200 cursor-pointer ${btnStyle}`}
                               >
                                 {opt}
                               </button>
@@ -2317,14 +2352,14 @@ export default function App() {
                             <button
                               disabled={selectedQuizOption === null}
                               onClick={handleSubmitQuizAnswer}
-                              className="px-6 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black font-extrabold text-xs rounded-xl cursor-pointer disabled:opacity-40"
+                              className="px-6 py-2.5 bg-gradient-to-tr from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-black font-extrabold text-xs rounded-xl cursor-pointer disabled:opacity-40 transition-all active:scale-95 shadow-md"
                             >
                               Submit Checkpoint Answer
                             </button>
                           </div>
                         ) : (
-                          <div className="bg-white/5 p-4 rounded-xl border border-white/5 space-y-1 text-xs">
-                            <p className={quizIsCorrect ? 'text-green-400 font-bold' : 'text-red-400 font-bold'}>
+                          <div className="bg-neutral-950/40 border border-white/[0.05] p-5 rounded-2xl space-y-1 text-xs">
+                            <p className={quizIsCorrect ? 'text-green-400 font-extrabold text-sm' : 'text-red-400 font-extrabold text-sm'}>
                               {quizIsCorrect ? '✓ Correct Answer!' : '✗ Incorrect Answer.'}
                             </p>
                             <p className="text-white/60 leading-relaxed mt-1">
@@ -2334,7 +2369,7 @@ export default function App() {
                             <div className="pt-3 flex justify-end">
                               <button
                                 onClick={() => { gameAudio.playClick(); setActiveLesson(null); }}
-                                className="px-5 py-2 bg-white text-black font-bold rounded-xl cursor-pointer"
+                                className="px-5 py-2 bg-gradient-to-tr from-neutral-50 to-neutral-200 text-neutral-950 font-extrabold rounded-xl cursor-pointer transition-all active:scale-95"
                               >
                                 Collect & Back to Academy
                               </button>
@@ -2348,8 +2383,8 @@ export default function App() {
               ) : (
                 <div className="space-y-6">
                   {/* Academy search and page navigation */}
-                  <div className="bg-white/5 border border-white/10 rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-2 bg-black/40 border border-white/10 px-4 py-2 rounded-xl flex-1 w-full">
+                  <div className="bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-[0_12px_40px_rgba(0,0,0,0.4)]">
+                    <div className="flex items-center gap-2 bg-black/40 border border-white/10 px-4 py-2.5 rounded-xl flex-1 w-full">
                       <Search className="w-4 h-4 text-white/30" />
                       <input
                         type="text"
@@ -2366,18 +2401,18 @@ export default function App() {
                     {ALL_LESSONS_BASE.slice(academyPage * 8, (academyPage + 1) * 8).map((les) => {
                       const isCompleted = completedLessons.includes(les.id);
                       return (
-                        <div key={les.id} className="p-4 bg-white/5 border border-white/10 rounded-2xl flex justify-between items-center hover:border-white/20 transition-all">
+                        <div key={les.id} className="p-4 bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-2xl flex justify-between items-center hover:border-white/15 transition-all hover:scale-[1.01] shadow-sm">
                           <div>
-                            <span className="text-[9px] font-mono font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded uppercase">
+                            <span className="text-[9px] font-mono font-extrabold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded uppercase">
                               Level {les.levelNum} • {les.trackName}
                             </span>
-                            <h5 className="font-bold text-xs md:text-sm text-white mt-1">{les.title}</h5>
+                            <h5 className="font-extrabold text-xs md:text-sm text-white mt-1.5">{les.title}</h5>
                             <p className="text-[9px] text-white/40 mt-0.5">Rewards: +200 XP / +30 Gold</p>
                           </div>
 
                           <button
                             onClick={() => handleStartLesson(les.levelNum)}
-                            className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold cursor-pointer"
+                            className="px-3.5 py-1.5 bg-gradient-to-tr from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white rounded-xl text-xs font-bold cursor-pointer transition-all duration-200 shadow-md active:scale-95"
                           >
                             {isCompleted ? 'Review' : 'Study'}
                           </button>
@@ -2413,40 +2448,45 @@ export default function App() {
           {activeTab === 'simulator' && (
             <div id="tab-simulator" className="grid grid-cols-12 gap-6">
               {/* Simulator stats summary marquee */}
-              <div className="col-span-12 bg-white/5 border border-white/10 rounded-[32px] p-5 grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="text-center sm:text-left">
-                  <span className="text-[10px] font-mono text-white/40">SIMULATED NET LIQUIDITY</span>
-                  <h4 className="text-white font-black text-lg md:text-2xl mt-0.5">₹{totalPortfolioValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
+              <div className="col-span-12 bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 grid grid-cols-1 sm:grid-cols-3 gap-6 shadow-[0_24px_50px_rgba(0,0,0,0.4)]">
+                <div className="text-center sm:text-left border-b sm:border-b-0 sm:border-r border-white/[0.05] pb-4 sm:pb-0 sm:pr-6">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-white/40">SIMULATED NET LIQUIDITY</span>
+                  <h4 className="text-white font-sans font-black text-2xl md:text-3xl tracking-tight mt-1">₹{totalPortfolioValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
                 </div>
-                <div className="text-center sm:text-left">
-                  <span className="text-[10px] font-mono text-white/40">NET PROFIT / LOSS</span>
-                  <h4 className={`font-black text-lg md:text-2xl mt-0.5 flex items-center justify-center sm:justify-start gap-1 ${portfolioProfitLoss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                <div className="text-center sm:text-left border-b sm:border-b-0 sm:border-r border-white/[0.05] pb-4 sm:pb-0 sm:pr-6">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-white/40">NET PROFIT / LOSS</span>
+                  <h4 className={`font-sans font-black text-2xl md:text-3xl tracking-tight mt-1 flex items-center justify-center sm:justify-start gap-2 ${portfolioProfitLoss >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                     {portfolioProfitLoss >= 0 ? '+' : ''}₹{portfolioProfitLoss.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    <span className="text-xs font-bold font-mono">({portfolioProfitLossPercent.toFixed(2)}%)</span>
+                    <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded-full ${portfolioProfitLoss >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}`}>
+                      ({portfolioProfitLossPercent >= 0 ? '+' : ''}{portfolioProfitLossPercent.toFixed(2)}%)
+                    </span>
                   </h4>
                 </div>
                 <div className="text-center sm:text-left">
-                  <span className="text-[10px] font-mono text-white/40">BUYING POWER (CASH)</span>
-                  <h4 className="text-white font-black text-lg md:text-2xl mt-0.5">₹{cash.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-white/40">BUYING POWER (CASH)</span>
+                  <h4 className="text-white font-sans font-black text-2xl md:text-3xl tracking-tight mt-1">₹{cash.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
                 </div>
               </div>
 
               {/* Market Status & 24/7 Practice Mode Banner */}
-              <div className="col-span-12 bg-white/5 border border-white/10 rounded-[32px] p-5 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-3.5">
-                  <div className={`w-3 h-3 rounded-full ${isMarketOpenForTicker(activeStock.ticker) || practiceMode ? 'bg-green-400 animate-pulse' : 'bg-red-400'} border border-black/50 shrink-0`} />
+              <div className="col-span-12 bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_12px_40px_rgba(0,0,0,0.4)]">
+                <div className="flex items-start sm:items-center gap-4">
+                  <div className="relative flex shrink-0">
+                    <span className={`absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping ${isMarketOpenForTicker(activeStock.ticker) || practiceMode ? 'bg-emerald-400' : 'bg-rose-400'}`} style={{ width: '12px', height: '12px' }} />
+                    <span className={`relative inline-flex rounded-full h-3 w-3 ${isMarketOpenForTicker(activeStock.ticker) || practiceMode ? 'bg-emerald-400' : 'bg-rose-400'} border border-neutral-950`} />
+                  </div>
                   <div>
-                    <h5 className="font-bold text-xs text-white flex items-center gap-2 flex-wrap">
+                    <h5 className="font-sans font-bold text-xs text-white flex items-center gap-2 flex-wrap">
                       {activeStock.ticker.endsWith('.NS') || activeStock.ticker.endsWith('.BO') ? 'Indian Markets (NSE/BSE)' : 'US Markets (NYSE/NASDAQ)'} STATUS:
                       {isMarketOpenForTicker(activeStock.ticker) ? (
-                        <span className="text-green-400 font-mono font-bold text-[9px] uppercase bg-green-500/10 px-2 py-0.5 rounded-md">LIVE OPEN</span>
+                        <span className="text-emerald-400 font-mono font-bold text-[9px] uppercase bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">LIVE OPEN</span>
                       ) : practiceMode ? (
-                        <span className="text-blue-400 font-mono font-bold text-[9px] uppercase bg-blue-500/10 px-2 py-0.5 rounded-md">PRACTICE RUNNING</span>
+                        <span className="text-blue-400 font-mono font-bold text-[9px] uppercase bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-md font-extrabold tracking-wide">PRACTICE RUNNING (24/7)</span>
                       ) : (
-                        <span className="text-red-400 font-mono font-bold text-[9px] uppercase bg-red-500/10 px-2 py-0.5 rounded-md">CLOSED (WEEKEND / HOLIDAY)</span>
+                        <span className="text-rose-400 font-mono font-bold text-[9px] uppercase bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded-md">CLOSED (WEEKEND / HOLIDAY)</span>
                       )}
                     </h5>
-                    <p className="text-[10px] text-white/50 leading-relaxed mt-0.5 max-w-[650px]">
+                    <p className="text-xs text-white/50 leading-relaxed mt-1 max-w-[650px]">
                       {isMarketOpenForTicker(activeStock.ticker) 
                         ? 'Market is currently open. Prices are updated in real-time according to active global trades.' 
                         : practiceMode 
@@ -2456,9 +2496,9 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 bg-black/40 border border-white/5 px-4 py-2 rounded-2xl shrink-0 w-full md:w-auto justify-between md:justify-start">
+                <div className="flex items-center gap-4 bg-neutral-950/60 border border-white/[0.06] px-5 py-3 rounded-2xl shrink-0 w-full md:w-auto justify-between md:justify-start">
                   <div className="text-left md:text-right">
-                    <span className="text-[10px] font-mono text-white/40 block">WEEKEND PRACTICE</span>
+                    <span className="text-[9px] font-mono text-white/40 block uppercase tracking-wider">WEEKEND PRACTICE</span>
                     <span className="text-xs font-bold text-white block">24/7 Live Ticking</span>
                   </div>
                   <button
@@ -2466,12 +2506,12 @@ export default function App() {
                       gameAudio.playClick();
                       setPracticeMode(!practiceMode);
                     }}
-                    className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                      practiceMode ? 'bg-green-500' : 'bg-zinc-700'
+                    className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-300 ease-in-out focus:outline-none ${
+                      practiceMode ? 'bg-emerald-500' : 'bg-neutral-800'
                     }`}
                   >
                     <span
-                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition duration-300 ease-in-out ${
                         practiceMode ? 'translate-x-5' : 'translate-x-0'
                       }`}
                     />
@@ -2481,21 +2521,21 @@ export default function App() {
 
               {/* Candlestick technical Chart Display Column */}
               <div className="col-span-12 lg:col-span-8 space-y-6">
-                <div className="bg-white/5 border border-white/10 rounded-[32px] p-5 space-y-4">
-                  <div className="flex justify-between items-center border-b border-white/5 pb-3">
+                <div className="bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 space-y-5 shadow-[0_24px_50px_rgba(0,0,0,0.4)]">
+                  <div className="flex justify-between items-center border-b border-white/[0.06] pb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl bg-zinc-800 border border-white/10 flex items-center justify-center text-lg font-bold">
+                      <div className="w-12 h-12 rounded-2xl bg-neutral-900 border border-white/[0.08] flex items-center justify-center text-lg font-sans font-bold text-white">
                         {activeStock.ticker.substring(0, 2)}
                       </div>
                       <div>
-                        <h4 className="text-white font-bold text-sm leading-none">{activeStock.name} ({activeStock.ticker})</h4>
-                        <span className="text-[10px] text-white/40 font-mono">Live candlestick analysis vector feed</span>
+                        <h4 className="text-white font-sans font-bold text-base leading-tight">{activeStock.name}</h4>
+                        <span className="text-[10px] text-white/40 font-mono tracking-wide">{activeStock.ticker} • Live candlestick analysis feed</span>
                       </div>
                     </div>
 
                     <div className="text-right">
-                      <p className="text-white font-mono font-bold text-sm">₹{activeStock.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                      <span className={`text-[10px] font-mono font-bold flex items-center gap-0.5 justify-end ${activeStock.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      <p className="text-white font-mono font-bold text-base md:text-lg">₹{activeStock.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                      <span className={`text-[10px] font-mono font-bold flex items-center gap-1 justify-end ${activeStock.change >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                         {activeStock.change >= 0 ? '+' : ''}{activeStock.change}%
                       </span>
                     </div>
@@ -2506,21 +2546,25 @@ export default function App() {
                 </div>
 
                 {/* News feed column */}
-                <div className="bg-white/5 border border-white/10 rounded-[32px] p-5 space-y-4">
-                  <h4 className="text-white font-bold text-xs uppercase tracking-widest text-white/40">Live Catalysts News</h4>
-                  <div className="space-y-2.5">
+                <div className="bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 space-y-4 shadow-[0_12px_40px_rgba(0,0,0,0.4)]">
+                  <h4 className="text-white/40 font-mono text-xs uppercase tracking-widest">Live Catalysts News</h4>
+                  <div className="grid grid-cols-1 gap-3">
                     {news.slice(0, 3).map((n) => (
-                      <div key={n.id} className="p-3 bg-white/[0.02] border border-white/5 rounded-2xl hover:border-white/10 transition-all cursor-pointer" onClick={() => setSelectedStockTicker(n.ticker)}>
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="text-[9px] font-bold font-mono text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">
+                      <div 
+                        key={n.id} 
+                        className="p-4 bg-neutral-950/30 border border-white/[0.05] rounded-2xl hover:border-white/[0.12] hover:bg-neutral-950/50 transition-all duration-200 cursor-pointer" 
+                        onClick={() => setSelectedStockTicker(n.ticker)}
+                      >
+                        <div className="flex justify-between items-center mb-1.5">
+                          <span className="text-[9px] font-bold font-mono text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded">
                             {n.ticker}
                           </span>
-                          <span className={`text-[9px] font-bold uppercase tracking-wider ${n.impact === 'bullish' ? 'text-green-400 bg-green-500/10 px-2 py-0.5 rounded' : 'text-red-400 bg-red-500/10 px-2 py-0.5 rounded'}`}>
+                          <span className={`text-[9px] font-bold uppercase tracking-wider ${n.impact === 'bullish' ? 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded' : 'text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded'}`}>
                             {n.impact}
                           </span>
                         </div>
-                        <h5 className="font-bold text-xs text-white">{n.title}</h5>
-                        <p className="text-[10px] text-white/50 leading-relaxed mt-0.5">{n.description}</p>
+                        <h5 className="font-sans font-bold text-xs text-white">{n.title}</h5>
+                        <p className="text-[11px] text-white/50 leading-relaxed mt-1">{n.description}</p>
                       </div>
                     ))}
                   </div>
@@ -2530,46 +2574,46 @@ export default function App() {
               {/* Stock selection & transaction orders Column */}
               <div className="col-span-12 lg:col-span-4 space-y-6">
                 {/* Selector */}
-                <div className="bg-white/5 border border-white/10 rounded-[32px] p-5">
-                  <h4 className="text-white font-bold text-xs uppercase tracking-widest text-white/40 mb-3.5">Available Arena Assets</h4>
+                <div className="bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 shadow-[0_24px_50px_rgba(0,0,0,0.4)]">
+                  <h4 className="text-white/40 font-mono text-xs uppercase tracking-widest mb-4">Available Arena Assets</h4>
                   
                   {/* Real-time Search Box */}
                   <div className="mb-4 relative">
                     <div className="flex gap-2">
                       <div className="relative flex-1">
-                        <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-white/40" />
+                        <Search className="absolute left-3.5 top-3 w-4 h-4 text-white/40" />
                         <input
                           type="text"
                           placeholder="Search BSE, NSE, or US stocks..."
                           value={stockSearchQuery}
                           onChange={(e) => handleStockSearch(e.target.value)}
-                          className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-white/30 focus:outline-none focus:border-green-500 transition-all font-sans"
+                          className="w-full bg-neutral-950/50 border border-white/[0.08] rounded-2xl pl-10 pr-3 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-emerald-500 transition-all font-sans"
                         />
                       </div>
                       {stockSearchLoading && (
-                        <div className="flex items-center justify-center px-1">
-                          <RefreshCw className="w-3.5 h-3.5 text-green-400 animate-spin" />
+                        <div className="flex items-center justify-center px-2">
+                          <RefreshCw className="w-4 h-4 text-emerald-400 animate-spin" />
                         </div>
                       )}
                     </div>
 
                     {stockSearchResults.length > 0 && (
-                      <div className="absolute top-full left-0 right-0 mt-1 bg-zinc-900 border border-white/15 rounded-xl max-h-[180px] overflow-y-auto z-50 shadow-2xl backdrop-blur-md p-1.5 space-y-1">
-                        <div className="flex justify-between items-center px-2 py-1 border-b border-white/5 mb-1">
-                          <span className="text-[9px] font-bold text-white/40 uppercase tracking-widest">Search Results</span>
-                          <button onClick={() => setStockSearchResults([])} className="text-white/40 hover:text-white text-[10px] font-bold">Close</button>
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-neutral-900/95 border border-white/[0.12] rounded-2xl max-h-[220px] overflow-y-auto z-50 shadow-2xl backdrop-blur-md p-2 space-y-1">
+                        <div className="flex justify-between items-center px-2 py-1.5 border-b border-white/[0.06] mb-1.5">
+                          <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest">Search Results</span>
+                          <button onClick={() => setStockSearchResults([])} className="text-emerald-400 hover:text-emerald-300 text-[10px] font-bold">Close</button>
                         </div>
                         {stockSearchResults.map((res) => (
                           <button
                             key={res.ticker}
                             onClick={() => handleAddSearchedStock(res.ticker)}
-                            className="w-full text-left p-2 hover:bg-white/5 rounded-lg flex justify-between items-center transition-all cursor-pointer"
+                            className="w-full text-left p-2.5 hover:bg-white/[0.04] rounded-xl flex justify-between items-center transition-all cursor-pointer"
                           >
                             <div className="min-w-0 flex-1 pr-2">
-                              <span className="font-bold text-xs text-white block truncate">{res.ticker}</span>
-                              <span className="text-[9px] text-white/40 block truncate">{res.name}</span>
+                              <span className="font-sans font-bold text-xs text-white block truncate">{res.ticker}</span>
+                              <span className="text-[10px] text-white/40 block truncate">{res.name}</span>
                             </div>
-                            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/10 text-white/80 shrink-0 font-mono">
+                            <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-white/10 text-white shrink-0">
                               {res.exchange}
                             </span>
                           </button>
@@ -2578,22 +2622,24 @@ export default function App() {
                     )}
                   </div>
 
-                  <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                  <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 scrollbar-thin">
                     {stocks.map((s) => (
                       <button
                         key={s.ticker}
                         onClick={() => { gameAudio.playClick(); setSelectedStockTicker(s.ticker); }}
-                        className={`w-full p-2.5 rounded-2xl border text-left flex justify-between items-center transition-all cursor-pointer ${
-                          selectedStockTicker === s.ticker ? 'bg-green-600/10 border-green-500 text-green-400' : 'bg-white/5 border-white/5 text-white/70 hover:bg-white/10'
+                        className={`w-full p-3.5 rounded-2xl border text-left flex justify-between items-center transition-all cursor-pointer ${
+                          selectedStockTicker === s.ticker 
+                            ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05),0_8px_16px_rgba(16,185,129,0.05)]' 
+                            : 'bg-neutral-950/30 border-white/[0.05] text-white/75 hover:bg-neutral-950/60 hover:border-white/[0.12]'
                         }`}
                       >
-                        <div>
-                          <span className="font-bold text-xs block leading-none">{s.ticker}</span>
-                          <span className="text-[9px] text-white/40 font-mono mt-0.5">{s.name}</span>
+                        <div className="min-w-0 flex-1 pr-2">
+                          <span className="font-sans font-bold text-xs block truncate leading-none">{s.ticker}</span>
+                          <span className="text-[10px] text-white/40 block truncate mt-1">{s.name}</span>
                         </div>
-                        <div className="text-right">
+                        <div className="text-right shrink-0">
                           <span className="text-xs font-mono font-bold block leading-none">₹{s.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                          <span className={`text-[9px] font-mono font-bold ${s.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                          <span className={`text-[10px] font-mono font-bold block mt-1 ${s.change >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                             {s.change >= 0 ? '+' : ''}{s.change}%
                           </span>
                         </div>
@@ -2603,37 +2649,37 @@ export default function App() {
                 </div>
 
                 {/* Orders box */}
-                <div className="bg-white/5 border border-white/10 rounded-[32px] p-5 space-y-4">
-                  <h4 className="text-white font-bold text-xs uppercase tracking-widest text-white/40">Market Execution order</h4>
+                <div className="bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 space-y-4 shadow-[0_24px_50px_rgba(0,0,0,0.4)]">
+                  <h4 className="text-white/40 font-mono text-xs uppercase tracking-widest">Market Execution Order</h4>
                   
-                  <div className="flex gap-2 items-center bg-black/30 border border-white/5 rounded-xl px-3.5 py-1.5">
-                    <span className="text-xs text-white/40">Shares Quantity:</span>
+                  <div className="flex gap-2 items-center bg-neutral-950/60 border border-white/[0.06] rounded-2xl px-4 py-3">
+                    <span className="text-xs text-white/50">Shares Quantity:</span>
                     <input
                       type="number"
                       min="1"
                       value={tradeAmount}
                       onChange={(e) => setTradeAmount(Math.max(1, parseInt(e.target.value) || 1))}
-                      className="flex-1 bg-transparent border-none text-xs font-mono font-bold text-white focus:outline-none text-right"
+                      className="flex-1 bg-transparent border-none text-xs font-mono font-bold text-white focus:outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                   </div>
 
-                  <div className="space-y-1.5 text-xs text-white/50 border-b border-white/5 pb-3">
+                  <div className="space-y-2 text-xs text-white/50 border-b border-white/[0.06] pb-4">
                     <div className="flex justify-between">
                       <span>Order cost:</span>
-                      <span className="font-mono font-bold text-white">₹{(activeStock.price * tradeAmount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+                      <span className="font-mono font-bold text-white text-sm">₹{(activeStock.price * tradeAmount).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3.5">
+                  <div className="grid grid-cols-2 gap-4">
                     <button
                       onClick={handleBuyStock}
-                      className="py-3 bg-green-600 hover:bg-green-500 text-white font-black text-xs rounded-2xl transition-all cursor-pointer shadow-md"
+                      className="py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs rounded-2xl transition-all duration-200 cursor-pointer shadow-lg shadow-emerald-950/20 active:scale-[0.98] border border-emerald-500/20"
                     >
                       Buy Shares
                     </button>
                     <button
                       onClick={handleSellStock}
-                      className="py-3 bg-red-600 hover:bg-red-500 text-white font-black text-xs rounded-2xl transition-all cursor-pointer shadow-md"
+                      className="py-3 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-xs rounded-2xl transition-all duration-200 cursor-pointer shadow-lg shadow-rose-950/20 active:scale-[0.98] border border-rose-500/20"
                     >
                       Sell Shares
                     </button>
@@ -2647,83 +2693,89 @@ export default function App() {
           {activeTab === 'coach' && (
             <div id="tab-coach" className="grid grid-cols-12 gap-6">
               {/* Intelligent Diagnostics Portfolio card */}
-              <div className="col-span-12 lg:col-span-4 bg-gradient-to-b from-purple-500/10 to-transparent border border-purple-500/20 rounded-[32px] p-5 space-y-4 backdrop-blur-sm">
-                <span className="text-[10px] font-extrabold text-purple-400 uppercase tracking-widest bg-purple-500/10 px-2 py-0.5 rounded">
-                  Personalized Study Advisor
-                </span>
-                <h4 className="text-white font-black text-sm">Portfolio Fluency Analysis</h4>
+              <div className="col-span-12 lg:col-span-4 bg-neutral-950/40 backdrop-blur-3xl border border-purple-500/20 rounded-3xl p-6 space-y-5 shadow-[0_24px_50px_rgba(0,0,0,0.4)] relative overflow-hidden">
+                {/* Accent ambient glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-purple-500/10 filter blur-[40px] pointer-events-none" />
                 
-                <div className="space-y-2.5 text-xs">
-                  <div className="p-3 bg-black/30 border border-white/5 rounded-2xl space-y-1">
-                    <h5 className="font-bold text-white flex items-center gap-1.5">
-                      <span className="text-green-400">●</span> Strong Concepts
-                    </h5>
-                    <p className="text-[11px] text-white/50">Core Compounding Principles, Stock Fundamental valuations, Divident yield tracking.</p>
+                <div className="relative z-10">
+                  <span className="text-[10px] font-mono font-extrabold text-purple-400 uppercase tracking-widest bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-md">
+                    Personalized Study Advisor
+                  </span>
+                  <h4 className="text-white font-sans font-bold text-base mt-4">Portfolio Fluency Analysis</h4>
+                  
+                  <div className="space-y-3 mt-4 text-xs">
+                    <div className="p-4 bg-neutral-950/50 border border-white/[0.05] rounded-2xl space-y-1.5 shadow-inner">
+                      <h5 className="font-sans font-bold text-white flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]"></span> Strong Concepts
+                      </h5>
+                      <p className="text-[11px] text-white/50 leading-relaxed">Core Compounding Principles, Stock Fundamental valuations, Dividend yield tracking.</p>
+                    </div>
+
+                    <div className="p-4 bg-neutral-950/50 border border-white/[0.05] rounded-2xl space-y-1.5 shadow-inner">
+                      <h5 className="font-sans font-bold text-white flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(192,132,252,0.5)]"></span> Recommended Practice
+                      </h5>
+                      <p className="text-[11px] text-white/50 leading-relaxed">Technical candlestick chart lines, support and resistance levels, Relative Strength Index (RSI).</p>
+                    </div>
                   </div>
 
-                  <div className="p-3 bg-black/30 border border-white/5 rounded-2xl space-y-1">
-                    <h5 className="font-bold text-white flex items-center gap-1.5">
-                      <span className="text-red-400">●</span> Recommended Practice
-                    </h5>
-                    <p className="text-[11px] text-white/50">Technical candlestick chart lines, support and resistance levels, Relative Strength Index (RSI).</p>
+                  <div className="pt-4">
+                    <button 
+                      onClick={() => { gameAudio.playClick(); handleJumpToLesson(31); }}
+                      className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold rounded-2xl cursor-pointer shadow-lg shadow-purple-950/30 active:scale-[0.98] transition-all duration-200 border border-purple-500/20"
+                    >
+                      Study Recommended Indicator Lesson (31)
+                    </button>
                   </div>
-                </div>
-
-                <div className="pt-2">
-                  <button 
-                    onClick={() => { gameAudio.playClick(); handleJumpToLesson(31); }}
-                    className="w-full py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-[11px] font-bold rounded-xl cursor-pointer"
-                  >
-                    Study Recommended indicator Lesson (31)
-                  </button>
                 </div>
               </div>
 
               {/* Chat timeline card */}
-              <div className="col-span-12 lg:col-span-8 bg-white/5 border border-white/10 rounded-[32px] p-5 flex flex-col justify-between min-h-[440px]">
+              <div className="col-span-12 lg:col-span-8 bg-neutral-950/40 backdrop-blur-3xl border border-white/[0.08] rounded-3xl p-6 flex flex-col justify-between min-h-[480px] shadow-[0_24px_50px_rgba(0,0,0,0.4)]">
                 {/* Chat header */}
-                <div className="border-b border-white/5 pb-3 flex justify-between items-center">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-lg">🤖</div>
+                <div className="border-b border-white/[0.06] pb-4 flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-xl">🤖</div>
                     <div>
-                      <h4 className="font-bold text-xs text-white leading-none">AI Coach GrowBot</h4>
-                      <span className="text-[9px] text-white/40 font-mono">Powered by Gemini AI model series</span>
+                      <h4 className="font-sans font-bold text-sm text-white leading-tight">AI Coach GrowBot</h4>
+                      <span className="text-[10px] text-white/40 font-mono tracking-wide">Powered by Gemini AI Engine</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Timeline scrolls */}
-                <div className="flex-1 overflow-y-auto max-h-[280px] my-4 space-y-4 pr-1">
+                <div className="flex-1 overflow-y-auto max-h-[300px] my-4 space-y-4 pr-1 scrollbar-thin">
                   {aiHistory.map((h, hidx) => (
                     <div key={hidx} className={`flex ${h.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`p-3.5 rounded-2xl max-w-sm text-xs leading-relaxed ${
+                      <div className={`p-4 rounded-2xl max-w-sm text-xs leading-relaxed ${
                         h.sender === 'user' 
-                          ? 'bg-purple-600 text-white rounded-br-none' 
-                          : 'bg-white/5 border border-white/10 text-white/90 rounded-bl-none font-medium'
+                          ? 'bg-gradient-to-tr from-purple-600 to-indigo-600 text-white rounded-br-none shadow-lg shadow-purple-950/20' 
+                          : 'bg-neutral-950/50 border border-white/[0.06] text-white/90 rounded-bl-none font-medium'
                       }`}>
                         {h.text}
                       </div>
                     </div>
                   ))}
                   {aiLoading && (
-                    <div className="text-xs text-purple-400 animate-pulse font-mono flex items-center gap-1">
-                      ⚡ GrowBot is sifting institutional finance books...
+                    <div className="text-xs text-purple-400 animate-pulse font-mono flex items-center gap-2 px-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-ping" />
+                      GrowBot is analyzing market telemetry & technical parameters...
                     </div>
                   )}
                 </div>
 
                 {/* Message form */}
-                <form onSubmit={handleSendAiMessage} className="flex gap-2">
+                <form onSubmit={handleSendAiMessage} className="flex gap-3">
                   <input
                     type="text"
                     value={aiMessage}
                     onChange={(e) => setAiMessage(e.target.value)}
                     placeholder="Ask about support/resistance, RSI, EPS valuations, or portfolio reviews..."
-                    className="flex-1 bg-white/[0.03] border border-white/10 rounded-2xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-purple-500 placeholder-white/20"
+                    className="flex-1 bg-neutral-950/50 border border-white/[0.08] rounded-2xl px-4 py-3 text-xs text-white focus:outline-none focus:border-purple-500 placeholder-white/20 font-sans transition-all"
                   />
                   <button
                     type="submit"
-                    className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl text-xs font-bold cursor-pointer"
+                    className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-2xl text-xs font-bold cursor-pointer shadow-lg shadow-purple-950/30 transition-all duration-200 border border-purple-500/20 shrink-0"
                   >
                     Ask Coach
                   </button>

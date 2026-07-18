@@ -196,7 +196,7 @@ async function startServer() {
     // Using a sine wave based on current time (every 30 seconds) to make prices tick up and down dynamically
     const timeFactor = marketOpen 
       ? Math.sin((Date.now() / 30000) + hashSeed) // goes from -1 to +1 dynamically
-      : Math.sin(hashSeed); // perfectly static/frozen time-invariant close factor
+      : 0; // perfectly frozen at the correct actual baseline closing price on weekends and holidays
       
     const fluctuationPercent = (timeFactor * 0.015); // -1.5% to +1.5% live fluctuation
     
